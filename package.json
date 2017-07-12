@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --content-base build/ --hot --inline --host 0.0.0.0 --port 8080",
+    "start": "webpack-dev-server --content-base demo/ --hot --inline --host 0.0.0.0 --port 8080",
     "dist": "webpack --config webpack.config.prod.js"
   },
   "keywords": [],
