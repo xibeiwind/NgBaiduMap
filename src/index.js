@@ -4,7 +4,6 @@ import baiduMap from "./components/baiduMap";
 import marker from "./components/marker";
 import polygonOverlay from "./components/polygonOverlay";
 import mapScriptProvider from './provider/mapScript';
-
 import { globalConstants } from './helper/preset';
 
 globalConstants();

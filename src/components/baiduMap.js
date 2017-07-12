@@ -7,6 +7,7 @@ export default {
     bindings: {
         offlineTxt: '<',
         mapOptions: '<',
+        withDrawLib:"<",
         loaded: '&',
         click: '&',
         rightclick: "&"
@@ -34,7 +35,7 @@ export default {
         }
 
         $onInit() {
-            this.mapReady = this.mapScriptService.load()
+            this.mapReady = this.mapScriptService.load(this.withDrawLib)
                 .then(() => {
                     return create(this.$element.children()[0], this.mapOptions);
                 })

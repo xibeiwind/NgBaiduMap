@@ -1,19 +1,20 @@
-import {nullCheck} from '../helper/validate';
+import { nullCheck } from '../helper/validate';
 
-export default function() {
+export default function () {
     let ak = null,
         MAP_URL;
+    let MAP_DRAW_URL = "http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager.js";
 
-    this.setKey = function(val) {
+    this.setKey = function (val) {
         ak = val;
         MAP_URL = `//api.map.baidu.com/api?v=2.0&ak=${ak}&callback=baidumapinit&s=${location.protocol === 'https:' ? 1 : 0}`;
     };
 
-    this.$get = function($rootScope) {
+    this.$get = function ($rootScope) {
         'ngInject';
 
         return {
-            load: function() {
+            load: function (withDrawLib) {
 
                 nullCheck(ak, 'ak should be set before use. Read: https://leftstick.github.io/BaiduMapForAngularJS/#!/quickstart');
 
@@ -26,6 +27,9 @@ export default function() {
                 return $rootScope.loadBaiduMapPromise = new Promise((resolve, reject) => {
                     window.baidumapinit = resolve;
                     appendScriptTag(MAP_URL);
+                    if (withDrawLib) {
+                        appendScriptTag(MAP_DRAW_URL);
+                    }
                 }).then(displayMap);
             }
         };
@@ -36,12 +40,12 @@ function appendScriptTag(url) {
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = url;
-    script.onerror = function() {
+    script.onerror = function () {
 
         Array.prototype
             .slice
             .call(document.querySelectorAll('baidu-map .baidu-map-offline'))
-            .forEach(function(node) {
+            .forEach(function (node) {
                 node.style.display = 'block';
             });
         document.body.removeChild(script);
@@ -57,7 +61,7 @@ function displayMap() {
     return Array.prototype
         .slice
         .call(document.querySelectorAll('baidu-map'))
-        .forEach(function(node) {
+        .forEach(function (node) {
             node.querySelector('.baidu-map-offline') && node.removeChild(node.querySelector('.baidu-map-offline'));
             node.querySelector('.baidu-map-instance').style.display = 'block';
         });

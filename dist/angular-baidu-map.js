@@ -198,7 +198,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-
 __WEBPACK_IMPORTED_MODULE_5__helper_preset__["a" /* globalConstants */]();
 
 var moduleName = "baiduMap";
@@ -228,6 +227,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     bindings: {
         offlineTxt: '<',
         mapOptions: '<',
+        withDrawLib: "<",
         loaded: '&',
         click: '&',
         rightclick: "&"
@@ -255,7 +255,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function $onInit() {
                 var _this = this;
 
-                this.mapReady = this.mapScriptService.load().then(function () {
+                this.mapReady = this.mapScriptService.load(this.withDrawLib).then(function () {
                     return __WEBPACK_IMPORTED_MODULE_1__helper_map__["a" /* create */](_this.$element.children()[0], _this.mapOptions);
                 }).then(function (map) {
                     _this.loaded({
@@ -17789,6 +17789,7 @@ function createPolygonBorderOverlay(options) {
 /* harmony default export */ __webpack_exports__["a"] = (function () {
     var ak = null,
         MAP_URL = void 0;
+    var MAP_DRAW_URL = "http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager.js";
 
     this.setKey = function (val) {
         ak = val;
@@ -17799,7 +17800,7 @@ function createPolygonBorderOverlay(options) {
         'ngInject';
 
         return {
-            load: function load() {
+            load: function load(withDrawLib) {
 
                 __WEBPACK_IMPORTED_MODULE_0__helper_validate__["b" /* nullCheck */](ak, 'ak should be set before use. Read: https://leftstick.github.io/BaiduMapForAngularJS/#!/quickstart');
 
@@ -17812,6 +17813,9 @@ function createPolygonBorderOverlay(options) {
                 return $rootScope.loadBaiduMapPromise = new Promise(function (resolve, reject) {
                     window.baidumapinit = resolve;
                     appendScriptTag(MAP_URL);
+                    if (withDrawLib) {
+                        appendScriptTag(MAP_DRAW_URL);
+                    }
                 }).then(displayMap);
             }
         };
