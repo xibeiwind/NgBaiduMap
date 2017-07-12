@@ -1,0 +1,33 @@
+{
+  "name": "ng-baidu-map",
+  "description": "A baidu-map directive for AngularJS",
+  "main": [
+    "dist/angular-baidu-map.js",
+    "dist/angular-baidu-map.min.js"
+  ],
+  "moduleType": [
+    "amd",
+    "globals",
+    "node",
+    "es6"
+  ],
+  "authors": [
+    "Alex Chen <xibeiwind@github.com>"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "baidu-map",
+    "angularjs"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-material": "^1.1.4"
+  }
+}

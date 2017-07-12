@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="mapApp">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="../bower_components/angular-material/angular-material.css">
+</head>
+
+<body>
+    <div ng-controller="MainController">
+        <baidu-map map-options="mapOptions" loaded="mapLoaded(map)" rightclick="mapRightClick(e)">
+
+            <!--<marker ng-repeat="item in markers" point="item.point" options="item.options"
+            click="showMarkerWindow(e, marker, map,item)"> </marker>-->
+            <!--<overlay ng-repeat="item in overlayItems" type="{{item.type}}" options="item.options" dataset="item.dataset"></overlay>-->
+            <polygon-overlay ng-repeat="item in overlayItems" options="item.options"></polygon-overlay>
+        </baidu-map>
+
+    <div class="toolbar" layout="row">
+
+        <span flex></span>
+
+        <md-button aria-label="button-label" class="md-danger md-fab" ng-click="editBorder()">
+           <md-icon md-font-icon="icon-cog"></md-icon>
+        </md-button>
+
+        <md-button flow-btn class="md-default md-fab" aria-label="Settings" ng-click="toggleSettingPanel('setting-panel')">
+            <md-icon md-font-icon="icon-cog"></md-icon>
+        </md-button>
+        <md-button flow-btn class="md-warn md-fab" aria-label="" ng-click="showMapToolbar = !showMapToolbar">
+            <md-icon md-font-icon="icon-chart-bar" aria-label="label" class="snumber"></md-icon>
+        </md-button>
+
+    </div>
+
+    </div>
+    <script src="../node_modules/angular/angular.js"></script>
+    <script src="../node_modules/lodash/lodash.js"></script>
+    <script src="../dist/angular-baidu-map.js"></script>
+    <script src="../bower_components/angular-material/angular-material.js"></script>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
+
+
