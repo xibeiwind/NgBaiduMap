@@ -29,10 +29,12 @@ export default {
 
         enableEditing(){
             this.overlay.enableEditing();
+            this.overlay.draw();
         }
 
         disableEditing(){
             this.overlay.disableEditing();
+            this.overlay.draw();
         }
 
         $onChanges(changes) {

@@ -17765,11 +17765,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             key: 'enableEditing',
             value: function enableEditing() {
                 this.overlay.enableEditing();
+                this.overlay.draw();
             }
         }, {
             key: 'disableEditing',
             value: function disableEditing() {
                 this.overlay.disableEditing();
+                this.overlay.draw();
             }
         }, {
             key: '$onChanges',
