@@ -17790,10 +17790,14 @@ function createPolygonBorderOverlay(options) {
     var ak = null,
         MAP_URL = void 0;
     var MAP_DRAW_URL = "http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager.js";
-
+    var MAP_DRAW_STYLE_URL = "http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager.css";
+    var MAP_SEARCHINFO_URL = "http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow.js";
+    var MAP_SEARCHINFO_STYLE_URL = "http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow.css";
+    //http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow.css
     this.setKey = function (val) {
         ak = val;
-        MAP_URL = '//api.map.baidu.com/api?v=2.0&ak=' + ak + '&callback=baidumapinit&s=' + (location.protocol === 'https:' ? 1 : 0);
+        MAP_URL = //`http://api.map.baidu.com/api?v=2.0&ak=${ak}`; 
+        "//api.map.baidu.com/api?v=2.0&ak=" + ak + "&callback=baidumapinit&s=" + (location.protocol === 'https:' ? 1 : 0);
     };
 
     this.$get = function ($rootScope) {
@@ -17804,6 +17808,21 @@ function createPolygonBorderOverlay(options) {
 
                 __WEBPACK_IMPORTED_MODULE_0__helper_validate__["b" /* nullCheck */](ak, 'ak should be set before use. Read: https://leftstick.github.io/BaiduMapForAngularJS/#!/quickstart');
 
+                var displayMap = function displayMap() {
+                    if (withDrawLib) {
+                        appendScriptTag(MAP_DRAW_URL);
+                        appendScriptTag(MAP_SEARCHINFO_URL);
+
+                        appendStylesheetTag(MAP_DRAW_STYLE_URL);
+                        appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
+                    }
+
+                    return Array.prototype.slice.call(document.querySelectorAll('baidu-map')).forEach(function (node) {
+                        node.querySelector('.baidu-map-offline') && node.removeChild(node.querySelector('.baidu-map-offline'));
+                        node.querySelector('.baidu-map-instance').style.display = 'block';
+                    });
+                };
+
                 var loadBaiduMapPromise = $rootScope.loadBaiduMapPromise;
                 if (loadBaiduMapPromise) {
                     return loadBaiduMapPromise.then(displayMap);
@@ -17813,9 +17832,6 @@ function createPolygonBorderOverlay(options) {
                 return $rootScope.loadBaiduMapPromise = new Promise(function (resolve, reject) {
                     window.baidumapinit = resolve;
                     appendScriptTag(MAP_URL);
-                    if (withDrawLib) {
-                        appendScriptTag(MAP_DRAW_URL);
-                    }
                 }).then(displayMap);
             }
         };
@@ -17840,12 +17856,36 @@ function appendScriptTag(url) {
     document.body.appendChild(script);
 }
 
-function displayMap() {
-    return Array.prototype.slice.call(document.querySelectorAll('baidu-map')).forEach(function (node) {
-        node.querySelector('.baidu-map-offline') && node.removeChild(node.querySelector('.baidu-map-offline'));
-        node.querySelector('.baidu-map-instance').style.display = 'block';
-    });
+function appendStylesheetTag(url) {
+    var link = document.createElement('link');
+    link.rel = "stylesheet";
+    link.href = url;
+    link.onerror = function () {
+
+        // Array.prototype
+        //     .slice
+        //     .call(document.querySelectorAll('baidu-map .baidu-map-offline'))
+        //     .forEach(function (node) {
+        //         node.style.display = 'block';
+        //     });
+        document.body.removeChild(link);
+
+        setTimeout(function () {
+            appendStylesheetTag(url);
+        }, 30000);
+    };
+    document.body.appendChild(link);
 }
+
+// function displayMap() {
+//     return Array.prototype
+//         .slice
+//         .call(document.querySelectorAll('baidu-map'))
+//         .forEach(function (node) {
+//             node.querySelector('.baidu-map-offline') && node.removeChild(node.querySelector('.baidu-map-offline'));
+//             node.querySelector('.baidu-map-instance').style.display = 'block';
+//         });
+// }
 
 /***/ }),
 /* 14 */
