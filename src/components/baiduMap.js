@@ -7,10 +7,13 @@ export default {
     bindings: {
         offlineTxt: '<',
         mapOptions: '<',
-        withDrawLib:"<",
+        withDrawLib: "<",
         loaded: '&',
         click: '&',
-        rightclick: "&"
+        rightclick: "&",
+        zoomstart: "&",
+        zoomend: "&",
+        resize: "&"
     },
     transclude: true,
     template: `
@@ -62,6 +65,26 @@ export default {
                             this.rightclick({ e });
                         }
                         this.map.addEventListener("rightclick", rightclickListener);
+                    }
+
+                    if (!!this.$attrs.zoomstart) {
+                        const zoomstartListener = this.zoomstartListener = (type, target) => {
+                            this.zoomstart(type, target);
+                        };
+                        this.map.addEventListener("zoomstart", this.zoomstartListener);
+                    }
+                    if (!!this.$attrs.zoomend) {
+                        const zoomendListener = this.zoomendListener = (type, target) => {
+                            this.zoomend(type, target);
+                        };
+                        this.map.addEventListener("zoomend", this.zoomendListener);
+                    }
+                    if (!!this.$attrs.resize) {
+                        const resizeListener = this.resizeListener = (type, target, size) => {
+                            tis.resize({ type, target, size });
+                        };
+
+                        this.map.addEventListener("resize", this.resizeListener);
                     }
                 });
         }

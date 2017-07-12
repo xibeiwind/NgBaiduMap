@@ -2,6 +2,10 @@
 
     angular
         .module('mapApp', [
+            'ngAnimate',
+            "ngAria",
+            'ngMaterial',
+
             window.ngBaiduMap
         ]).config(['mapScriptServiceProvider', function (provider) {
             provider.setKey('3R7GWgMCUmLQ08YtLYeNYGPBC4tKj9gr');
@@ -74,9 +78,18 @@
                     overlays.length = 0
                 };
 
-                map.getO
+
             }, 1000);
 
+
+        };
+
+        $scope.focusBorder = function (index) {
+            var item = $scope.overlayItems[index];
+            var pointArray = item.options.overlay.getPath();
+            vm.map.setViewport(pointArray); 
+
+            item.options.ctrl.enableEditing();
 
         };
 

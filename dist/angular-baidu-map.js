@@ -230,7 +230,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         withDrawLib: "<",
         loaded: '&',
         click: '&',
-        rightclick: "&"
+        rightclick: "&",
+        zoomstart: "&",
+        zoomend: "&",
+        resize: "&"
     },
     transclude: true,
     template: '\n        <div ng-style="$ctrl.style.map" class="baidu-map-instance"></div>\n        <div ng-style="$ctrl.style.offline" class="baidu-map-offline">\n            <label ng-style="$ctrl.style.offlineLabel">{{ $ctrl.offlineTxt || \'NO_NETWORK\' }}</label>\n        </div>\n        <div ng-transclude style="display: none"></div>\n    ',
@@ -279,6 +282,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             _this.rightclick({ e: e });
                         };
                         _this.map.addEventListener("rightclick", rightclickListener);
+                    }
+
+                    if (!!_this.$attrs.zoomstart) {
+                        var zoomstartListener = _this.zoomstartListener = function (type, target) {
+                            _this.zoomstart(type, target);
+                        };
+                        _this.map.addEventListener("zoomstart", _this.zoomstartListener);
+                    }
+                    if (!!_this.$attrs.zoomend) {
+                        var zoomendListener = _this.zoomendListener = function (type, target) {
+                            _this.zoomend(type, target);
+                        };
+                        _this.map.addEventListener("zoomend", _this.zoomendListener);
+                    }
+                    if (!!_this.$attrs.resize) {
+                        var resizeListener = _this.resizeListener = function (type, target, size) {
+                            tis.resize({ type: type, target: target, size: size });
+                        };
+
+                        _this.map.addEventListener("resize", _this.resizeListener);
                     }
                 });
             }
@@ -17732,10 +17755,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }).then(function (overlay) {
                     _this.overlay = overlay;
                     _this.options.overlay = overlay;
+                    _this.options.ctrl = _this;
                     _this.mapCtrl.addOverlayCtrl(_this);
                     console.log("Polygon Overlay Ready");
                     return overlay;
                 });
+            }
+        }, {
+            key: 'enableEditing',
+            value: function enableEditing() {
+                this.overlay.enableEditing();
+            }
+        }, {
+            key: 'disableEditing',
+            value: function disableEditing() {
+                this.overlay.disableEditing();
             }
         }, {
             key: '$onChanges',

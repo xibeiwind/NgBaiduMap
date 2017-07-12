@@ -20,10 +20,19 @@ export default {
                 .then(overlay => {
                     this.overlay = overlay;
                     this.options.overlay = overlay;
+                    this.options.ctrl = this;
                     this.mapCtrl.addOverlayCtrl(this);
                     console.log("Polygon Overlay Ready")
                     return overlay;
                 });
+        }
+
+        enableEditing(){
+            this.overlay.enableEditing();
+        }
+
+        disableEditing(){
+            this.overlay.disableEditing();
         }
 
         $onChanges(changes) {

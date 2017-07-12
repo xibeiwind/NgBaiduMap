@@ -33,5 +33,9 @@
     "unminified-webpack-plugin": "^1.2.0",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.5.0"
+  },
+  "dependencies": {
+    "angular-animate": "^1.6.5",
+    "angular-aria": "^1.6.5"
   }
 }
