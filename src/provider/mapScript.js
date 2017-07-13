@@ -16,26 +16,47 @@ export default function () {
             `//api.map.baidu.com/api?v=2.0&ak=${ak}&callback=baidumapinit&s=${location.protocol === 'https:' ? 1 : 0}`;
     };
 
+    this.loadScripts = function (withDrawLib, boundLimitEnabled) {
+
+        appendScriptTag(MAP_URL);
+
+        setTimeout(function () {
+            if (!!withDrawLib) {
+                appendScriptTag(MAP_DRAW_URL);
+                appendScriptTag(MAP_SEARCHINFO_URL);
+
+                appendStylesheetTag(MAP_DRAW_STYLE_URL);
+                appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
+            }
+
+            if (!!boundLimitEnabled) {
+                appendScriptTag(MAP_AREARESTRICTION_URL);
+            }
+        }, 1000);
+
+
+    };
+
     this.$get = function ($rootScope) {
         'ngInject';
 
         return {
-            load: function (withDrawLib, boundLimitEnabled) {
+            load: function () {
 
                 nullCheck(ak, 'ak should be set before use. Read: https://leftstick.github.io/BaiduMapForAngularJS/#!/quickstart');
 
                 var displayMap = function () {
-                    if (!!withDrawLib) {
-                        appendScriptTag(MAP_DRAW_URL);
-                        appendScriptTag(MAP_SEARCHINFO_URL);
+                    // if (!!withDrawLib) {
+                    //     appendScriptTag(MAP_DRAW_URL);
+                    //     appendScriptTag(MAP_SEARCHINFO_URL);
 
-                        appendStylesheetTag(MAP_DRAW_STYLE_URL);
-                        appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
-                    }
+                    //     appendStylesheetTag(MAP_DRAW_STYLE_URL);
+                    //     appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
+                    // }
 
-                    if (!!boundLimitEnabled) {
-                        appendScriptTag(MAP_AREARESTRICTION_URL);
-                    }
+                    // if (!!boundLimitEnabled) {
+                    //     appendScriptTag(MAP_AREARESTRICTION_URL);
+                    // }
 
                     return Array.prototype
                         .slice
@@ -54,7 +75,7 @@ export default function () {
                 //eslint-disable-next-line
                 return $rootScope.loadBaiduMapPromise = new Promise((resolve, reject) => {
                     window.baidumapinit = resolve;
-                    appendScriptTag(MAP_URL);
+                    //appendScriptTag(MAP_URL);
 
                 }).then(displayMap);
             }
