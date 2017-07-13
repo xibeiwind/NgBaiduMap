@@ -25,17 +25,17 @@ export default function () {
                 nullCheck(ak, 'ak should be set before use. Read: https://leftstick.github.io/BaiduMapForAngularJS/#!/quickstart');
 
                 var displayMap = function () {
-                    // if (!!withDrawLib) {
-                    //     appendScriptTag(MAP_DRAW_URL);
-                    //     appendScriptTag(MAP_SEARCHINFO_URL);
+                    if (!!withDrawLib) {
+                        appendScriptTag(MAP_DRAW_URL);
+                        appendScriptTag(MAP_SEARCHINFO_URL);
 
-                    //     appendStylesheetTag(MAP_DRAW_STYLE_URL);
-                    //     appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
-                    // }
+                        appendStylesheetTag(MAP_DRAW_STYLE_URL);
+                        appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
+                    }
 
-                    // if (!!boundLimitEnabled) {
-                    //     appendScriptTag(MAP_AREARESTRICTION_URL);
-                    // }
+                    if (!!boundLimitEnabled) {
+                        appendScriptTag(MAP_AREARESTRICTION_URL);
+                    }
 
                     return Array.prototype
                         .slice
@@ -55,18 +55,6 @@ export default function () {
                 return $rootScope.loadBaiduMapPromise = new Promise((resolve, reject) => {
                     window.baidumapinit = resolve;
                     appendScriptTag(MAP_URL);
-
-                    if (!!withDrawLib) {
-                        appendScriptTag(MAP_DRAW_URL);
-                        appendScriptTag(MAP_SEARCHINFO_URL);
-
-                        appendStylesheetTag(MAP_DRAW_STYLE_URL);
-                        appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
-                    }
-
-                    if (!!boundLimitEnabled) {
-                        appendScriptTag(MAP_AREARESTRICTION_URL);
-                    }
 
                 }).then(displayMap);
             }
