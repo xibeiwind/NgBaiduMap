@@ -14,20 +14,16 @@
 
 <body>
     <div ng-controller="MainController">
-        <baidu-map with-draw-lib='true' with-bound-limit="true" map-options="mapOptions" loaded="mapLoaded(map)" rightclick="mapRightClick(e)">
+        <baidu-map map-options="mapOptions" loaded="mapLoaded(map)" rightclick="mapRightClick(e)">
 
-            <!--<marker ng-repeat="item in markers" point="item.point" options="item.options"
-            click="showMarkerWindow(e, marker, map,item)"> </marker>-->
-            <!--<overlay ng-repeat="item in overlayItems" type="{{item.type}}" options="item.options" dataset="item.dataset"></overlay>-->
+            <!-- <marker ng-repeat="item in markers" point="item.point" options="item.options" click="showMarkerWindow(e, marker, map,item)">
+            </marker> -->
+            <marker ng-repeat="item in markers" point="item.point" options="item.options" click="showMarkerWindow(e, marker, map,item)"></marker>
+
             <polygon-overlay ng-repeat="item in overlayItems" options="item.options"></polygon-overlay>
         </baidu-map>
 
-        <!-- <md-button flow-btn class="md-default md-fab" aria-label="Settings" ng-click="focusBorder(0)">
-            <md-icon md-font-icon="icon-cog"></md-icon>
-        </md-button>
-        <md-button flow-btn class="md-default md-fab" aria-label="Settings" ng-click="focusBorder(1)">
-            <md-icon md-font-icon="icon-cog"></md-icon>
-        </md-button> -->
+
 
         <md-button ng-repeat="item in overlayItems" flow-btn class="md-default md-fab" aria-label="Settings" ng-click="focusBorder(item.borderId)">
             <md-icon md-font-icon="icon-cog"></md-icon>
@@ -36,28 +32,6 @@
         <md-button flow-btn class="md-fab" ng-if="endCreate" aria-label="submit" ng-click="applyCreateBorder()">
             <md-icon md-font-icon="icon-cog"></md-icon>
         </md-button>
-
-        <!-- <md-fab-speed-dial md-direction="right"
-                         ng-class="demo.selectedMode">
-        <md-fab-trigger>
-          <md-button aria-label="menu" class="md-fab md-warn">
-            <md-icon md-svg-src="img/icons/menu.svg"></md-icon>
-          </md-button>
-        </md-fab-trigger>
-
-        <md-fab-actions>
-          <md-button aria-label="Twitter" class="md-fab md-raised md-mini">
-            <md-icon md-svg-src="img/icons/twitter.svg" aria-label="Twitter"></md-icon>
-          </md-button>
-          <md-button aria-label="Facebook" class="md-fab md-raised md-mini">
-            <md-icon md-svg-src="img/icons/facebook.svg" aria-label="Facebook"></md-icon>
-          </md-button>
-          <md-button aria-label="Google Hangout" class="md-fab md-raised md-mini">
-            <md-icon md-svg-src="img/icons/hangout.svg" aria-label="Google Hangout"></md-icon>
-          </md-button>
-        </md-fab-actions>
-      </md-fab-speed-dial> -->
-
         <md-fab-speed-dial md-direction="right" class="md-fling md-fab-top-left" ng-if="endCreate">
             <md-fab-trigger>
                 <md-button aria-label="label" class="md-fab md-warn">
@@ -65,15 +39,7 @@
                 </md-button>
             </md-fab-trigger>
             <md-fab-actions>
-                <!-- <md-button aria-label="Twitter" class="md-fab md-raised md-mini" style="background-color:red">
-                    <md-icon md-svg-src="img/icons/twitter.svg" aria-label="Twitter" ng-click="setBorderColor('red')"></md-icon>
-                </md-button>
-                <md-button aria-label="Facebook" class="md-fab md-raised md-mini">
-                    <md-icon md-svg-src="img/icons/facebook.svg" aria-label="Facebook" ng-click="setBorderColor('green')"></md-icon>
-                </md-button>
-                <md-button aria-label="Google Hangout" class="md-fab md-raised md-mini">
-                    <md-icon md-svg-src="img/icons/hangout.svg" aria-label="Google Hangout" ng-click="setBorderColor('blue')"></md-icon>
-                </md-button> -->
+
 
                 <md-button ng-repeat="item in colorButtons" class="md-fab md-raised md-mini" ng-style="item" ng-click="setBorderColor(item['background-color'])"></md-button>
             </md-fab-actions>
@@ -87,6 +53,9 @@
     <script src="../dist/angular-baidu-map.js"></script>
 
     <script src="../node_modules/angular-material/angular-material.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/property.service.js"></script>
     <script src="js/index.js"></script>
 </body>
 

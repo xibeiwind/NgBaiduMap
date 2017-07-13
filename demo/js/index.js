@@ -1,18 +1,4 @@
-(function () {
 
-    angular
-        .module('mapApp', [
-            'ngAnimate',
-            "ngAria",
-            'ngMaterial',
-
-            window.ngBaiduMap
-        ]).config(['mapScriptServiceProvider', function (provider) {
-            provider.setKey('3R7GWgMCUmLQ08YtLYeNYGPBC4tKj9gr');
-            provider.loadScripts(true, true);
-        }]);
-
-}());
 
 (function () {
     angular
@@ -20,18 +6,112 @@
         .controller('MainController', MainController);
 
     /** @ngInject */
-    function MainController($scope) {
+    function MainController($scope, PropertyService) {
 
         $scope.mapOptions = {
             withDrawLib: true,
             boundLimitEnabled: true,
             enableMapClick: false,
             centerAndZoom: {
-                longitude: 121.442938, latitude: 31.135326,
+                longitude: 121.50691518, latitude: 31.22944490,
                 zoom: 14
             }
         };
         var vm = this;
+
+        var markericonUrl = "images/bank_mark.png";
+
+
+        $scope.markers = [];
+
+        $scope.marker = {
+            options: {
+                offset: {
+                    width: 0,
+                    height: -30
+                },
+                icon: {
+                    url: markericonUrl,
+                    size: {
+                        width: 49,
+                        height: 60
+                    }
+                }
+            },
+            point: {
+                longitude: 121.50691518,
+                latitude: 31.22944490,
+            }
+        };
+
+        var tmp = PropertyService.queryPropertyList({});
+
+        PropertyService.queryPropertyList({}).then(function (result) {
+
+            for (var key in result) {
+                if (result.hasOwnProperty(key)) {
+                    var element = result[key];
+                    angular.forEach(element, function (item) {
+                        $scope.markers.push({
+                            options: {
+                                offset: {
+                                    width: 0,
+                                    height: -30
+                                },
+                                icon: {
+                                    url: markericonUrl,
+                                    size: {
+                                        width: 49,
+                                        height: 60
+                                    }
+                                }
+                            },
+                            point: { longitude: item.point.lng, latitude: item.point.lat }, //item.point,
+                            info: {
+                                title: "TestTtile",
+                                pictures: [
+                                    "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=4249259376,129608777&fm=80&w=179&h=119&img.JPEG",
+                                    "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3786477295,4103668027&fm=80&w=179&h=119&img.JPEG",
+                                    "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=887195392,665306983&fm=80&w=179&h=119&img.JPEG"
+                                ]
+                            }
+                        });
+                    });
+                }
+            }
+
+            console.log($scope.markers.length);
+
+            // angular.forEach(result, function (arr) {
+            //     angular.forEach(arr, function (item) {
+            //         $scope.markers.push({
+            //             options: {
+            //                 offset: {
+            //                     width: 0,
+            //                     height: -30
+            //                 },
+            //                 icon: {
+            //                     url: markericonUrl,
+            //                     size: {
+            //                         width: 49,
+            //                         height: 60
+            //                     }
+            //                 },
+
+            //             },
+            //             point: point,
+            //             info: {
+            //                 title: "TestTtile",
+            //                 pictures: [
+            //                     "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=4249259376,129608777&fm=80&w=179&h=119&img.JPEG",
+            //                     "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3786477295,4103668027&fm=80&w=179&h=119&img.JPEG",
+            //                     "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=887195392,665306983&fm=80&w=179&h=119&img.JPEG"
+            //                 ]
+            //             }
+            //         });
+            //     });
+            // });
+        });
 
         $scope.colorButtons = [
             { "background-color": "red" },
@@ -154,7 +234,7 @@
 
 
 
-        var markericonUrl = "https://raw.githubusercontent.com/leftstick/BaiduMapForAngularJS/master/demo/img/markericon.png";
+        // var markericonUrl = "https://raw.githubusercontent.com/leftstick/BaiduMapForAngularJS/master/demo/img/markericon.png";
 
         // $scope.markers = [{
         //     options: {
@@ -179,96 +259,77 @@
 
         // }];
 
-        $scope.markers = [];
+        // $scope.markers = [];
 
-        var points = [{ longitude: 121.506613, latitude: 31.235593 },
-        { longitude: 121.516735, latitude: 31.221043 },
-        { longitude: 121.50722, latitude: 31.204231 },
-        { longitude: 121.49725, latitude: 31.196958 },
-        { longitude: 121.484185, latitude: 31.194424 },
-        { longitude: 121.47666, latitude: 31.196975 },
-        { longitude: 121.473341, latitude: 31.210569 },
-        { longitude: 121.468678, latitude: 31.209076 },
-        { longitude: 121.46327, latitude: 31.22811 },
-        { longitude: 121.474168, latitude: 31.229578 },
-        { longitude: 121.46961, latitude: 31.247499 },
-        { longitude: 121.476376, latitude: 31.245246 },
-        { longitude: 121.487302, latitude: 31.246038 },
-        { longitude: 121.493085, latitude: 31.249927 },
-        { longitude: 121.501498, latitude: 31.248007 },
-        { longitude: 121.5001, latitude: 31.241321 },
-        { longitude: 121.506613, latitude: 31.235593 }];
+        // var points = [{ longitude: 121.506613, latitude: 31.235593 },
+        // { longitude: 121.516735, latitude: 31.221043 },
+        // { longitude: 121.50722, latitude: 31.204231 },
+        // { longitude: 121.49725, latitude: 31.196958 },
+        // { longitude: 121.484185, latitude: 31.194424 },
+        // { longitude: 121.47666, latitude: 31.196975 },
+        // { longitude: 121.473341, latitude: 31.210569 },
+        // { longitude: 121.468678, latitude: 31.209076 },
+        // { longitude: 121.46327, latitude: 31.22811 },
+        // { longitude: 121.474168, latitude: 31.229578 },
+        // { longitude: 121.46961, latitude: 31.247499 },
+        // { longitude: 121.476376, latitude: 31.245246 },
+        // { longitude: 121.487302, latitude: 31.246038 },
+        // { longitude: 121.493085, latitude: 31.249927 },
+        // { longitude: 121.501498, latitude: 31.248007 },
+        // { longitude: 121.5001, latitude: 31.241321 },
+        // { longitude: 121.506613, latitude: 31.235593 }];
 
-        angular.forEach(points, function (point) {
-            $scope.markers.push({
-                options: {
-                    offset: {
-                        width: 0,
-                        height: -30
-                    },
-                    icon: {
-                        url: markericonUrl,
-                        size: {
-                            width: 49,
-                            height: 60
-                        }
-                    },
+        // angular.forEach(points, function (point) {
+        //     $scope.markers.push({
+        //         options: {
+        //             offset: {
+        //                 width: 0,
+        //                 height: -30
+        //             },
+        //             icon: {
+        //                 url: markericonUrl,
+        //                 size: {
+        //                     width: 49,
+        //                     height: 60
+        //                 }
+        //             },
 
-                },
-                point: point,
-                info: {
-                    title: "TestTtile",
-                    pictures: [
-                        "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=4249259376,129608777&fm=80&w=179&h=119&img.JPEG",
-                        "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3786477295,4103668027&fm=80&w=179&h=119&img.JPEG",
-                        "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=887195392,665306983&fm=80&w=179&h=119&img.JPEG"
-                    ]
-                }
-            });
-        });
+        //         },
+        //         point: point,
+        //         info: {
+        //             title: "TestTtile",
+        //             pictures: [
+        //                 "https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=4249259376,129608777&fm=80&w=179&h=119&img.JPEG",
+        //                 "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=3786477295,4103668027&fm=80&w=179&h=119&img.JPEG",
+        //                 "https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=887195392,665306983&fm=80&w=179&h=119&img.JPEG"
+        //             ]
+        //         }
+        //     });
+        // });
 
         $scope.showMarkerWindow = function (e, marker, map, item) {
             console.log("showMarkerWindow");
+            //             var sContent = `<md-content flex layout-padding>
+            //     ${item.info.title}
+            //     <p>
+            //              <img style='float:right;margin:4px' id='imgDemo' style="height:100px;" src="${item.info.pictures[0]}" alt="Washed Out"/>
+
+            //     </p>
+            // </md-content>`;
+
             var sContent =
                 "<h4 style='margin:0 0 5px 0;padding:0.2em 0'>天安门</h4>" +
-                "<img style='float:right;margin:4px' id='imgDemo' src='https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=887195392,665306983&fm=80&w=179&h=119&img.JPEG' width='139' height='104' title='天安门'/>" +
+                "<img style='float:right;margin:4px' id='imgDemo' src='http://lbsyun.baidu.com/jsdemo/img/tianAnMen.jpg' width='139' height='104' title='天安门'/>" +
                 "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>天安门坐落在中国北京市中心,故宫的南侧,与天安门广场隔长安街相望,是清朝皇城的大门...</p>" +
-                " ";
-            sContent = `<div md-card class="marker_info">
-    <md-card-header>
-        <md-card-title>${item.info.title}</md-card-title>
-        <md-card-subtitle>Subtitle</md-card-subtitle>
-    </md-card-header>
-   
-    <md-card-content>
-         <img src="${item.info.pictures[0]}" class="md-card-image" alt="Washed Out"/>
-    </md-card-content>
-    <md-card-actions align="end">
-        <button md-button (click)="onAction1">Action1</button>
-        
-    </md-card-actions>
-    <md-card-footer>
-        Footer
-    </md-card-footer>
-</div>`;
-
-            sContent = `<md-content flex layout-padding>
-    ${item.info.title}
-    <p>
-             <img style='float:right;margin:4px' id='imgDemo' src="${item.info.pictures[0]}" class="md-card-image" alt="Washed Out"/>
-
-    </p>
-</md-content>`;
-
-
-            // map.openInfoWindow(new BMap.InfoWindow("TEST", {
-            //     title: item.info.title,
-            //     offset: item.options.offset
-            // }), marker.point);
+                "</div>";
 
             var infoWindow = new BMap.InfoWindow(sContent);
             infoWindow.addEventListener("open", function () {
                 item.infoWindowIsOpen = true;
+
+
+                //infoWindow.redraw();
+
                 console.log("open");
             });
 
@@ -276,11 +337,9 @@
                 item.infoWindowIsOpen = false;
                 console.log("close");
             });
-            marker.openInfoWindow(infoWindow, { enableAutoPan: true });
+            //marker.openInfoWindow(infoWindow, { enableAutoPan: true });
+            marker.openInfoWindow(infoWindow);
 
-            document.getElementById('imgDemo').onload = function () {
-                infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
-            }
         };
 
         $scope.overlayItems = [

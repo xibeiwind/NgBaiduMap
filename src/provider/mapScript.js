@@ -14,6 +14,7 @@ export default function () {
         ak = val;
         MAP_URL = //`http://api.map.baidu.com/api?v=2.0&ak=${ak}`; 
             `//api.map.baidu.com/api?v=2.0&ak=${ak}&callback=baidumapinit&s=${location.protocol === 'https:' ? 1 : 0}`;
+        //`http://api.map.baidu.com/api?v=2.0&ak=${ak}&callback=baidumapinit`;
     };
 
     this.loadScripts = function (withDrawLib, boundLimitEnabled) {
@@ -22,20 +23,34 @@ export default function () {
 
         setTimeout(function () {
             if (!!withDrawLib) {
-                appendScriptTag(MAP_DRAW_URL);
-                appendScriptTag(MAP_SEARCHINFO_URL);
+                appendAditionalScriptTag(MAP_DRAW_URL);
+                appendAditionalScriptTag(MAP_SEARCHINFO_URL);
 
                 appendStylesheetTag(MAP_DRAW_STYLE_URL);
                 appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
             }
 
             if (!!boundLimitEnabled) {
-                appendScriptTag(MAP_AREARESTRICTION_URL);
+                appendAditionalScriptTag(MAP_AREARESTRICTION_URL);
             }
         }, 1000);
 
 
     };
+
+    // this.loadAdditionalScripts = function (scriptOptions) {
+    //     if (!!scriptOptions.withDrawLib) {
+    //         appendScriptTag(MAP_DRAW_URL);
+    //         appendScriptTag(MAP_SEARCHINFO_URL);
+
+    //         appendStylesheetTag(MAP_DRAW_STYLE_URL);
+    //         appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
+    //     }
+
+    //     if (!!scriptOptions.boundLimitEnabled) {
+    //         appendScriptTag(MAP_AREARESTRICTION_URL);
+    //     }
+    // };
 
     this.$get = function ($rootScope) {
         'ngInject';
@@ -87,6 +102,9 @@ function appendScriptTag(url) {
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = url;
+    script.onload = function () {
+        console.log("baidumap loaded!");
+    };
     script.onerror = function () {
 
         Array.prototype
@@ -99,6 +117,20 @@ function appendScriptTag(url) {
 
         setTimeout(() => {
             appendScriptTag(url);
+        }, 30000);
+    };
+    document.body.appendChild(script);
+}
+
+function appendAditionalScriptTag(url) {
+    const script = document.createElement("script");
+    script.type = 'text/javascript';
+    script.src = url;
+    script.onerror = function () {
+        document.body.removeChild(script);
+
+        setTimeout(() => {
+            appendAditionalScriptTag(url);
         }, 30000);
     };
     document.body.appendChild(script);

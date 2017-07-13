@@ -260,6 +260,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 this.mapReady = this.mapScriptService.load(this.mapOptions.withDrawLib, this.mapOptions.boundLimitEnabled).then(function () {
                     return __WEBPACK_IMPORTED_MODULE_1__helper_map__["a" /* create */](_this.$element.children()[0], _this.mapOptions);
                 }).then(function (map) {
+
                     _this.loaded({
                         map: map
                     });
@@ -17846,6 +17847,7 @@ function createPolygonBorderOverlay(options) {
         ak = val;
         MAP_URL = //`http://api.map.baidu.com/api?v=2.0&ak=${ak}`; 
         "//api.map.baidu.com/api?v=2.0&ak=" + ak + "&callback=baidumapinit&s=" + (location.protocol === 'https:' ? 1 : 0);
+        //`http://api.map.baidu.com/api?v=2.0&ak=${ak}&callback=baidumapinit`;
     };
 
     this.loadScripts = function (withDrawLib, boundLimitEnabled) {
@@ -17854,18 +17856,32 @@ function createPolygonBorderOverlay(options) {
 
         setTimeout(function () {
             if (!!withDrawLib) {
-                appendScriptTag(MAP_DRAW_URL);
-                appendScriptTag(MAP_SEARCHINFO_URL);
+                appendAditionalScriptTag(MAP_DRAW_URL);
+                appendAditionalScriptTag(MAP_SEARCHINFO_URL);
 
                 appendStylesheetTag(MAP_DRAW_STYLE_URL);
                 appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
             }
 
             if (!!boundLimitEnabled) {
-                appendScriptTag(MAP_AREARESTRICTION_URL);
+                appendAditionalScriptTag(MAP_AREARESTRICTION_URL);
             }
         }, 1000);
     };
+
+    // this.loadAdditionalScripts = function (scriptOptions) {
+    //     if (!!scriptOptions.withDrawLib) {
+    //         appendScriptTag(MAP_DRAW_URL);
+    //         appendScriptTag(MAP_SEARCHINFO_URL);
+
+    //         appendStylesheetTag(MAP_DRAW_STYLE_URL);
+    //         appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
+    //     }
+
+    //     if (!!scriptOptions.boundLimitEnabled) {
+    //         appendScriptTag(MAP_AREARESTRICTION_URL);
+    //     }
+    // };
 
     this.$get = function ($rootScope) {
         'ngInject';
@@ -17913,6 +17929,9 @@ function appendScriptTag(url) {
     var script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = url;
+    script.onload = function () {
+        console.log("baidumap loaded!");
+    };
     script.onerror = function () {
 
         Array.prototype.slice.call(document.querySelectorAll('baidu-map .baidu-map-offline')).forEach(function (node) {
@@ -17922,6 +17941,20 @@ function appendScriptTag(url) {
 
         setTimeout(function () {
             appendScriptTag(url);
+        }, 30000);
+    };
+    document.body.appendChild(script);
+}
+
+function appendAditionalScriptTag(url) {
+    var script = document.createElement("script");
+    script.type = 'text/javascript';
+    script.src = url;
+    script.onerror = function () {
+        document.body.removeChild(script);
+
+        setTimeout(function () {
+            appendAditionalScriptTag(url);
         }, 30000);
     };
     document.body.appendChild(script);

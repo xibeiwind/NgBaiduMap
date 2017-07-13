@@ -42,6 +42,7 @@ export default {
                     return create(this.$element.children()[0], this.mapOptions);
                 })
                 .then(map => {
+
                     this.loaded({
                         map
                     });
