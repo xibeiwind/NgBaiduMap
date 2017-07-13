@@ -22,6 +22,8 @@
     function MainController($scope) {
 
         $scope.mapOptions = {
+            withDrawLib: true,
+            boundLimitEnabled: true,
             enableMapClick: false,
             centerAndZoom: {
                 longitude: 121.442938, latitude: 31.135326,
@@ -29,6 +31,29 @@
             }
         };
         var vm = this;
+
+        $scope.colorButtons = [
+            { "background-color": "red" },
+            { "background-color": "yellow" },
+            { "background-color": "blue" },
+            { "background-color": "lime" },
+            { "background-color": "orange" },
+        ];
+
+        $scope.applyCreateBorder = function () {
+            if (!!vm.createdOverlay) {
+                var pointArray = vm.createdOverlay.getPath();
+
+                console.log(JSON.stringify(pointArray));
+            }
+        };
+
+        $scope.setBorderColor = function (color) {
+            if (!!vm.createdOverlay) {
+                vm.createdOverlay.setFillColor(color);
+                vm.createdOverlay.setStrokeColor(color);
+            }
+        }
 
         $scope.mapLoaded = function (map) {
             vm.map = map;
@@ -44,39 +69,58 @@
 
                     var tmp = map.getOverlays();
                     console.log(map.getOverlays().length);
+
+                    $scope.$apply(function () {
+                        $scope.endCreate = true;
+                        vm.createdOverlay = e.overlay;
+                    });
+                    //$scope.endCreate = true;
                 };
                 var styleOptions = {
                     strokeColor: "red",    //边线颜色。
                     fillColor: "red",      //填充颜色。当参数为空时，圆形将没有填充效果。
                     strokeWeight: 3,       //边线的宽度，以像素为单位。
-                    strokeOpacity: 0.8,	   //边线透明度，取值范围0 - 1。
-                    fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
+                    strokeOpacity: 0.6,	   //边线透明度，取值范围0 - 1。
+                    fillOpacity: 0.2,      //填充的透明度，取值范围0 - 1。
                     strokeStyle: 'solid' //边线的样式，solid或dashed。
                 }
                 //实例化鼠标绘制工具
-                var drawingManager = new BMapLib.DrawingManager(map, {
-                    isOpen: true, //是否开启绘制模式
-                    enableDrawingTool: true, //是否显示工具栏
 
-                    drawingToolOptions: {
-                        anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
-                        offset: new BMap.Size(5, 5), //偏离值
-                    },
-                    drawingModes: [BMAP_DRAWING_POLYGON],
-                    circleOptions: styleOptions, //圆的样式
-                    polylineOptions: styleOptions, //线的样式
-                    polygonOptions: styleOptions, //多边形的样式
-                    rectangleOptions: styleOptions //矩形的样式
-                });
-                drawingManager.setDrawingMode(BMAP_DRAWING_POLYGON);
-                //添加鼠标绘制工具监听事件，用于获取绘制结果
-                drawingManager.addEventListener('overlaycomplete', overlaycomplete);
-                function clearAll() {
-                    for (var i = 0; i < overlays.length; i++) {
-                        map.removeOverlay(overlays[i]);
-                    }
-                    overlays.length = 0
+                var initDrawingToolbar = function () {
+                    this.drawingManager = new BMapLib.DrawingManager(map, {
+                        isOpen: false, //是否开启绘制模式
+                        enableDrawingTool: true, //是否显示工具栏
+
+                        drawingToolOptions: {
+                            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+                            offset: new BMap.Size(5, 5), //偏离值
+                        },
+                        drawingModes: [BMAP_DRAWING_POLYGON],
+                        circleOptions: styleOptions, //圆的样式
+                        polylineOptions: styleOptions, //线的样式
+                        polygonOptions: styleOptions, //多边形的样式
+                        rectangleOptions: styleOptions //矩形的样式
+                    });
+                    this.drawingManager.setDrawingMode(BMAP_DRAWING_POLYGON);
+                    //添加鼠标绘制工具监听事件，用于获取绘制结果
+                    this.drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+                    function clearAll() {
+                        for (var i = 0; i < overlays.length; i++) {
+                            map.removeOverlay(overlays[i]);
+                        }
+                        overlays.length = 0
+                    };
                 };
+
+                if (!!BMapLib.DrawingManager) {
+                    initDrawingToolbar();
+                }
+                else {
+                    setTimeout(function () {
+                        initDrawingToolbar();
+                    }, 2000);
+                }
+
 
 
             }, 1000);
@@ -84,18 +128,30 @@
 
         };
 
-        $scope.focusBorder = function (index) {
-            var item = $scope.overlayItems[index];
-            var pointArray = item.options.overlay.getPath();
-            vm.map.setViewport(pointArray); 
+        $scope.focusBorder = function (borderId) {
+            angular.forEach($scope.overlayItems, function (item) {
+                if (item.borderId == borderId) {
+                    var pointArray = item.options.overlay.getPath();
+                    vm.map.setViewport(pointArray);
 
-            item.options.ctrl.enableEditing();
+                    item.options.ctrl.enableEditing();
+                } else {
+                    item.options.ctrl.disableEditing();
+                }
+            })
+            // var item = $scope.overlayItems[index];
+            // var pointArray = item.options.overlay.getPath();
+            // vm.map.setViewport(pointArray);
+
+            // item.options.ctrl.enableEditing();
 
         };
 
         $scope.mapRightClick = function (e) {
             console.log("right click!");
-        }
+        };
+
+
 
         var markericonUrl = "https://raw.githubusercontent.com/leftstick/BaiduMapForAngularJS/master/demo/img/markericon.png";
 
@@ -229,6 +285,7 @@
         $scope.overlayItems = [
             {
                 type: 'polygon',
+                borderId: "b0001",
                 options: {
                     polygonOptions: {
                         fillColor: '#ff0000', fillOpacity: 0.1,
@@ -279,6 +336,7 @@
             },
             {
                 type: 'polygon',
+                borderId: "b0002",
                 options: {
                     polygonOptions: {
                         fillColor: '#00ff00', fillOpacity: 0.1,

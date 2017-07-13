@@ -227,7 +227,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     bindings: {
         offlineTxt: '<',
         mapOptions: '<',
-        withDrawLib: "<",
         loaded: '&',
         click: '&',
         rightclick: "&",
@@ -258,7 +257,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function $onInit() {
                 var _this = this;
 
-                this.mapReady = this.mapScriptService.load(this.withDrawLib).then(function () {
+                this.mapReady = this.mapScriptService.load(this.mapOptions.withDrawLib, this.mapOptions.boundLimitEnabled).then(function () {
                     return __WEBPACK_IMPORTED_MODULE_1__helper_map__["a" /* create */](_this.$element.children()[0], _this.mapOptions);
                 }).then(function (map) {
                     _this.loaded({
@@ -364,6 +363,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     this.overlayCtrls.splice(index, 1);
                 }
                 //this.overlayCtrls.remove
+            }
+        }, {
+            key: 'setBund',
+            value: function setBund(p1, p2) {
+                var b = new BMap.Bounds(p1, p2);
+                BMapLib.AreaRestriction.setBounds(this.map, b);
+            }
+        }, {
+            key: 'clearBound',
+            value: function clearBound() {
+                BMapLib.AreaRestriction.clearBounds();
             }
         }]);
 
@@ -17830,6 +17840,8 @@ function createPolygonBorderOverlay(options) {
     var MAP_SEARCHINFO_URL = "http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow.js";
     var MAP_SEARCHINFO_STYLE_URL = "http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow.css";
     //http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow.css
+
+    var MAP_AREARESTRICTION_URL = "http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction.js";
     this.setKey = function (val) {
         ak = val;
         MAP_URL = //`http://api.map.baidu.com/api?v=2.0&ak=${ak}`; 
@@ -17840,18 +17852,22 @@ function createPolygonBorderOverlay(options) {
         'ngInject';
 
         return {
-            load: function load(withDrawLib) {
+            load: function load(withDrawLib, boundLimitEnabled) {
 
                 __WEBPACK_IMPORTED_MODULE_0__helper_validate__["b" /* nullCheck */](ak, 'ak should be set before use. Read: https://leftstick.github.io/BaiduMapForAngularJS/#!/quickstart');
 
                 var displayMap = function displayMap() {
-                    if (withDrawLib) {
-                        appendScriptTag(MAP_DRAW_URL);
-                        appendScriptTag(MAP_SEARCHINFO_URL);
+                    // if (!!withDrawLib) {
+                    //     appendScriptTag(MAP_DRAW_URL);
+                    //     appendScriptTag(MAP_SEARCHINFO_URL);
 
-                        appendStylesheetTag(MAP_DRAW_STYLE_URL);
-                        appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
-                    }
+                    //     appendStylesheetTag(MAP_DRAW_STYLE_URL);
+                    //     appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
+                    // }
+
+                    // if (!!boundLimitEnabled) {
+                    //     appendScriptTag(MAP_AREARESTRICTION_URL);
+                    // }
 
                     return Array.prototype.slice.call(document.querySelectorAll('baidu-map')).forEach(function (node) {
                         node.querySelector('.baidu-map-offline') && node.removeChild(node.querySelector('.baidu-map-offline'));
@@ -17868,6 +17884,18 @@ function createPolygonBorderOverlay(options) {
                 return $rootScope.loadBaiduMapPromise = new Promise(function (resolve, reject) {
                     window.baidumapinit = resolve;
                     appendScriptTag(MAP_URL);
+
+                    if (!!withDrawLib) {
+                        appendScriptTag(MAP_DRAW_URL);
+                        appendScriptTag(MAP_SEARCHINFO_URL);
+
+                        appendStylesheetTag(MAP_DRAW_STYLE_URL);
+                        appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
+                    }
+
+                    if (!!boundLimitEnabled) {
+                        appendScriptTag(MAP_AREARESTRICTION_URL);
+                    }
                 }).then(displayMap);
             }
         };

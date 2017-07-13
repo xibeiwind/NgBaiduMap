@@ -37,6 +37,8 @@ export default {
             this.overlay.draw();
         }
 
+    
+
         $onChanges(changes) {
             if (!!this.overlay && !!changes.isVisible) {
                 if (changes.isVisible.currentValue) {

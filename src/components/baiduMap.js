@@ -7,7 +7,6 @@ export default {
     bindings: {
         offlineTxt: '<',
         mapOptions: '<',
-        withDrawLib: "<",
         loaded: '&',
         click: '&',
         rightclick: "&",
@@ -38,7 +37,7 @@ export default {
         }
 
         $onInit() {
-            this.mapReady = this.mapScriptService.load(this.withDrawLib)
+            this.mapReady = this.mapScriptService.load(this.mapOptions.withDrawLib, this.mapOptions.boundLimitEnabled)
                 .then(() => {
                     return create(this.$element.children()[0], this.mapOptions);
                 })
@@ -138,6 +137,15 @@ export default {
                 this.overlayCtrls.splice(index, 1);
             }
             //this.overlayCtrls.remove
+        }
+
+        setBund(p1, p2) {
+            var b = new BMap.Bounds(p1, p2);
+            BMapLib.AreaRestriction.setBounds(this.map, b);
+
+        }
+        clearBound() {
+            BMapLib.AreaRestriction.clearBounds();
         }
     }
 };
