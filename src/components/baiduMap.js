@@ -2,6 +2,8 @@
 import * as style from '../style';
 import { create, refresh } from '../helper/map';
 import _ from 'lodash';
+import Promise from 'promise-polyfill';
+
 
 export default {
     bindings: {

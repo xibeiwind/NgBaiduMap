@@ -9,3 +9,15 @@ baidu-map{
 .mark_info .mark_window{
     min-width: 100px;
 }
+
+.BMapLib_box.BMapLib_marker,
+.BMapLib_box.BMapLib_circle,
+.BMapLib_box.BMapLib_polyline,
+.BMapLib_box.BMapLib_rectangle
+{
+    display: none;
+}
+
+/* .BMapLib_Drawing_panel :last-child{
+    border-right: none;
+} */

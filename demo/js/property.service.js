@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('mapApp')
+        .module('app.gis')
         .service('PropertyService', function ($q) {
 
             var self = this;

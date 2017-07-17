@@ -1,4 +1,5 @@
 import { nullCheck } from '../helper/validate';
+import Promise from 'promise-polyfill';
 
 export default function () {
     let ak = null,

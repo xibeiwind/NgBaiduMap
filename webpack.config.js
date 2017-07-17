@@ -61,13 +61,16 @@ module.exports = function (env = {}) {
                 '.co'
             ]
         },
+        babel: {
+            presets: ["es2015"]
+        },
         plugins: (isDemo ? [new NgAnnotatePlugin({
             add: true
         }), new webpack.optimize.UglifyJsPlugin({
-                compress: {
-                    warnings: false
-                }
-            })] : []).concat([
+            compress: {
+                warnings: false
+            }
+        })] : []).concat([
             new webpack.optimize.CommonsChunkPlugin({
                 name: 'vendor',
                 minChunks: ({ resource }) => resource && resource.indexOf('node_modules') >= 0 && resource.match(/\.js$/)

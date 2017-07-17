@@ -1,4 +1,5 @@
 import { transformPoints } from '../../helper/transformer';
+import Promise from 'promise-polyfill';
 
 
 export function createPolygonBorderOverlay(options) {
