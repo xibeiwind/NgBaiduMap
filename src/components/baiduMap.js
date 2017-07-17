@@ -53,40 +53,43 @@ export default {
                     return this.map = map;
                 })
                 .then(() => {
-                    if (!!this.$attrs.click) {
+                    if (!!this.map) {
 
-                        const clickListener = this.clickListener = (e) => {
-                            this.click({
-                                e
-                            });
-                        };
-                        this.map.addEventListener('click', clickListener);
-                    }
-                    if (!!this.$attrs.rightclick) {
-                        const rightclickListener = this.rightclickListener = (e) => {
-                            this.rightclick({ e });
+                        if (!!this.$attrs.click) {
+
+                            const clickListener = this.clickListener = (e) => {
+                                this.click({
+                                    e
+                                });
+                            };
+                            this.map.addEventListener('click', clickListener);
                         }
-                        this.map.addEventListener("rightclick", rightclickListener);
-                    }
+                        if (!!this.$attrs.rightclick) {
+                            const rightclickListener = this.rightclickListener = (e) => {
+                                this.rightclick({ e });
+                            }
+                            this.map.addEventListener("rightclick", rightclickListener);
+                        }
 
-                    if (!!this.$attrs.zoomstart) {
-                        const zoomstartListener = this.zoomstartListener = (type, target) => {
-                            this.zoomstart(type, target);
-                        };
-                        this.map.addEventListener("zoomstart", this.zoomstartListener);
-                    }
-                    if (!!this.$attrs.zoomend) {
-                        const zoomendListener = this.zoomendListener = (type, target) => {
-                            this.zoomend(type, target);
-                        };
-                        this.map.addEventListener("zoomend", this.zoomendListener);
-                    }
-                    if (!!this.$attrs.resize) {
-                        const resizeListener = this.resizeListener = (type, target, size) => {
-                            tis.resize({ type, target, size });
-                        };
+                        if (!!this.$attrs.zoomstart) {
+                            const zoomstartListener = this.zoomstartListener = (type, target) => {
+                                this.zoomstart(type, target);
+                            };
+                            this.map.addEventListener("zoomstart", this.zoomstartListener);
+                        }
+                        if (!!this.$attrs.zoomend) {
+                            const zoomendListener = this.zoomendListener = (type, target) => {
+                                this.zoomend(type, target);
+                            };
+                            this.map.addEventListener("zoomend", this.zoomendListener);
+                        }
+                        if (!!this.$attrs.resize) {
+                            const resizeListener = this.resizeListener = (type, target, size) => {
+                                tis.resize({ type, target, size });
+                            };
 
-                        this.map.addEventListener("resize", this.resizeListener);
+                            this.map.addEventListener("resize", this.resizeListener);
+                        }
                     }
                 });
         }
@@ -99,8 +102,11 @@ export default {
         }
 
         $onDestroy() {
-            this.map.removeEventListener('click', this.clickListener);
-            this.map.removeEventListener("rightclick", this.rightclickListener);
+            if (!!this.map) {
+
+                this.map.removeEventListener('click', this.clickListener);
+                this.map.removeEventListener("rightclick", this.rightclickListener);
+            }
         }
 
         addOverlay(overlay) {
