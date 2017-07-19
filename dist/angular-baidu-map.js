@@ -429,9 +429,9 @@ function transformSize(size, field) {
 }
 
 function transformPoint(point, field) {
-    __WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */](point.longitude, 'longitude is required in ' + field);
-    __WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */](point.latitude, 'latitude is required in ' + field);
-    return new BMap.Point(point.longitude, point.latitude);
+    __WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */](point.lng, 'lng is required in ' + field);
+    __WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */](point.lat, 'lat is required in ' + field);
+    return new BMap.Point(point.lng, point.lat);
 }
 
 function transformPoints(points, field) {
@@ -538,40 +538,43 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     //eslint-disable-next-line
                     return _this.map = map;
                 }).then(function () {
-                    if (!!_this.$attrs.click) {
+                    if (!!_this.map) {
 
-                        var clickListener = _this.clickListener = function (e) {
-                            _this.click({
-                                e: e
-                            });
-                        };
-                        _this.map.addEventListener('click', clickListener);
-                    }
-                    if (!!_this.$attrs.rightclick) {
-                        var rightclickListener = _this.rightclickListener = function (e) {
-                            _this.rightclick({ e: e });
-                        };
-                        _this.map.addEventListener("rightclick", rightclickListener);
-                    }
+                        if (!!_this.$attrs.click) {
 
-                    if (!!_this.$attrs.zoomstart) {
-                        var zoomstartListener = _this.zoomstartListener = function (type, target) {
-                            _this.zoomstart(type, target);
-                        };
-                        _this.map.addEventListener("zoomstart", _this.zoomstartListener);
-                    }
-                    if (!!_this.$attrs.zoomend) {
-                        var zoomendListener = _this.zoomendListener = function (type, target) {
-                            _this.zoomend(type, target);
-                        };
-                        _this.map.addEventListener("zoomend", _this.zoomendListener);
-                    }
-                    if (!!_this.$attrs.resize) {
-                        var resizeListener = _this.resizeListener = function (type, target, size) {
-                            tis.resize({ type: type, target: target, size: size });
-                        };
+                            var clickListener = _this.clickListener = function (e) {
+                                _this.click({
+                                    e: e
+                                });
+                            };
+                            _this.map.addEventListener('click', clickListener);
+                        }
+                        if (!!_this.$attrs.rightclick) {
+                            var rightclickListener = _this.rightclickListener = function (e) {
+                                _this.rightclick({ e: e });
+                            };
+                            _this.map.addEventListener("rightclick", rightclickListener);
+                        }
 
-                        _this.map.addEventListener("resize", _this.resizeListener);
+                        if (!!_this.$attrs.zoomstart) {
+                            var zoomstartListener = _this.zoomstartListener = function (type, target) {
+                                _this.zoomstart(type, target);
+                            };
+                            _this.map.addEventListener("zoomstart", _this.zoomstartListener);
+                        }
+                        if (!!_this.$attrs.zoomend) {
+                            var zoomendListener = _this.zoomendListener = function (type, target) {
+                                _this.zoomend(type, target);
+                            };
+                            _this.map.addEventListener("zoomend", _this.zoomendListener);
+                        }
+                        if (!!_this.$attrs.resize) {
+                            var resizeListener = _this.resizeListener = function (type, target, size) {
+                                tis.resize({ type: type, target: target, size: size });
+                            };
+
+                            _this.map.addEventListener("resize", _this.resizeListener);
+                        }
                     }
                 });
             }
@@ -586,8 +589,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: '$onDestroy',
             value: function $onDestroy() {
-                this.map.removeEventListener('click', this.clickListener);
-                this.map.removeEventListener("rightclick", this.rightclickListener);
+                if (!!this.map) {
+
+                    this.map.removeEventListener('click', this.clickListener);
+                    this.map.removeEventListener("rightclick", this.rightclickListener);
+                }
             }
         }, {
             key: 'addOverlay',
@@ -707,8 +713,8 @@ var offlineLabel = {
 
 
 var DEFAULT_COORDINATION = {
-    longitude: 121.506191,
-    latitude: 31.245554
+    lng: 121.506191,
+    lat: 31.245554
 };
 
 var DEFAULT_ZOOM = 10;
@@ -746,7 +752,7 @@ function refresh(map, mapOptions) {
     !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.cursor) && map.setDefaultCursor(mapOptions.cursor);
     !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.draggingCursor) && map.setDraggingCursor(mapOptions.draggingCursor);
     !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.currentCity) && map.setCurrentCity(mapOptions.currentCity);
-    !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.centerAndZoom) && map.centerAndZoom(new BMap.Point(mapOptions.centerAndZoom.longitude || DEFAULT_COORDINATION.longitude, mapOptions.centerAndZoom.latitude || DEFAULT_COORDINATION.latitude), mapOptions.centerAndZoom.zoom || DEFAULT_ZOOM);
+    !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.centerAndZoom) && map.centerAndZoom(new BMap.Point(mapOptions.centerAndZoom.lng || DEFAULT_COORDINATION.lng, mapOptions.centerAndZoom.lat || DEFAULT_COORDINATION.lat), mapOptions.centerAndZoom.zoom || DEFAULT_ZOOM);
 }
 
 /***/ }),

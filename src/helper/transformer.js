@@ -18,9 +18,9 @@ export function transformSize(size, field) {
 }
 
 export function transformPoint(point, field) {
-    nullCheck(point.longitude, `longitude is required in ${field}`);
-    nullCheck(point.latitude, `latitude is required in ${field}`);
-    return new BMap.Point(point.longitude, point.latitude);
+    nullCheck(point.lng, `lng is required in ${field}`);
+    nullCheck(point.lat, `lat is required in ${field}`);
+    return new BMap.Point(point.lng, point.lat);
 }
 
 export function transformPoints(points, field) {

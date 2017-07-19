@@ -13,7 +13,7 @@
             boundLimitEnabled: true,
             enableMapClick: false,
             centerAndZoom: {
-                longitude: 121.50691518, latitude: 31.22944490,
+                lng: 121.50691518, lat: 31.22944490,
                 zoom: 14
             }
         };
@@ -39,8 +39,8 @@
                 }
             },
             point: {
-                longitude: 121.50691518,
-                latitude: 31.22944490,
+                lng: 121.50691518,
+                lat: 31.22944490,
             }
         };
 
@@ -66,7 +66,7 @@
                                     }
                                 }
                             },
-                            point: { longitude: item.point.lng, latitude: item.point.lat }, //item.point,
+                            point: { lng: item.point.lng, lat: item.point.lat }, //item.point,
                             info: {
                                 title: "TestTtile",
                                 pictures: [
@@ -253,31 +253,31 @@
         //     },
 
         //     point: {
-        //         longitude: 121.51606,
-        //         latitude: 31.244604
+        //         lng: 121.51606,
+        //         lat: 31.244604
         //     }
 
         // }];
 
         // $scope.markers = [];
 
-        // var points = [{ longitude: 121.506613, latitude: 31.235593 },
-        // { longitude: 121.516735, latitude: 31.221043 },
-        // { longitude: 121.50722, latitude: 31.204231 },
-        // { longitude: 121.49725, latitude: 31.196958 },
-        // { longitude: 121.484185, latitude: 31.194424 },
-        // { longitude: 121.47666, latitude: 31.196975 },
-        // { longitude: 121.473341, latitude: 31.210569 },
-        // { longitude: 121.468678, latitude: 31.209076 },
-        // { longitude: 121.46327, latitude: 31.22811 },
-        // { longitude: 121.474168, latitude: 31.229578 },
-        // { longitude: 121.46961, latitude: 31.247499 },
-        // { longitude: 121.476376, latitude: 31.245246 },
-        // { longitude: 121.487302, latitude: 31.246038 },
-        // { longitude: 121.493085, latitude: 31.249927 },
-        // { longitude: 121.501498, latitude: 31.248007 },
-        // { longitude: 121.5001, latitude: 31.241321 },
-        // { longitude: 121.506613, latitude: 31.235593 }];
+        // var points = [{ lng: 121.506613, lat: 31.235593 },
+        // { lng: 121.516735, lat: 31.221043 },
+        // { lng: 121.50722, lat: 31.204231 },
+        // { lng: 121.49725, lat: 31.196958 },
+        // { lng: 121.484185, lat: 31.194424 },
+        // { lng: 121.47666, lat: 31.196975 },
+        // { lng: 121.473341, lat: 31.210569 },
+        // { lng: 121.468678, lat: 31.209076 },
+        // { lng: 121.46327, lat: 31.22811 },
+        // { lng: 121.474168, lat: 31.229578 },
+        // { lng: 121.46961, lat: 31.247499 },
+        // { lng: 121.476376, lat: 31.245246 },
+        // { lng: 121.487302, lat: 31.246038 },
+        // { lng: 121.493085, lat: 31.249927 },
+        // { lng: 121.501498, lat: 31.248007 },
+        // { lng: 121.5001, lat: 31.241321 },
+        // { lng: 121.506613, lat: 31.235593 }];
 
         // angular.forEach(points, function (point) {
         //     $scope.markers.push({
@@ -352,44 +352,44 @@
                         strokeWeight: 1, strokeColor: '#ff0000', strokeOpacity: 0.5
                     },
                     points: [
-                        { longitude: 121.474386, latitude: 31.172705 },
-                        { longitude: 121.475587, latitude: 31.16485 },
-                        { longitude: 121.463416, latitude: 31.149473 },
-                        { longitude: 121.475704, latitude: 31.133384 },
-                        { longitude: 121.476954, latitude: 31.126352 },
-                        { longitude: 121.469718, latitude: 31.114912 },
-                        { longitude: 121.469233, latitude: 31.108036 },
-                        { longitude: 121.461837, latitude: 31.106962 },
-                        { longitude: 121.452108, latitude: 31.111241 },
-                        { longitude: 121.458594, latitude: 31.114814 },
-                        { longitude: 121.457335, latitude: 31.121617 },
-                        { longitude: 121.442063, latitude: 31.11985 },
-                        { longitude: 121.445358, latitude: 31.125804 },
-                        { longitude: 121.442938, latitude: 31.135326 },
-                        { longitude: 121.427989, latitude: 31.133368 },
-                        { longitude: 121.418124, latitude: 31.146642 },
-                        { longitude: 121.409074, latitude: 31.168046 },
-                        { longitude: 121.399996, latitude: 31.166016 },
-                        { longitude: 121.399546, latitude: 31.172683 },
-                        { longitude: 121.403069, latitude: 31.175552 },
-                        { longitude: 121.399022, latitude: 31.17852 },
-                        { longitude: 121.402218, latitude: 31.179063 },
-                        { longitude: 121.400856, latitude: 31.183538 },
-                        { longitude: 121.421347, latitude: 31.188252 },
-                        { longitude: 121.419056, latitude: 31.197137 },
-                        { longitude: 121.42726, latitude: 31.197299 },
-                        { longitude: 121.430227, latitude: 31.203557 },
-                        { longitude: 121.444339, latitude: 31.210246 },
-                        { longitude: 121.441673, latitude: 31.217472 },
-                        { longitude: 121.44597, latitude: 31.220755 },
-                        { longitude: 121.462448, latitude: 31.22597 },
-                        { longitude: 121.467167, latitude: 31.219649 },
-                        { longitude: 121.468678, latitude: 31.209076 },
-                        { longitude: 121.473341, latitude: 31.210569 },
-                        { longitude: 121.47666, latitude: 31.196975 },
-                        { longitude: 121.484185, latitude: 31.194424 },
-                        { longitude: 121.472095, latitude: 31.18548 },
-                        { longitude: 121.474386, latitude: 31.172705 }
+                        { lng: 121.474386, lat: 31.172705 },
+                        { lng: 121.475587, lat: 31.16485 },
+                        { lng: 121.463416, lat: 31.149473 },
+                        { lng: 121.475704, lat: 31.133384 },
+                        { lng: 121.476954, lat: 31.126352 },
+                        { lng: 121.469718, lat: 31.114912 },
+                        { lng: 121.469233, lat: 31.108036 },
+                        { lng: 121.461837, lat: 31.106962 },
+                        { lng: 121.452108, lat: 31.111241 },
+                        { lng: 121.458594, lat: 31.114814 },
+                        { lng: 121.457335, lat: 31.121617 },
+                        { lng: 121.442063, lat: 31.11985 },
+                        { lng: 121.445358, lat: 31.125804 },
+                        { lng: 121.442938, lat: 31.135326 },
+                        { lng: 121.427989, lat: 31.133368 },
+                        { lng: 121.418124, lat: 31.146642 },
+                        { lng: 121.409074, lat: 31.168046 },
+                        { lng: 121.399996, lat: 31.166016 },
+                        { lng: 121.399546, lat: 31.172683 },
+                        { lng: 121.403069, lat: 31.175552 },
+                        { lng: 121.399022, lat: 31.17852 },
+                        { lng: 121.402218, lat: 31.179063 },
+                        { lng: 121.400856, lat: 31.183538 },
+                        { lng: 121.421347, lat: 31.188252 },
+                        { lng: 121.419056, lat: 31.197137 },
+                        { lng: 121.42726, lat: 31.197299 },
+                        { lng: 121.430227, lat: 31.203557 },
+                        { lng: 121.444339, lat: 31.210246 },
+                        { lng: 121.441673, lat: 31.217472 },
+                        { lng: 121.44597, lat: 31.220755 },
+                        { lng: 121.462448, lat: 31.22597 },
+                        { lng: 121.467167, lat: 31.219649 },
+                        { lng: 121.468678, lat: 31.209076 },
+                        { lng: 121.473341, lat: 31.210569 },
+                        { lng: 121.47666, lat: 31.196975 },
+                        { lng: 121.484185, lat: 31.194424 },
+                        { lng: 121.472095, lat: 31.18548 },
+                        { lng: 121.474386, lat: 31.172705 }
                     ]
                 },
                 dataset: {}
@@ -403,23 +403,23 @@
                         strokeWeight: 1, strokeColor: '#00ff00', strokeOpacity: 0.5
                     },
                     points: [
-                        { longitude: 121.506613, latitude: 31.235593 },
-                        { longitude: 121.516735, latitude: 31.221043 },
-                        { longitude: 121.50722, latitude: 31.204231 },
-                        { longitude: 121.49725, latitude: 31.196958 },
-                        { longitude: 121.484185, latitude: 31.194424 },
-                        { longitude: 121.47666, latitude: 31.196975 },
-                        { longitude: 121.473341, latitude: 31.210569 },
-                        { longitude: 121.468678, latitude: 31.209076 },
-                        { longitude: 121.46327, latitude: 31.22811 },
-                        { longitude: 121.474168, latitude: 31.229578 },
-                        { longitude: 121.46961, latitude: 31.247499 },
-                        { longitude: 121.476376, latitude: 31.245246 },
-                        { longitude: 121.487302, latitude: 31.246038 },
-                        { longitude: 121.493085, latitude: 31.249927 },
-                        { longitude: 121.501498, latitude: 31.248007 },
-                        { longitude: 121.5001, latitude: 31.241321 },
-                        { longitude: 121.506613, latitude: 31.235593 }
+                        { lng: 121.506613, lat: 31.235593 },
+                        { lng: 121.516735, lat: 31.221043 },
+                        { lng: 121.50722, lat: 31.204231 },
+                        { lng: 121.49725, lat: 31.196958 },
+                        { lng: 121.484185, lat: 31.194424 },
+                        { lng: 121.47666, lat: 31.196975 },
+                        { lng: 121.473341, lat: 31.210569 },
+                        { lng: 121.468678, lat: 31.209076 },
+                        { lng: 121.46327, lat: 31.22811 },
+                        { lng: 121.474168, lat: 31.229578 },
+                        { lng: 121.46961, lat: 31.247499 },
+                        { lng: 121.476376, lat: 31.245246 },
+                        { lng: 121.487302, lat: 31.246038 },
+                        { lng: 121.493085, lat: 31.249927 },
+                        { lng: 121.501498, lat: 31.248007 },
+                        { lng: 121.5001, lat: 31.241321 },
+                        { lng: 121.506613, lat: 31.235593 }
                     ]
                 },
                 dataset: {}

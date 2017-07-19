@@ -1,8 +1,8 @@
 import {isNull} from './validate';
 
 const DEFAULT_COORDINATION = {
-    longitude: 121.506191,
-    latitude: 31.245554
+    lng: 121.506191,
+    lat: 31.245554
 };
 
 const DEFAULT_ZOOM = 10;
@@ -40,5 +40,5 @@ export function refresh(map, mapOptions) {
     !isNull(mapOptions) && !isNull(mapOptions.cursor) && map.setDefaultCursor(mapOptions.cursor);
     !isNull(mapOptions) && !isNull(mapOptions.draggingCursor) && map.setDraggingCursor(mapOptions.draggingCursor);
     !isNull(mapOptions) && !isNull(mapOptions.currentCity) && map.setCurrentCity(mapOptions.currentCity);
-    !isNull(mapOptions) && !isNull(mapOptions.centerAndZoom) && map.centerAndZoom(new BMap.Point(mapOptions.centerAndZoom.longitude || DEFAULT_COORDINATION.longitude, mapOptions.centerAndZoom.latitude || DEFAULT_COORDINATION.latitude), mapOptions.centerAndZoom.zoom || DEFAULT_ZOOM);
+    !isNull(mapOptions) && !isNull(mapOptions.centerAndZoom) && map.centerAndZoom(new BMap.Point(mapOptions.centerAndZoom.lng || DEFAULT_COORDINATION.lng, mapOptions.centerAndZoom.lat || DEFAULT_COORDINATION.lat), mapOptions.centerAndZoom.zoom || DEFAULT_ZOOM);
 }
