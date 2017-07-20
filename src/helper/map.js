@@ -1,4 +1,4 @@
-import {isNull} from './validate';
+import { isNull } from './validate';
 
 const DEFAULT_COORDINATION = {
     lng: 121.506191,
@@ -8,6 +8,9 @@ const DEFAULT_COORDINATION = {
 const DEFAULT_ZOOM = 10;
 
 export function create(element, mapOptions) {
+    element.onload = function () {
+        console.log("element loaded!");
+    }
     const map = new BMap.Map(element, mapOptions);
 
     refresh(map, mapOptions);

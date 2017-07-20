@@ -530,6 +530,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 this.mapReady = this.mapScriptService.load(this.mapOptions.withDrawLib, this.mapOptions.boundLimitEnabled).then(function () {
                     return __WEBPACK_IMPORTED_MODULE_1__helper_map__["a" /* create */](_this.$element.children()[0], _this.mapOptions);
                 }).then(function (map) {
+                    map.enableAutoResize();
+                    map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
+                    map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
 
                     _this.loaded({
                         map: map
@@ -720,6 +723,9 @@ var DEFAULT_COORDINATION = {
 var DEFAULT_ZOOM = 10;
 
 function create(element, mapOptions) {
+    element.onload = function () {
+        console.log("element loaded!");
+    };
     var map = new BMap.Map(element, mapOptions);
 
     refresh(map, mapOptions);
