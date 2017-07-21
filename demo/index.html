@@ -20,7 +20,7 @@
             </marker> -->
             <marker ng-repeat="item in markers" point="item.point" options="item.options" click="showMarkerWindow(e, marker, map,item)"></marker>
 
-            <polygon-overlay ng-repeat="item in overlayItems" options="item.options"></polygon-overlay>
+            <polygon-overlay ng-repeat="item in overlayItems" options="item.options" click="polygonOverClicked()"></polygon-overlay>
         </baidu-map>
 
 

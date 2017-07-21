@@ -12,7 +12,7 @@ export default function () {
 
     let MAP_AREARESTRICTION_URL = "http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction.js";
 
-    let MAP_GEO_UTILS_URL = "http://api.map.baidu.com/library/GeoUtils/1.2/docs/symbols/src/BMapLib_GeoUtils.js.html";
+    let MAP_GEO_UTILS_URL = "http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils.js";
     this.setKey = function (val) {
         ak = val;
         MAP_URL = //`http://api.map.baidu.com/api?v=2.0&ak=${ak}`; 

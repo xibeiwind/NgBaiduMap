@@ -232,6 +232,10 @@
             console.log("right click!");
         };
 
+        $scope.polygonOverClicked = function () {
+            console.log("polygonOverClicked");
+        }
+
 
 
         // var markericonUrl = "https://raw.githubusercontent.com/leftstick/BaiduMapForAngularJS/master/demo/img/markericon.png";
