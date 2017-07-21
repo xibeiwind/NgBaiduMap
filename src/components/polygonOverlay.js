@@ -25,20 +25,22 @@ export default {
                     this.mapCtrl.addOverlayCtrl(this);
                     console.log("Polygon Overlay Ready")
                     return overlay;
-                }).then(overlay => {
-                    if (!!this.$attrs.click) {
-                        this.clickHandler = (e) => {
-                            this.click({
-                                e, overlay, map: this.mapCtrl.getMap()
-                            });
-                            this.$scope.$apply();
-
-
-                        };
-
-                        overlay.addEventListener("click", this.clickHandler);
-                    }
                 });
+
+                // .then(overlay => {
+                //     if (!!this.$attrs.click) {
+                //         this.clickHandler = (e) => {
+                //             this.click({
+                //                 e, overlay, map: this.mapCtrl.getMap()
+                //             });
+                //             this.$scope.$apply();
+
+
+                //         };
+
+                //         overlay.addEventListener("click", this.clickHandler);
+                //     }
+                // });
         }
 
         enableEditing() {

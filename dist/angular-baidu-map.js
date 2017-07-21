@@ -18466,18 +18466,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     _this.mapCtrl.addOverlayCtrl(_this);
                     console.log("Polygon Overlay Ready");
                     return overlay;
-                }).then(function (overlay) {
-                    if (!!_this.$attrs.click) {
-                        _this.clickHandler = function (e) {
-                            _this.click({
-                                e: e, overlay: overlay, map: _this.mapCtrl.getMap()
-                            });
-                            _this.$scope.$apply();
-                        };
-
-                        overlay.addEventListener("click", _this.clickHandler);
-                    }
                 });
+
+                // .then(overlay => {
+                //     if (!!this.$attrs.click) {
+                //         this.clickHandler = (e) => {
+                //             this.click({
+                //                 e, overlay, map: this.mapCtrl.getMap()
+                //             });
+                //             this.$scope.$apply();
+
+
+                //         };
+
+                //         overlay.addEventListener("click", this.clickHandler);
+                //     }
+                // });
             }
         }, {
             key: 'enableEditing',
@@ -18556,6 +18560,8 @@ function createPolygonBorderOverlay(options) {
     //http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow.css
 
     var MAP_AREARESTRICTION_URL = "http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction.js";
+
+    var MAP_GEO_UTILS_URL = "http://api.map.baidu.com/library/GeoUtils/1.2/docs/symbols/src/BMapLib_GeoUtils.js.html";
     this.setKey = function (val) {
         ak = val;
         MAP_URL = //`http://api.map.baidu.com/api?v=2.0&ak=${ak}`; 
@@ -18563,7 +18569,7 @@ function createPolygonBorderOverlay(options) {
         //`http://api.map.baidu.com/api?v=2.0&ak=${ak}&callback=baidumapinit`;
     };
 
-    this.loadScripts = function (withDrawLib, boundLimitEnabled) {
+    this.loadScripts = function (withDrawLib, boundLimitEnabled, withGeoUtils) {
 
         appendScriptTag(MAP_URL);
 
@@ -18578,6 +18584,9 @@ function createPolygonBorderOverlay(options) {
 
             if (!!boundLimitEnabled) {
                 appendAditionalScriptTag(MAP_AREARESTRICTION_URL);
+            }
+            if (!!withGeoUtils) {
+                appendAditionalScriptTag(MAP_GEO_UTILS_URL);
             }
         }, 1000);
     };

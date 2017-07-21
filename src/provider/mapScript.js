@@ -11,6 +11,8 @@ export default function () {
     //http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow.css
 
     let MAP_AREARESTRICTION_URL = "http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction.js";
+
+    let MAP_GEO_UTILS_URL = "http://api.map.baidu.com/library/GeoUtils/1.2/docs/symbols/src/BMapLib_GeoUtils.js.html";
     this.setKey = function (val) {
         ak = val;
         MAP_URL = //`http://api.map.baidu.com/api?v=2.0&ak=${ak}`; 
@@ -18,7 +20,7 @@ export default function () {
         //`http://api.map.baidu.com/api?v=2.0&ak=${ak}&callback=baidumapinit`;
     };
 
-    this.loadScripts = function (withDrawLib, boundLimitEnabled) {
+    this.loadScripts = function (withDrawLib, boundLimitEnabled, withGeoUtils) {
 
         appendScriptTag(MAP_URL);
 
@@ -34,9 +36,10 @@ export default function () {
             if (!!boundLimitEnabled) {
                 appendAditionalScriptTag(MAP_AREARESTRICTION_URL);
             }
+            if (!!withGeoUtils) {
+                appendAditionalScriptTag(MAP_GEO_UTILS_URL);
+            }
         }, 1000);
-
-
     };
 
     // this.loadAdditionalScripts = function (scriptOptions) {

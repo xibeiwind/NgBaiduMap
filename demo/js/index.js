@@ -193,7 +193,7 @@
                     };
                 };
 
-                if (!!BMapLib.DrawingManager) {
+                if (!!BMapLib && !!BMapLib.DrawingManager) {
                     initDrawingToolbar();
                 }
                 else {
@@ -341,6 +341,10 @@
             marker.openInfoWindow(infoWindow);
 
         };
+
+        $scope.polygonClick = function (point) {
+            console.log(JSON.stringify(point));
+        }
 
         $scope.overlayItems = [
             {
