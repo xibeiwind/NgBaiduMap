@@ -4,7 +4,8 @@ import { createPolygonBorderOverlay } from './border';
 
 export default {
     bindings: {
-        options: "<"
+        options: "<",
+        click: "&"
     },
     require: {
         mapCtrl: "^baiduMap"
@@ -24,20 +25,33 @@ export default {
                     this.mapCtrl.addOverlayCtrl(this);
                     console.log("Polygon Overlay Ready")
                     return overlay;
+                }).then(overlay => {
+                    if (!!this.$attrs.click) {
+                        this.clickHandler = (e) => {
+                            this.click({
+                                e, overlay, map: this.mapCtrl.getMap()
+                            });
+                            this.$scope.$apply();
+
+
+                        };
+
+                        overlay.addEventListener("click", this.clickHandler);
+                    }
                 });
         }
 
-        enableEditing(){
+        enableEditing() {
             this.overlay.enableEditing();
             this.overlay.draw();
         }
 
-        disableEditing(){
+        disableEditing() {
             this.overlay.disableEditing();
             this.overlay.draw();
         }
 
-    
+
 
         $onChanges(changes) {
             if (!!this.overlay && !!changes.isVisible) {

@@ -531,8 +531,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     return __WEBPACK_IMPORTED_MODULE_1__helper_map__["a" /* create */](_this.$element.children()[0], _this.mapOptions);
                 }).then(function (map) {
                     map.enableAutoResize();
-                    map.enableScrollWheelZoom(); //启用滚轮放大缩小，默认禁用
-                    map.enableContinuousZoom(); //启用地图惯性拖拽，默认禁用
 
                     _this.loaded({
                         map: map
@@ -18441,7 +18439,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     bindings: {
-        options: "<"
+        options: "<",
+        click: "&"
     },
     require: {
         mapCtrl: "^baiduMap"
@@ -18467,6 +18466,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     _this.mapCtrl.addOverlayCtrl(_this);
                     console.log("Polygon Overlay Ready");
                     return overlay;
+                }).then(function (overlay) {
+                    if (!!_this.$attrs.click) {
+                        _this.clickHandler = function (e) {
+                            _this.click({
+                                e: e, overlay: overlay, map: _this.mapCtrl.getMap()
+                            });
+                            _this.$scope.$apply();
+                        };
+
+                        overlay.addEventListener("click", _this.clickHandler);
+                    }
                 });
             }
         }, {
