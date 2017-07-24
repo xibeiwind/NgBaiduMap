@@ -17657,6 +17657,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             };
                             _this.map.addEventListener('resize', resizeListener);
                         }
+
+                        if (!!_this.$attrs.zoomstart) {
+                            var zoomstartListener = _this.zoomstartListener = function (e) {
+                                _this.zoomstart({ e: e });
+                            };
+                            _this.map.addEventListener('zoomstart', zoomstartListener);
+                        }
+                        if (!!_this.$attrs.zoomend) {
+                            var zoomendListener = _this.zoomendListener = function (e) {
+                                _this.zoomend({ e: e });
+                            };
+                            _this.map.addEventListener('zoomend', zoomendListener);
+                        }
                     }
                 });
             }
@@ -17675,6 +17688,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 if (this.map) {
                     this.map.removeEventListener('click', this.clickListener);
                     this.map.removeEventListener('rightclick', this.rightclickListener);
+                    this.map.removeEventListener("resize", this.resizeListener);
+                    this.map.removeEventListener("zoomstart", this.zoomstartListener);
+                    this.map.removeEventListener("zoomend", this.zoomendListener);
                 }
             }
         }, {

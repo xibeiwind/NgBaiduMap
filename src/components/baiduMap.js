@@ -78,6 +78,20 @@ export default {
                             };
                             this.map.addEventListener('resize', resizeListener);
                         }
+
+                        if (!!this.$attrs.zoomstart) {
+                            const zoomstartListener = this.zoomstartListener = (e) => {
+                                this.zoomstart({ e });
+                            };
+                            this.map.addEventListener('zoomstart', zoomstartListener);
+                        }
+                        if (!!this.$attrs.zoomend) {
+                            const zoomendListener = this.zoomendListener = (e) => {
+                                this.zoomend({ e });
+                            };
+                            this.map.addEventListener('zoomend', zoomendListener);
+                        }
+
                     }
                 });
         }
@@ -93,6 +107,9 @@ export default {
             if (this.map) {
                 this.map.removeEventListener('click', this.clickListener);
                 this.map.removeEventListener('rightclick', this.rightclickListener);
+                this.map.removeEventListener("resize", this.resizeListener);
+                this.map.removeEventListener("zoomstart", this.zoomstartListener);
+                this.map.removeEventListener("zoomend", this.zoomendListener);
             }
         }
 
