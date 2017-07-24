@@ -6,6 +6,6 @@ export function createPolygon(options) {
     return new Promise((resolve, reject) => {
         const points = transformPoints(options.points, '<border> point');
 
-        resolve(new BMap.Polygon(options.points, options.polygonOptions));
+        resolve(new BMap.Polygon(points, options.polygonOptions));
     });
 }

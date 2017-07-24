@@ -18561,7 +18561,7 @@ function createPolygon(options) {
     return new __WEBPACK_IMPORTED_MODULE_1_promise_polyfill___default.a(function (resolve, reject) {
         var points = Object(__WEBPACK_IMPORTED_MODULE_0__helper_transformer__["c" /* transformPoints */])(options.points, '<border> point');
 
-        resolve(new BMap.Polygon(options.points, options.polygonOptions));
+        resolve(new BMap.Polygon(points, options.polygonOptions));
     });
 }
 
