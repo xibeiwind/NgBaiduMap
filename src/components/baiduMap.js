@@ -80,14 +80,14 @@ export default {
                         }
 
                         if (!!this.$attrs.zoomstart) {
-                            const zoomstartListener = this.zoomstartListener = (e) => {
-                                this.zoomstart({ e });
+                            const zoomstartListener = this.zoomstartListener = (type) => {
+                                this.zoomstart({ type });
                             };
                             this.map.addEventListener('zoomstart', zoomstartListener);
                         }
                         if (!!this.$attrs.zoomend) {
-                            const zoomendListener = this.zoomendListener = (e) => {
-                                this.zoomend({ e });
+                            const zoomendListener = this.zoomendListener = (type) => {
+                                this.zoomend({ type });
                             };
                             this.map.addEventListener('zoomend', zoomendListener);
                         }

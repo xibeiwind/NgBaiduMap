@@ -17659,14 +17659,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         }
 
                         if (!!_this.$attrs.zoomstart) {
-                            var zoomstartListener = _this.zoomstartListener = function (e) {
-                                _this.zoomstart({ e: e });
+                            var zoomstartListener = _this.zoomstartListener = function (type) {
+                                _this.zoomstart({ type: type });
                             };
                             _this.map.addEventListener('zoomstart', zoomstartListener);
                         }
                         if (!!_this.$attrs.zoomend) {
-                            var zoomendListener = _this.zoomendListener = function (e) {
-                                _this.zoomend({ e: e });
+                            var zoomendListener = _this.zoomendListener = function (type) {
+                                _this.zoomend({ type: type });
                             };
                             _this.map.addEventListener('zoomend', zoomendListener);
                         }
