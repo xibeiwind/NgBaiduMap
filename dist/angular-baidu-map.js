@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -372,394 +372,6 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = transformIcon;
-/* harmony export (immutable) */ __webpack_exports__["d"] = transformSize;
-/* harmony export (immutable) */ __webpack_exports__["b"] = transformPoint;
-/* harmony export (immutable) */ __webpack_exports__["c"] = transformPoints;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__validate__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular__);
-
-
-
-function transformIcon(icon, field) {
-    var opts = {
-        url: icon.url
-    };
-    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(icon.url, 'url is required in ' + field);
-    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(icon.size, 'size is required in ' + field);
-    opts.size = transformSize(icon.size, field + '.size');
-    return new BMap.Icon(opts.url, opts.size);
-}
-
-function transformSize(size, field) {
-    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(size.width, 'width is required in ' + field);
-    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(size.height, 'height is required in ' + field);
-    return new BMap.Size(size.width, size.height);
-}
-
-function transformPoint(point, field) {
-    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(point.lng, 'lng is required in ' + field);
-    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(point.lat, 'lat is required in ' + field);
-    return new BMap.Point(point.lng, point.lat);
-}
-
-function transformPoints(points, field) {
-    var items = [];
-    __WEBPACK_IMPORTED_MODULE_1_angular___default.a.forEach(points, function (point, index) {
-        items.push(transformPoint(point, field));
-    });
-
-    return items;
-}
-
-/***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ngBaiduMap", function() { return ngBaiduMap; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_angular__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_baiduMap__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_marker__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_polygon__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_drawtool__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__provider_mapScript__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helper_preset__ = __webpack_require__(20);
-
-
-
-
-
-
-
-
-
-Object(__WEBPACK_IMPORTED_MODULE_6__helper_preset__["a" /* globalConstants */])();
-
-var moduleName = "baiduMap";
-
-__WEBPACK_IMPORTED_MODULE_0_angular___default.a.module(moduleName, []).provider('mapScriptService', __WEBPACK_IMPORTED_MODULE_5__provider_mapScript__["a" /* default */]).component('baiduMap', __WEBPACK_IMPORTED_MODULE_1__components_baiduMap__["a" /* default */]).component("marker", __WEBPACK_IMPORTED_MODULE_2__components_marker__["a" /* default */]).component("polygon", __WEBPACK_IMPORTED_MODULE_3__components_polygon__["a" /* default */]).component("drawtool", __WEBPACK_IMPORTED_MODULE_4__components_drawtool__["a" /* default */]);
-
-var ngBaiduMap = moduleName;
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__style__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helper_map__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_promise_polyfill__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_promise_polyfill___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_promise_polyfill__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["a"] = ({
-    bindings: {
-        offlineText: '<',
-        mapOptions: '<',
-        loaded: '&',
-        click: '&',
-        rightclick: '&',
-        zoomstart: '&',
-        zoomend: '&',
-        resize: '&'
-    },
-    transclude: true,
-    template: '\n        <div ng-style="$ctrl.style.map" class="baidu-map-instance"></div>\n        <div ng-style="$ctrl.style.offline" class="baidu-map-offline">\n            <label ng-style="$ctrl.style.offlineLabel">{{ $ctrl.offlineTxt || \'NO_NETWORK\' }}</label>\n        </div>\n        <div ng-transclude style="display: none"></div>\n    ',
-    controller: function () {
-        function controller($scope, $element, $attrs, mapScriptService) {
-            _classCallCheck(this, controller);
-
-            this.$scope = $scope;
-            this.$element = $element;
-            this.$attrs = $attrs;
-            this.mapScriptService = mapScriptService;
-
-            this.polygonCtrls = [];
-            this.markerCtrls = [];
-        }
-
-        _createClass(controller, [{
-            key: '$onInit',
-            value: function $onInit() {
-                var _this = this;
-
-                this.mapReady = this.mapScriptService.load().then(function () {
-                    return Object(__WEBPACK_IMPORTED_MODULE_1__helper_map__["a" /* create */])(_this.$element.children()[0], _this.mapOptions);
-                }).then(function (map) {
-                    map.enableAutoResize();
-
-                    _this.map = map;
-                    var ctrl = _this;
-
-                    _this.loaded({ ctrl: ctrl });
-
-                    _this.$scope.$apply();
-                }).then(function () {
-                    if (_this.map) {
-                        if (_this.$attrs.click) {
-                            var clickListener = _this.clickListener = function (e) {
-                                _this.click({ e: e });
-                            };
-
-                            _this.map.addEventListener('click', _this.clickListener);
-                        }
-
-                        if (_this.$attrs.rightclick) {
-                            var rightclickListener = _this.rightclickListener = function (e) {
-                                _this.rightclick({ e: e });
-                            };
-                            _this.map.addEventListener('rightclick', rightclickListener);
-                        }
-
-                        if (_this.$attrs.resize) {
-                            var resizeListener = _this.resizeListener = function (e) {
-                                //this.map.redraw();
-                                angular.forEach(_this.polygonCtrls, function (ctrl) {
-                                    ctrl.polygon.draw();
-                                });
-                                _this.resize({ e: e });
-                            };
-                            _this.map.addEventListener('resize', resizeListener);
-                        }
-                    }
-                });
-            }
-        }, {
-            key: '$onChange',
-            value: function $onChange(changes) {
-                if (!!this.map == false) {
-
-                    return;
-                }
-                Object(__WEBPACK_IMPORTED_MODULE_1__helper_map__["b" /* refresh */])(this.map, changes.mapOptions.currentValue);
-            }
-        }, {
-            key: '$onDestory',
-            value: function $onDestory() {
-                if (this.map) {
-                    this.map.removeEventListener('click', this.clickListener);
-                    this.map.removeEventListener('rightclick', this.rightclickListener);
-                }
-            }
-        }, {
-            key: 'refreshMap',
-            value: function refreshMap() {
-                Object(__WEBPACK_IMPORTED_MODULE_1__helper_map__["b" /* refresh */])(this.map, this.mapOptions);
-            }
-        }, {
-            key: 'getMap',
-            value: function getMap() {
-                return this.map;
-            }
-        }, {
-            key: 'addOverlay',
-            value: function addOverlay(overlay) {
-                //this.overlaies.push(overlay);
-                return handleMapOperation(this.map, 'addOverlay', overlay);
-            }
-        }, {
-            key: 'removeOverlay',
-            value: function removeOverlay(overlay) {
-
-                //_.remove(this.overlaies, function(item) { return item === overlay; });
-                return handleMapOperation(this.map, 'removeOverlay', overlay);
-            }
-        }, {
-            key: 'addPolygonCtrl',
-            value: function addPolygonCtrl(ctrl) {
-
-                this.polygonCtrls.push(ctrl);
-                return this.addOverlay(ctrl.polygon);
-            }
-        }, {
-            key: 'removePolygonCtrl',
-            value: function removePolygonCtrl(ctrl) {
-                this.removeOverlay(ctrl.polygon);
-                var index = this.polygonCtrls.findIndex(function (val, index, arr) {
-                    return val === ctrl;
-                });
-                if (index >= 0) {
-                    this.polygonCtrls.splice(index, 1);
-                }
-            }
-        }, {
-            key: 'addMarkerCtrl',
-            value: function addMarkerCtrl(ctrl) {
-                this.markerCtrls.push(ctrl);
-                return this.addOverlay(ctrl.marker);
-            }
-        }, {
-            key: 'removeMarkerCtrl',
-            value: function removeMarkerCtrl(ctrl) {
-                this.removeOverlay(ctrl.marker);
-                var index = this.markerCtrls.findIndex(function (val, index, arr) {
-                    return val === ctrl;
-                });
-                if (index >= 0) {
-                    this.markerCtrls.splice(index, 1);
-                }
-            }
-        }, {
-            key: 'setBound',
-            value: function setBound(p1, p2) {
-                var bound = new BMap.Bounds(transformPoint(p1), transformPoint(p2));
-                BMapLib.AreaRestriction.setBounds(this.map, bound);
-            }
-        }, {
-            key: 'clearBound',
-            value: function clearBound() {
-                BMapLib.AreaRestriction.clearBounds();
-            }
-        }]);
-
-        return controller;
-    }()
-});
-
-function handleMapOperation(map, method) {
-    for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-        args[_key - 2] = arguments[_key];
-    }
-
-    return new __WEBPACK_IMPORTED_MODULE_3_promise_polyfill___default.a(function (resolve) {
-        map[method].apply(map, args);
-        resolve();
-    });
-}
-
-/***/ }),
-/* 7 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export map */
-/* unused harmony export offline */
-/* unused harmony export offlineLabel */
-var map = {
-    width: '100%',
-    height: '100%',
-    display: 'none'
-};
-
-var offline = {
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#E6E6E6',
-    position: 'relative',
-    display: 'none'
-};
-
-var offlineLabel = {
-    fontSize: '30px',
-    margin: 0,
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    'margin-right': '-50%',
-    transform: 'translate(-50%, -50%)'
-};
-
-/***/ }),
-/* 8 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = create;
-/* harmony export (immutable) */ __webpack_exports__["b"] = refresh;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__validate__ = __webpack_require__(0);
-
-
-var DEFAULT_COORDINATION = {
-    lng: 121.506191,
-    lat: 31.245554
-};
-
-var DEFAULT_ZOOM = 10;
-
-function create(element, mapOptions) {
-    element.onload = function () {
-        console.log("element loaded!");
-    };
-    var map = new BMap.Map(element, mapOptions);
-
-    refresh(map, mapOptions);
-
-    return map;
-}
-
-function refresh(map, mapOptions) {
-    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.disableDragging)) {
-        map[(mapOptions.disableDragging ? 'disable' : 'enable') + 'Dragging']();
-    }
-    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.enableScrollWheelZoom)) {
-        map[(mapOptions.enableScrollWheelZoom ? 'enable' : 'disable') + 'ScrollWheelZoom']();
-    }
-    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.disableDoubleClickZoom)) {
-        map[(mapOptions.disableDoubleClickZoom ? 'disable' : 'enable') + 'DoubleClickZoom']();
-    }
-    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.enableKeyboard)) {
-        map[(mapOptions.enableKeyboard ? 'enable' : 'disable') + 'Keyboard']();
-    }
-    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.enableInertialDragging)) {
-        map[(mapOptions.enableInertialDragging ? 'enable' : 'disable') + 'InertialDragging']();
-    }
-    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.enableContinuousZoom)) {
-        map[(mapOptions.enableContinuousZoom ? 'enable' : 'disable') + 'ContinuousZoom']();
-    }
-    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.disablePinchToZoom)) {
-        map[(mapOptions.disablePinchToZoom ? 'disable' : 'enable') + 'PinchToZoom']();
-    }
-    !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.cursor) && map.setDefaultCursor(mapOptions.cursor);
-    !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.draggingCursor) && map.setDraggingCursor(mapOptions.draggingCursor);
-    !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.currentCity) && map.setCurrentCity(mapOptions.currentCity);
-    !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.centerAndZoom) && map.centerAndZoom(new BMap.Point(mapOptions.centerAndZoom.lng || DEFAULT_COORDINATION.lng, mapOptions.centerAndZoom.lat || DEFAULT_COORDINATION.lat), mapOptions.centerAndZoom.zoom || DEFAULT_ZOOM);
-}
-
-/***/ }),
-/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -17848,7 +17460,395 @@ function refresh(map, mapOptions) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(10)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(10)(module)))
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = transformIcon;
+/* harmony export (immutable) */ __webpack_exports__["d"] = transformSize;
+/* harmony export (immutable) */ __webpack_exports__["b"] = transformPoint;
+/* harmony export (immutable) */ __webpack_exports__["c"] = transformPoints;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__validate__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular__);
+
+
+
+function transformIcon(icon, field) {
+    var opts = {
+        url: icon.url
+    };
+    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(icon.url, 'url is required in ' + field);
+    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(icon.size, 'size is required in ' + field);
+    opts.size = transformSize(icon.size, field + '.size');
+    return new BMap.Icon(opts.url, opts.size);
+}
+
+function transformSize(size, field) {
+    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(size.width, 'width is required in ' + field);
+    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(size.height, 'height is required in ' + field);
+    return new BMap.Size(size.width, size.height);
+}
+
+function transformPoint(point, field) {
+    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(point.lng, 'lng is required in ' + field);
+    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(point.lat, 'lat is required in ' + field);
+    return new BMap.Point(point.lng, point.lat);
+}
+
+function transformPoints(points, field) {
+    var items = [];
+    __WEBPACK_IMPORTED_MODULE_1_angular___default.a.forEach(points, function (point, index) {
+        items.push(transformPoint(point, field));
+    });
+
+    return items;
+}
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ngBaiduMap", function() { return ngBaiduMap; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_angular__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_baiduMap__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_marker__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_polygon__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_drawtool__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__provider_mapScript__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helper_preset__ = __webpack_require__(20);
+
+
+
+
+
+
+
+
+
+Object(__WEBPACK_IMPORTED_MODULE_6__helper_preset__["a" /* globalConstants */])();
+
+var moduleName = "baiduMap";
+
+__WEBPACK_IMPORTED_MODULE_0_angular___default.a.module(moduleName, []).provider('mapScriptService', __WEBPACK_IMPORTED_MODULE_5__provider_mapScript__["a" /* default */]).component('baiduMap', __WEBPACK_IMPORTED_MODULE_1__components_baiduMap__["a" /* default */]).component("marker", __WEBPACK_IMPORTED_MODULE_2__components_marker__["a" /* default */]).component("polygon", __WEBPACK_IMPORTED_MODULE_3__components_polygon__["a" /* default */]).component("drawtool", __WEBPACK_IMPORTED_MODULE_4__components_drawtool__["a" /* default */]);
+
+var ngBaiduMap = moduleName;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__style__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helper_map__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_promise_polyfill__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_promise_polyfill___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_promise_polyfill__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    bindings: {
+        offlineText: '<',
+        mapOptions: '<',
+        loaded: '&',
+        click: '&',
+        rightclick: '&',
+        zoomstart: '&',
+        zoomend: '&',
+        resize: '&'
+    },
+    transclude: true,
+    template: '\n        <div ng-style="$ctrl.style.map" class="baidu-map-instance"></div>\n        <div ng-style="$ctrl.style.offline" class="baidu-map-offline">\n            <label ng-style="$ctrl.style.offlineLabel">{{ $ctrl.offlineTxt || \'NO_NETWORK\' }}</label>\n        </div>\n        <div ng-transclude style="display: none"></div>\n    ',
+    controller: function () {
+        function controller($scope, $element, $attrs, mapScriptService) {
+            _classCallCheck(this, controller);
+
+            this.$scope = $scope;
+            this.$element = $element;
+            this.$attrs = $attrs;
+            this.mapScriptService = mapScriptService;
+
+            this.polygonCtrls = [];
+            this.markerCtrls = [];
+        }
+
+        _createClass(controller, [{
+            key: '$onInit',
+            value: function $onInit() {
+                var _this = this;
+
+                this.mapReady = this.mapScriptService.load().then(function () {
+                    return Object(__WEBPACK_IMPORTED_MODULE_1__helper_map__["a" /* create */])(_this.$element.children()[0], _this.mapOptions);
+                }).then(function (map) {
+                    map.enableAutoResize();
+
+                    _this.map = map;
+                    var ctrl = _this;
+
+                    _this.loaded({ ctrl: ctrl });
+
+                    _this.$scope.$apply();
+                }).then(function () {
+                    if (_this.map) {
+                        if (_this.$attrs.click) {
+                            var clickListener = _this.clickListener = function (e) {
+                                _this.click({ e: e });
+                            };
+
+                            _this.map.addEventListener('click', _this.clickListener);
+                        }
+
+                        if (_this.$attrs.rightclick) {
+                            var rightclickListener = _this.rightclickListener = function (e) {
+                                _this.rightclick({ e: e });
+                            };
+                            _this.map.addEventListener('rightclick', rightclickListener);
+                        }
+
+                        if (_this.$attrs.resize) {
+                            var resizeListener = _this.resizeListener = function (e) {
+                                //this.map.redraw();
+                                angular.forEach(_this.polygonCtrls, function (ctrl) {
+                                    ctrl.polygon.draw();
+                                });
+                                _this.resize({ e: e });
+                            };
+                            _this.map.addEventListener('resize', resizeListener);
+                        }
+                    }
+                });
+            }
+        }, {
+            key: '$onChange',
+            value: function $onChange(changes) {
+                if (!!this.map == false) {
+
+                    return;
+                }
+                Object(__WEBPACK_IMPORTED_MODULE_1__helper_map__["b" /* refresh */])(this.map, changes.mapOptions.currentValue);
+            }
+        }, {
+            key: '$onDestory',
+            value: function $onDestory() {
+                if (this.map) {
+                    this.map.removeEventListener('click', this.clickListener);
+                    this.map.removeEventListener('rightclick', this.rightclickListener);
+                }
+            }
+        }, {
+            key: 'refreshMap',
+            value: function refreshMap() {
+                Object(__WEBPACK_IMPORTED_MODULE_1__helper_map__["b" /* refresh */])(this.map, this.mapOptions);
+            }
+        }, {
+            key: 'getMap',
+            value: function getMap() {
+                return this.map;
+            }
+        }, {
+            key: 'addOverlay',
+            value: function addOverlay(overlay) {
+                //this.overlaies.push(overlay);
+                return handleMapOperation(this.map, 'addOverlay', overlay);
+            }
+        }, {
+            key: 'removeOverlay',
+            value: function removeOverlay(overlay) {
+
+                //_.remove(this.overlaies, function(item) { return item === overlay; });
+                return handleMapOperation(this.map, 'removeOverlay', overlay);
+            }
+        }, {
+            key: 'addPolygonCtrl',
+            value: function addPolygonCtrl(ctrl) {
+
+                this.polygonCtrls.push(ctrl);
+                return this.addOverlay(ctrl.polygon);
+            }
+        }, {
+            key: 'removePolygonCtrl',
+            value: function removePolygonCtrl(ctrl) {
+                this.removeOverlay(ctrl.polygon);
+                var index = this.polygonCtrls.findIndex(function (val, index, arr) {
+                    return val === ctrl;
+                });
+                if (index >= 0) {
+                    this.polygonCtrls.splice(index, 1);
+                }
+            }
+        }, {
+            key: 'addMarkerCtrl',
+            value: function addMarkerCtrl(ctrl) {
+                this.markerCtrls.push(ctrl);
+                return this.addOverlay(ctrl.marker);
+            }
+        }, {
+            key: 'removeMarkerCtrl',
+            value: function removeMarkerCtrl(ctrl) {
+                this.removeOverlay(ctrl.marker);
+                var index = this.markerCtrls.findIndex(function (val, index, arr) {
+                    return val === ctrl;
+                });
+                if (index >= 0) {
+                    this.markerCtrls.splice(index, 1);
+                }
+            }
+        }, {
+            key: 'setBound',
+            value: function setBound(p1, p2) {
+                var bound = new BMap.Bounds(transformPoint(p1), transformPoint(p2));
+                BMapLib.AreaRestriction.setBounds(this.map, bound);
+            }
+        }, {
+            key: 'clearBound',
+            value: function clearBound() {
+                BMapLib.AreaRestriction.clearBounds();
+            }
+        }]);
+
+        return controller;
+    }()
+});
+
+function handleMapOperation(map, method) {
+    for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+        args[_key - 2] = arguments[_key];
+    }
+
+    return new __WEBPACK_IMPORTED_MODULE_3_promise_polyfill___default.a(function (resolve) {
+        map[method].apply(map, args);
+        resolve();
+    });
+}
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export map */
+/* unused harmony export offline */
+/* unused harmony export offlineLabel */
+var map = {
+    width: '100%',
+    height: '100%',
+    display: 'none'
+};
+
+var offline = {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#E6E6E6',
+    position: 'relative',
+    display: 'none'
+};
+
+var offlineLabel = {
+    fontSize: '30px',
+    margin: 0,
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    'margin-right': '-50%',
+    transform: 'translate(-50%, -50%)'
+};
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = create;
+/* harmony export (immutable) */ __webpack_exports__["b"] = refresh;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__validate__ = __webpack_require__(0);
+
+
+var DEFAULT_COORDINATION = {
+    lng: 121.506191,
+    lat: 31.245554
+};
+
+var DEFAULT_ZOOM = 10;
+
+function create(element, mapOptions) {
+    element.onload = function () {
+        console.log("element loaded!");
+    };
+    var map = new BMap.Map(element, mapOptions);
+
+    refresh(map, mapOptions);
+
+    return map;
+}
+
+function refresh(map, mapOptions) {
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.disableDragging)) {
+        map[(mapOptions.disableDragging ? 'disable' : 'enable') + 'Dragging']();
+    }
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.enableScrollWheelZoom)) {
+        map[(mapOptions.enableScrollWheelZoom ? 'enable' : 'disable') + 'ScrollWheelZoom']();
+    }
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.disableDoubleClickZoom)) {
+        map[(mapOptions.disableDoubleClickZoom ? 'disable' : 'enable') + 'DoubleClickZoom']();
+    }
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.enableKeyboard)) {
+        map[(mapOptions.enableKeyboard ? 'enable' : 'disable') + 'Keyboard']();
+    }
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.enableInertialDragging)) {
+        map[(mapOptions.enableInertialDragging ? 'enable' : 'disable') + 'InertialDragging']();
+    }
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.enableContinuousZoom)) {
+        map[(mapOptions.enableContinuousZoom ? 'enable' : 'disable') + 'ContinuousZoom']();
+    }
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.disablePinchToZoom)) {
+        map[(mapOptions.disablePinchToZoom ? 'disable' : 'enable') + 'PinchToZoom']();
+    }
+    !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.cursor) && map.setDefaultCursor(mapOptions.cursor);
+    !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.draggingCursor) && map.setDraggingCursor(mapOptions.draggingCursor);
+    !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.currentCity) && map.setCurrentCity(mapOptions.currentCity);
+    !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.centerAndZoom) && map.centerAndZoom(new BMap.Point(mapOptions.centerAndZoom.lng || DEFAULT_COORDINATION.lng, mapOptions.centerAndZoom.lat || DEFAULT_COORDINATION.lat), mapOptions.centerAndZoom.zoom || DEFAULT_ZOOM);
+}
 
 /***/ }),
 /* 10 */
@@ -18128,7 +18128,7 @@ exports.clearImmediate = clearImmediate;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(13)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(13)))
 
 /***/ }),
 /* 13 */
@@ -18326,7 +18326,7 @@ process.umask = function() { return 0; };
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_validate__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helper_transformer__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helper_transformer__ = __webpack_require__(5);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18375,13 +18375,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     }
                     if (!!_this.$attrs.click) {
                         var clickListener = _this.clickListener = function (e) {
-                            _this.click({ e: e });
+                            _this.click({ e: e, marker: marker, map: _this.mapCtrl.getMap(), ctrl: _this });
                         };
                         _this.marker.addEventListener('click', clickListener);
                     }
                     if (!!_this.$attrs.rightclick) {
                         var rightclickListener = _this.rightclickListener = function (e) {
-                            _this.rightclick({ e: e });
+                            _this.rightclick({ e: e, marker: marker, map: _this.mapCtrl.getMap(), ctrl: _this });
                         };
                         _this.marker.addEventListener('rightclick', rightclickListener);
                     }
@@ -18427,6 +18427,8 @@ function transformOptions(options) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__overlay__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18438,7 +18440,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         options: "<",
         initialized: "&",
         click: "&",
-        rightclick: "&"
+        rightclick: "&",
+        beginEditing: "&",
+        endEditing: "&"
 
     },
     require: {
@@ -18498,6 +18502,31 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 this.map.removeEventListener("click", this.clickListener);
                 this.mapCtrl.removePolygonCtrl(this);
             }
+        }, {
+            key: "getPolygon",
+            value: function getPolygon() {
+                return this.polygon;
+            }
+        }, {
+            key: "startEditing",
+            value: function startEditing() {
+                if (!!this.$attrs.beginEditing) {
+                    this.beginEditing({ e: e });
+                }
+            }
+        }, {
+            key: "stopEditing",
+            value: function stopEditing() {
+                var points = this.polygon.getPath();
+                this.options.points = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.map(points, function (p) {
+                    return { lng: p.lng, lat: p.lat };
+                });
+
+                if (!!this.$attrs.endEditing) {
+                    var options = this.options;
+                    this.endEditing({ options: options });
+                }
+            }
         }]);
 
         return controller;
@@ -18510,7 +18539,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = createPolygon;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_transformer__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_transformer__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_promise_polyfill__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_promise_polyfill___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_promise_polyfill__);
 

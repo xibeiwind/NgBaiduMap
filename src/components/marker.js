@@ -39,13 +39,13 @@ export default
                         }
                         if (!!this.$attrs.click) {
                             const clickListener = this.clickListener = (e) => {
-                                this.click({ e });
+                                this.click({ e, marker, map: this.mapCtrl.getMap(), ctrl: this });
                             };
                             this.marker.addEventListener('click', clickListener);
                         }
                         if (!!this.$attrs.rightclick) {
                             const rightclickListener = this.rightclickListener = (e) => {
-                                this.rightclick({ e });
+                                this.rightclick({ e, marker, map: this.mapCtrl.getMap(), ctrl: this });
                             };
                             this.marker.addEventListener('rightclick', rightclickListener);
                         }

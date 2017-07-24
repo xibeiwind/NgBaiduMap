@@ -1,11 +1,13 @@
 import { createPolygon } from "./overlay";
-
+import _ from "lodash";
 export default {
     bindings: {
         options: "<",
         initialized: "&",
         click: "&",
-        rightclick: "&"
+        rightclick: "&",
+        beginEditing: "&",
+        endEditing: "&"
 
     },
     require: {
@@ -64,6 +66,27 @@ export default {
         $onDestory() {
             this.map.removeEventListener("click", this.clickListener);
             this.mapCtrl.removePolygonCtrl(this);
+        }
+
+        getPolygon(){
+            return this.polygon;
+        }
+
+        startEditing() {
+            if (!!this.$attrs.beginEditing) {
+                this.beginEditing({ e });
+            }
+        }
+
+        stopEditing() {
+            var points = this.polygon.getPath();
+            this.options.points = _.map(points, function (p) { return { lng: p.lng, lat: p.lat } });
+
+
+            if (!!this.$attrs.endEditing) {
+                var options = this.options;
+                this.endEditing({ options });
+            }
         }
     }
 }
