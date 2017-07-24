@@ -17626,6 +17626,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     _this.map = map;
                     var ctrl = _this;
 
+                    console.log("maploaded");
                     _this.loaded({ ctrl: ctrl });
 
                     _this.$scope.$apply();

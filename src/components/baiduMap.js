@@ -46,6 +46,7 @@ export default {
                     this.map = map;
                     var ctrl = this;
 
+                    console.log("maploaded");
                     this.loaded({ ctrl });
 
                     this.$scope.$apply();
