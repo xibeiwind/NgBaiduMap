@@ -1,73 +1,71 @@
 import { nullCheck } from '../helper/validate';
 import { transformIcon, transformSize, transformPoint } from '../helper/transformer';
 
-export default {
-    bindings: {
-        point: '<',
-        options: '<',
-        click: '&',
-        rightclick: '&'
-    },
-    require: {
-        mapCtrl: '^baiduMap'
-    },
-    template: '',
-    controller: class {
-        /* @ngInject */
-        constructor($scope, $attrs) {
-            this.$scope = $scope;
-            this.$attrs = $attrs;
-        }
+export default
+    {
+        bindings: {
+            point: '<',
+            options: '<',
+            initialized: "&",
+            click: '&',
+            rightclick: '&'
+        },
+        require: {
+            mapCtrl: '^baiduMap'
+        },
+        controller: class {
+            constructor($scope, $attrs) {
+                this.$scope = $scope;
+                this.$attrs = $attrs;
+            }
 
-        $onInit() {
-            //console.log("marker init")
-            nullCheck(this.point, 'point is required for <marker>');
+            $onInit() {
 
-            this.mapCtrl
-                .mapReady
-                .then(() => {
-                    const point = transformPoint(this.point, '<marker> point');
-                    const opts = transformOptions(this.options);
-                    const marker = this.marker = new BMap.Marker(point, opts);
-                    this
-                        .mapCtrl
-                        .addOverlay(marker);
-                    return marker;
-                })
-                .then(marker => {
-                    if (!!this.$attrs.click) {
-                        this.clickHandler = (e) => {
-                            this.click({
-                                e,
-                                marker,
-                                map: this.mapCtrl.getMap()
-                            });
-                            this.$scope.$apply();
-                        };
-                        marker.addEventListener('click', this.clickHandler);
-                    }
+                this.mapCtrl.mapReady
+                    .then(() => {
+                        const point = transformPoint(this.point, '<marker> point');
+                        const opts = transformOptions(this.options);
+                        const marker = this.marker = new BMap.Marker(point, opts);
+                        //this.marker = marker;
+                        console.log(point);
 
-                    if (!!this.$attrs.rightclick) {
-                        this.rightClickHandler = (e) => {
-                            this.rightclick({
-                                e,
-                                marker,
-                                map: this.mapCtrl.getMap()
-                            });
-                            this.$scope.$apply();
-                        };
-                        marker.addEventListener('rightclick', this.rightClickHandler);
-                    }
-                });
-        }
+                        this.mapCtrl.addMarkerCtrl(this);
 
-        $onDestroy() {
-            this.marker.removeEventListener('click', this.clickHandler);
-            this.marker.removeEventListener('rightclick', this.rightClickHandler);
-            this.mapCtrl.removeOverlay(this.marker);
+                        return marker;
+                    }).then(marker => {
+                        if (!!this.$attrs.initialized) {
+                            let ctrl = this;
+                            this.initialized({ ctrl });
+                        }
+                        if (!!this.$attrs.click) {
+                            const clickListener = this.clickListener = (e) => {
+                                this.click({ e });
+                            };
+                            this.marker.addEventListener('click', clickListener);
+                        }
+                        if (!!this.$attrs.rightclick) {
+                            const rightclickListener = this.rightclickListener = (e) => {
+                                this.rightclick({ e });
+                            };
+                            this.marker.addEventListener('rightclick', rightclickListener);
+                        }
+                    });
+
+            }
+            $onDestory() {
+                this.marker.removeEventListener("click", this.clickListener);
+                this.marker.removeEventListener("rightclick", this.rightclickListener);
+                this.mapCtrl.removeParker(this);
+            }
+
+            setPoint(point) {
+
+                this.point = point;
+                this.marker.setPosition(transformPoint(point));
+
+            }
         }
     }
-};
 
 function transformOptions(options) {
     const opts = JSON.parse(JSON.stringify(options || {}));

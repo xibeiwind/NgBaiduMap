@@ -2,7 +2,8 @@ import angular from "angular";
 
 import baiduMap from "./components/baiduMap";
 import marker from "./components/marker";
-import polygonOverlay from "./components/polygonOverlay";
+import polygon from "./components/polygon";
+import drawtool from "./components/drawtool";
 import mapScriptProvider from './provider/mapScript';
 import { globalConstants } from './helper/preset';
 
@@ -14,6 +15,7 @@ angular.module(moduleName, [])
     .provider('mapScriptService', mapScriptProvider)
     .component('baiduMap', baiduMap)
     .component("marker", marker)
-    .component("polygonOverlay", polygonOverlay);
+    .component("polygon", polygon)
+    .component("drawtool", drawtool);
 
 export const ngBaiduMap = moduleName;

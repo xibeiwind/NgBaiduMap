@@ -416,21 +416,21 @@ function transformIcon(icon, field) {
     var opts = {
         url: icon.url
     };
-    __WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */](icon.url, 'url is required in ' + field);
-    __WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */](icon.size, 'size is required in ' + field);
+    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(icon.url, 'url is required in ' + field);
+    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(icon.size, 'size is required in ' + field);
     opts.size = transformSize(icon.size, field + '.size');
     return new BMap.Icon(opts.url, opts.size);
 }
 
 function transformSize(size, field) {
-    __WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */](size.width, 'width is required in ' + field);
-    __WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */](size.height, 'height is required in ' + field);
+    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(size.width, 'width is required in ' + field);
+    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(size.height, 'height is required in ' + field);
     return new BMap.Size(size.width, size.height);
 }
 
 function transformPoint(point, field) {
-    __WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */](point.lng, 'lng is required in ' + field);
-    __WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */](point.lat, 'lat is required in ' + field);
+    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(point.lng, 'lng is required in ' + field);
+    Object(__WEBPACK_IMPORTED_MODULE_0__validate__["b" /* nullCheck */])(point.lat, 'lat is required in ' + field);
     return new BMap.Point(point.lng, point.lat);
 }
 
@@ -454,9 +454,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_angular__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_baiduMap__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_marker__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_polygonOverlay__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__provider_mapScript__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__helper_preset__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_polygon__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_drawtool__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__provider_mapScript__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helper_preset__ = __webpack_require__(20);
 
 
 
@@ -465,11 +466,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-__WEBPACK_IMPORTED_MODULE_5__helper_preset__["a" /* globalConstants */]();
+
+Object(__WEBPACK_IMPORTED_MODULE_6__helper_preset__["a" /* globalConstants */])();
 
 var moduleName = "baiduMap";
 
-__WEBPACK_IMPORTED_MODULE_0_angular___default.a.module(moduleName, []).provider('mapScriptService', __WEBPACK_IMPORTED_MODULE_4__provider_mapScript__["a" /* default */]).component('baiduMap', __WEBPACK_IMPORTED_MODULE_1__components_baiduMap__["a" /* default */]).component("marker", __WEBPACK_IMPORTED_MODULE_2__components_marker__["a" /* default */]).component("polygonOverlay", __WEBPACK_IMPORTED_MODULE_3__components_polygonOverlay__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_0_angular___default.a.module(moduleName, []).provider('mapScriptService', __WEBPACK_IMPORTED_MODULE_5__provider_mapScript__["a" /* default */]).component('baiduMap', __WEBPACK_IMPORTED_MODULE_1__components_baiduMap__["a" /* default */]).component("marker", __WEBPACK_IMPORTED_MODULE_2__components_marker__["a" /* default */]).component("polygon", __WEBPACK_IMPORTED_MODULE_3__components_polygon__["a" /* default */]).component("drawtool", __WEBPACK_IMPORTED_MODULE_4__components_drawtool__["a" /* default */]);
 
 var ngBaiduMap = moduleName;
 
@@ -495,31 +497,28 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /* harmony default export */ __webpack_exports__["a"] = ({
     bindings: {
-        offlineTxt: '<',
+        offlineText: '<',
         mapOptions: '<',
         loaded: '&',
         click: '&',
-        rightclick: "&",
-        zoomstart: "&",
-        zoomend: "&",
-        resize: "&"
+        rightclick: '&',
+        zoomstart: '&',
+        zoomend: '&',
+        resize: '&'
     },
     transclude: true,
     template: '\n        <div ng-style="$ctrl.style.map" class="baidu-map-instance"></div>\n        <div ng-style="$ctrl.style.offline" class="baidu-map-offline">\n            <label ng-style="$ctrl.style.offlineLabel">{{ $ctrl.offlineTxt || \'NO_NETWORK\' }}</label>\n        </div>\n        <div ng-transclude style="display: none"></div>\n    ',
     controller: function () {
-        /* @ngInject */
         function controller($scope, $element, $attrs, mapScriptService) {
             _classCallCheck(this, controller);
 
             this.$scope = $scope;
             this.$element = $element;
             this.$attrs = $attrs;
-            this.style = __WEBPACK_IMPORTED_MODULE_0__style__;
             this.mapScriptService = mapScriptService;
 
-            this.overlayCtrls = [];
-
-            //this.overlaies = [];
+            this.polygonCtrls = [];
+            this.markerCtrls = [];
         }
 
         _createClass(controller, [{
@@ -527,74 +526,73 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function $onInit() {
                 var _this = this;
 
-                this.mapReady = this.mapScriptService.load(this.mapOptions.withDrawLib, this.mapOptions.boundLimitEnabled).then(function () {
-                    return __WEBPACK_IMPORTED_MODULE_1__helper_map__["a" /* create */](_this.$element.children()[0], _this.mapOptions);
+                this.mapReady = this.mapScriptService.load().then(function () {
+                    return Object(__WEBPACK_IMPORTED_MODULE_1__helper_map__["a" /* create */])(_this.$element.children()[0], _this.mapOptions);
                 }).then(function (map) {
                     map.enableAutoResize();
 
-                    _this.loaded({
-                        map: map
-                    });
+                    _this.map = map;
+                    var ctrl = _this;
+
+                    _this.loaded({ ctrl: ctrl });
+
                     _this.$scope.$apply();
-                    //eslint-disable-next-line
-                    return _this.map = map;
                 }).then(function () {
-                    if (!!_this.map) {
-
-                        if (!!_this.$attrs.click) {
-
+                    if (_this.map) {
+                        if (_this.$attrs.click) {
                             var clickListener = _this.clickListener = function (e) {
-                                _this.click({
-                                    e: e
-                                });
+                                _this.click({ e: e });
                             };
-                            _this.map.addEventListener('click', clickListener);
+
+                            _this.map.addEventListener('click', _this.clickListener);
                         }
-                        if (!!_this.$attrs.rightclick) {
+
+                        if (_this.$attrs.rightclick) {
                             var rightclickListener = _this.rightclickListener = function (e) {
                                 _this.rightclick({ e: e });
                             };
-                            _this.map.addEventListener("rightclick", rightclickListener);
+                            _this.map.addEventListener('rightclick', rightclickListener);
                         }
 
-                        if (!!_this.$attrs.zoomstart) {
-                            var zoomstartListener = _this.zoomstartListener = function (type, target) {
-                                _this.zoomstart(type, target);
+                        if (_this.$attrs.resize) {
+                            var resizeListener = _this.resizeListener = function (e) {
+                                //this.map.redraw();
+                                angular.forEach(_this.polygonCtrls, function (ctrl) {
+                                    ctrl.polygon.draw();
+                                });
+                                _this.resize({ e: e });
                             };
-                            _this.map.addEventListener("zoomstart", _this.zoomstartListener);
-                        }
-                        if (!!_this.$attrs.zoomend) {
-                            var zoomendListener = _this.zoomendListener = function (type, target) {
-                                _this.zoomend(type, target);
-                            };
-                            _this.map.addEventListener("zoomend", _this.zoomendListener);
-                        }
-                        if (!!_this.$attrs.resize) {
-                            var resizeListener = _this.resizeListener = function (type, target, size) {
-                                tis.resize({ type: type, target: target, size: size });
-                            };
-
-                            _this.map.addEventListener("resize", _this.resizeListener);
+                            _this.map.addEventListener('resize', resizeListener);
                         }
                     }
                 });
             }
         }, {
-            key: '$onChanges',
-            value: function $onChanges(changes) {
-                if (!this.map) {
+            key: '$onChange',
+            value: function $onChange(changes) {
+                if (!!this.map == false) {
+
                     return;
                 }
-                __WEBPACK_IMPORTED_MODULE_1__helper_map__["b" /* refresh */](this.map, changes.mapOptions.currentValue);
+                Object(__WEBPACK_IMPORTED_MODULE_1__helper_map__["b" /* refresh */])(this.map, changes.mapOptions.currentValue);
             }
         }, {
-            key: '$onDestroy',
-            value: function $onDestroy() {
-                if (!!this.map) {
-
+            key: '$onDestory',
+            value: function $onDestory() {
+                if (this.map) {
                     this.map.removeEventListener('click', this.clickListener);
-                    this.map.removeEventListener("rightclick", this.rightclickListener);
+                    this.map.removeEventListener('rightclick', this.rightclickListener);
                 }
+            }
+        }, {
+            key: 'refreshMap',
+            value: function refreshMap() {
+                Object(__WEBPACK_IMPORTED_MODULE_1__helper_map__["b" /* refresh */])(this.map, this.mapOptions);
+            }
+        }, {
+            key: 'getMap',
+            value: function getMap() {
+                return this.map;
             }
         }, {
             key: 'addOverlay',
@@ -610,43 +608,45 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 return handleMapOperation(this.map, 'removeOverlay', overlay);
             }
         }, {
-            key: 'addControl',
-            value: function addControl(control) {
-                return handleMapOperation(this.map, 'addControl', control);
+            key: 'addPolygonCtrl',
+            value: function addPolygonCtrl(ctrl) {
+
+                this.polygonCtrls.push(ctrl);
+                return this.addOverlay(ctrl.polygon);
             }
         }, {
-            key: 'removeControl',
-            value: function removeControl(control) {
-                return handleMapOperation(this.map, 'removeControl', control);
-            }
-        }, {
-            key: 'getMap',
-            value: function getMap() {
-                return this.map;
-            }
-        }, {
-            key: 'addOverlayCtrl',
-            value: function addOverlayCtrl(overlayCtrl) {
-                this.overlayCtrls.push(overlayCtrl);
-                this.addOverlay(overlayCtrl.overlay);
-            }
-        }, {
-            key: 'removeOverlayCtrl',
-            value: function removeOverlayCtrl(overlayCtrl) {
-                this.removeOverlay(overlayCtrl.overlay);
-                var index = this.overlayCtrls.findIndex(function (val, index, arr) {
-                    return val === overlayCtrl;
+            key: 'removePolygonCtrl',
+            value: function removePolygonCtrl(ctrl) {
+                this.removeOverlay(ctrl.polygon);
+                var index = this.polygonCtrls.findIndex(function (val, index, arr) {
+                    return val === ctrl;
                 });
                 if (index >= 0) {
-                    this.overlayCtrls.splice(index, 1);
+                    this.polygonCtrls.splice(index, 1);
                 }
-                //this.overlayCtrls.remove
             }
         }, {
-            key: 'setBund',
-            value: function setBund(p1, p2) {
-                var b = new BMap.Bounds(p1, p2);
-                BMapLib.AreaRestriction.setBounds(this.map, b);
+            key: 'addMarkerCtrl',
+            value: function addMarkerCtrl(ctrl) {
+                this.markerCtrls.push(ctrl);
+                return this.addOverlay(ctrl.marker);
+            }
+        }, {
+            key: 'removeMarkerCtrl',
+            value: function removeMarkerCtrl(ctrl) {
+                this.removeOverlay(ctrl.marker);
+                var index = this.markerCtrls.findIndex(function (val, index, arr) {
+                    return val === ctrl;
+                });
+                if (index >= 0) {
+                    this.markerCtrls.splice(index, 1);
+                }
+            }
+        }, {
+            key: 'setBound',
+            value: function setBound(p1, p2) {
+                var bound = new BMap.Bounds(transformPoint(p1), transformPoint(p2));
+                BMapLib.AreaRestriction.setBounds(this.map, bound);
             }
         }, {
             key: 'clearBound',
@@ -675,10 +675,9 @@ function handleMapOperation(map, method) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "map", function() { return map; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "offline", function() { return offline; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "offlineLabel", function() { return offlineLabel; });
+/* unused harmony export map */
+/* unused harmony export offline */
+/* unused harmony export offlineLabel */
 var map = {
     width: '100%',
     height: '100%',
@@ -732,31 +731,31 @@ function create(element, mapOptions) {
 }
 
 function refresh(map, mapOptions) {
-    if (!__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.disableDragging)) {
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.disableDragging)) {
         map[(mapOptions.disableDragging ? 'disable' : 'enable') + 'Dragging']();
     }
-    if (!__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.enableScrollWheelZoom)) {
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.enableScrollWheelZoom)) {
         map[(mapOptions.enableScrollWheelZoom ? 'enable' : 'disable') + 'ScrollWheelZoom']();
     }
-    if (!__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.disableDoubleClickZoom)) {
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.disableDoubleClickZoom)) {
         map[(mapOptions.disableDoubleClickZoom ? 'disable' : 'enable') + 'DoubleClickZoom']();
     }
-    if (!__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.enableKeyboard)) {
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.enableKeyboard)) {
         map[(mapOptions.enableKeyboard ? 'enable' : 'disable') + 'Keyboard']();
     }
-    if (!__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.enableInertialDragging)) {
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.enableInertialDragging)) {
         map[(mapOptions.enableInertialDragging ? 'enable' : 'disable') + 'InertialDragging']();
     }
-    if (!__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.enableContinuousZoom)) {
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.enableContinuousZoom)) {
         map[(mapOptions.enableContinuousZoom ? 'enable' : 'disable') + 'ContinuousZoom']();
     }
-    if (!__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.disablePinchToZoom)) {
+    if (!Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.disablePinchToZoom)) {
         map[(mapOptions.disablePinchToZoom ? 'disable' : 'enable') + 'PinchToZoom']();
     }
-    !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.cursor) && map.setDefaultCursor(mapOptions.cursor);
-    !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.draggingCursor) && map.setDraggingCursor(mapOptions.draggingCursor);
-    !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.currentCity) && map.setCurrentCity(mapOptions.currentCity);
-    !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions) && !__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */](mapOptions.centerAndZoom) && map.centerAndZoom(new BMap.Point(mapOptions.centerAndZoom.lng || DEFAULT_COORDINATION.lng, mapOptions.centerAndZoom.lat || DEFAULT_COORDINATION.lat), mapOptions.centerAndZoom.zoom || DEFAULT_ZOOM);
+    !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.cursor) && map.setDefaultCursor(mapOptions.cursor);
+    !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.draggingCursor) && map.setDraggingCursor(mapOptions.draggingCursor);
+    !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.currentCity) && map.setCurrentCity(mapOptions.currentCity);
+    !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions) && !Object(__WEBPACK_IMPORTED_MODULE_0__validate__["a" /* isNull */])(mapOptions.centerAndZoom) && map.centerAndZoom(new BMap.Point(mapOptions.centerAndZoom.lng || DEFAULT_COORDINATION.lng, mapOptions.centerAndZoom.lat || DEFAULT_COORDINATION.lat), mapOptions.centerAndZoom.zoom || DEFAULT_ZOOM);
 }
 
 /***/ }),
@@ -18339,15 +18338,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     bindings: {
         point: '<',
         options: '<',
+        initialized: "&",
         click: '&',
         rightclick: '&'
     },
     require: {
         mapCtrl: '^baiduMap'
     },
-    template: '',
     controller: function () {
-        /* @ngInject */
         function controller($scope, $attrs) {
             _classCallCheck(this, controller);
 
@@ -18360,47 +18358,48 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function $onInit() {
                 var _this = this;
 
-                //console.log("marker init")
-                __WEBPACK_IMPORTED_MODULE_0__helper_validate__["b" /* nullCheck */](this.point, 'point is required for <marker>');
-
                 this.mapCtrl.mapReady.then(function () {
-                    var point = __WEBPACK_IMPORTED_MODULE_1__helper_transformer__["b" /* transformPoint */](_this.point, '<marker> point');
+                    var point = Object(__WEBPACK_IMPORTED_MODULE_1__helper_transformer__["b" /* transformPoint */])(_this.point, '<marker> point');
                     var opts = transformOptions(_this.options);
                     var marker = _this.marker = new BMap.Marker(point, opts);
-                    _this.mapCtrl.addOverlay(marker);
+                    //this.marker = marker;
+                    console.log(point);
+
+                    _this.mapCtrl.addMarkerCtrl(_this);
+
                     return marker;
                 }).then(function (marker) {
-                    if (!!_this.$attrs.click) {
-                        _this.clickHandler = function (e) {
-                            _this.click({
-                                e: e,
-                                marker: marker,
-                                map: _this.mapCtrl.getMap()
-                            });
-                            _this.$scope.$apply();
-                        };
-                        marker.addEventListener('click', _this.clickHandler);
+                    if (!!_this.$attrs.initialized) {
+                        var ctrl = _this;
+                        _this.initialized({ ctrl: ctrl });
                     }
-
-                    if (!!_this.$attrs.rightclick) {
-                        _this.rightClickHandler = function (e) {
-                            _this.rightclick({
-                                e: e,
-                                marker: marker,
-                                map: _this.mapCtrl.getMap()
-                            });
-                            _this.$scope.$apply();
+                    if (!!_this.$attrs.click) {
+                        var clickListener = _this.clickListener = function (e) {
+                            _this.click({ e: e });
                         };
-                        marker.addEventListener('rightclick', _this.rightClickHandler);
+                        _this.marker.addEventListener('click', clickListener);
+                    }
+                    if (!!_this.$attrs.rightclick) {
+                        var rightclickListener = _this.rightclickListener = function (e) {
+                            _this.rightclick({ e: e });
+                        };
+                        _this.marker.addEventListener('rightclick', rightclickListener);
                     }
                 });
             }
         }, {
-            key: '$onDestroy',
-            value: function $onDestroy() {
-                this.marker.removeEventListener('click', this.clickHandler);
-                this.marker.removeEventListener('rightclick', this.rightClickHandler);
-                this.mapCtrl.removeOverlay(this.marker);
+            key: '$onDestory',
+            value: function $onDestory() {
+                this.marker.removeEventListener("click", this.clickListener);
+                this.marker.removeEventListener("rightclick", this.rightclickListener);
+                this.mapCtrl.removeParker(this);
+            }
+        }, {
+            key: 'setPoint',
+            value: function setPoint(point) {
+
+                this.point = point;
+                this.marker.setPosition(Object(__WEBPACK_IMPORTED_MODULE_1__helper_transformer__["b" /* transformPoint */])(point));
             }
         }]);
 
@@ -18411,13 +18410,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function transformOptions(options) {
     var opts = JSON.parse(JSON.stringify(options || {}));
     if (opts.offset) {
-        opts.offset = __WEBPACK_IMPORTED_MODULE_1__helper_transformer__["d" /* transformSize */](opts.offset, '<marker> options.offset');
+        opts.offset = Object(__WEBPACK_IMPORTED_MODULE_1__helper_transformer__["d" /* transformSize */])(opts.offset, '<marker> options.offset');
     }
     if (opts.icon) {
-        opts.icon = __WEBPACK_IMPORTED_MODULE_1__helper_transformer__["a" /* transformIcon */](opts.icon, '<marker> options.icon');
+        opts.icon = Object(__WEBPACK_IMPORTED_MODULE_1__helper_transformer__["a" /* transformIcon */])(opts.icon, '<marker> options.icon');
     }
     if (opts.shadow) {
-        opts.shadow = __WEBPACK_IMPORTED_MODULE_1__helper_transformer__["a" /* transformIcon */](opts.shadow, '<marker> options.shadow');
+        opts.shadow = Object(__WEBPACK_IMPORTED_MODULE_1__helper_transformer__["a" /* transformIcon */])(opts.shadow, '<marker> options.shadow');
     }
     return opts;
 }
@@ -18427,89 +18426,77 @@ function transformOptions(options) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_validate__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__border__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__overlay__ = __webpack_require__(16);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
-
-
 /* harmony default export */ __webpack_exports__["a"] = ({
     bindings: {
         options: "<",
-        click: "&"
+        initialized: "&",
+        click: "&",
+        rightclick: "&"
+
     },
     require: {
         mapCtrl: "^baiduMap"
     },
-    template: "",
     controller: function () {
-        function controller() {
+        function controller($scope, $attrs) {
             _classCallCheck(this, controller);
+
+            this.$scope = $scope;
+            this.$attrs = $attrs;
         }
 
         _createClass(controller, [{
-            key: '$onInit',
+            key: "$onInit",
             value: function $onInit() {
                 var _this = this;
 
-                this.realType = "polygon";
                 this.mapCtrl.mapReady.then(function () {
-                    return __WEBPACK_IMPORTED_MODULE_1__border__["a" /* createPolygonBorderOverlay */](_this.options);
-                }).then(function (overlay) {
-                    _this.overlay = overlay;
-                    _this.options.overlay = overlay;
-                    _this.options.ctrl = _this;
-                    _this.mapCtrl.addOverlayCtrl(_this);
-                    console.log("Polygon Overlay Ready");
-                    return overlay;
-                });
+                    return Object(__WEBPACK_IMPORTED_MODULE_0__overlay__["a" /* createPolygon */])(_this.options);
+                }).then(function (polygon) {
+                    _this.polygon = polygon;
+                    _this.mapCtrl.addPolygonCtrl(_this);
 
-                // .then(overlay => {
-                //     if (!!this.$attrs.click) {
-                //         this.clickHandler = (e) => {
-                //             this.click({
-                //                 e, overlay, map: this.mapCtrl.getMap()
-                //             });
-                //             this.$scope.$apply();
+                    // add event
 
-
-                //         };
-
-                //         overlay.addEventListener("click", this.clickHandler);
-                //     }
-                // });
-            }
-        }, {
-            key: 'enableEditing',
-            value: function enableEditing() {
-                this.overlay.enableEditing();
-                this.overlay.draw();
-            }
-        }, {
-            key: 'disableEditing',
-            value: function disableEditing() {
-                this.overlay.disableEditing();
-                this.overlay.draw();
-            }
-        }, {
-            key: '$onChanges',
-            value: function $onChanges(changes) {
-                if (!!this.overlay && !!changes.isVisible) {
-                    if (changes.isVisible.currentValue) {
-                        this.overlay.show();
-                    } else {
-                        this.overlay.hide();
+                    if (!!_this.$attrs.initialized) {
+                        var ctrl = _this;
+                        _this.initialized({ ctrl: ctrl });
                     }
+
+                    if (!!_this.$attrs.click) {
+                        var clickListener = _this.clickListener = function (e) {
+                            _this.click({ e: e });
+                        };
+                        _this.polygon.addEventListener('click', clickListener);
+                    }
+
+                    if (!!_this.$attrs.rightclick) {
+                        var rightclickListener = _this.rightclickListener = function (e) {
+                            _this.rightclick({ e: e });
+                        };
+                        _this.polygon.addEventListener('rightclick', rightclickListener);
+                    }
+                });
+            }
+        }, {
+            key: "$onChanges",
+            value: function $onChanges(changes) {
+                if (changes.points && changes.points.currentValue) {
+                    //setExtraData( this.overlay, changes.dataset.currentValue);
                 }
             }
         }, {
-            key: '$onDestory',
+            key: "$onDestory",
             value: function $onDestory() {
-                this.mapCtrl.removeOverlayCtrl(this);
+                this.map.removeEventListener("click", this.clickListener);
+                this.mapCtrl.removePolygonCtrl(this);
             }
         }]);
 
@@ -18522,25 +18509,195 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = createPolygonBorderOverlay;
+/* harmony export (immutable) */ __webpack_exports__["a"] = createPolygon;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helper_transformer__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_promise_polyfill__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_promise_polyfill___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_promise_polyfill__);
 
 
 
-function createPolygonBorderOverlay(options) {
+
+function createPolygon(options) {
     return new __WEBPACK_IMPORTED_MODULE_1_promise_polyfill___default.a(function (resolve, reject) {
-        resolve();
-    }).then(function () {
-        var points = __WEBPACK_IMPORTED_MODULE_0__helper_transformer__["c" /* transformPoints */](options.points, '<border> point');
-        //console.log('createPolygonBorderOverlay');
-        return new BMap.Polygon(points, options.polygonOptions);
+        var points = Object(__WEBPACK_IMPORTED_MODULE_0__helper_transformer__["c" /* transformPoints */])(options.points, '<border> point');
+
+        resolve(new BMap.Polygon(options.points, options.polygonOptions));
     });
 }
 
 /***/ }),
 /* 17 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__provider_mapDrawScript__ = __webpack_require__(18);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+
+    bindings: {
+        options: '<',
+        polygoncomplete: "&",
+        initialized: "&"
+    },
+    require: {
+        mapCtrl: '^baiduMap'
+    },
+    controller: function () {
+        function controller($attrs, $scope) {
+            _classCallCheck(this, controller);
+
+            this.$attrs = $attrs;
+            this.$scope = $scope;
+            //console.log("drawtool");
+        }
+
+        _createClass(controller, [{
+            key: '$onInit',
+            value: function $onInit() {
+                var _this = this;
+
+                this.mapCtrl.mapReady.then(function () {
+                    Object(__WEBPACK_IMPORTED_MODULE_0__provider_mapDrawScript__["a" /* default */])().then(function () {
+
+                        var styleOptions = {
+                            strokeColor: 'red', //边线颜色。
+                            fillColor: 'red', //填充颜色。当参数为空时，圆形将没有填充效果。
+                            strokeWeight: 3, //边线的宽度，以像素为单位。
+                            strokeOpacity: 0.8, //边线透明度，取值范围0 - 1。
+                            fillOpacity: 0.3, //填充的透明度，取值范围0 - 1。
+                            strokeStyle: 'dashed' //边线的样式，solid或dashed。
+                        };
+
+                        var drawingManager = _this.drawingManager = new BMapLib.DrawingManager(_this.mapCtrl.getMap(), {
+                            isOpen: false, //是否开启绘制模式
+                            enableDrawingTool: true, //是否显示工具栏
+                            drawingToolOptions: {
+                                anchor: window.BMAP_ANCHOR_TOP_RIGHT, //位置
+                                offset: new BMap.Size(5, 5) //偏离值
+                            },
+                            //circleOptions: styleOptions, //圆的样式
+                            //polylineOptions: styleOptions, //线的样式
+                            polygonOptions: styleOptions //多边形的样式
+                            //rectangleOptions: styleOptions //矩形的样式
+                        });
+
+                        // drawingManager.addEventListener('overlaycomplete', () => {
+                        //     console.log('draw complete');
+                        // });
+
+                        if (!!_this.$attrs.initialized) {
+                            var ctrl = _this;
+                            _this.initialized({ ctrl: ctrl });
+                        }
+
+                        if (!!_this.$attrs.polygoncomplete) {
+                            var polygoncompleteListener = _this.polygoncompleteListener = function (polygon) {
+                                _this.polygoncomplete({ polygon: polygon });
+                            };
+                            _this.drawingManager.addEventListener('polygoncomplete', polygoncompleteListener);
+                        }
+                    });
+                });
+            }
+        }, {
+            key: '$onDestory',
+            value: function $onDestory() {
+                this.mapCtrl.removeControl(this);
+            }
+        }, {
+            key: 'open',
+            value: function open() {
+                this.drawingManager.open();
+            }
+        }, {
+            key: 'close',
+            value: function close() {
+                this.drawingManager.close();
+            }
+        }]);
+
+        return controller;
+    }()
+});
+
+/***/ }),
+/* 18 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// <!--加载鼠标绘制工具-->
+// <script type="text/javascript" src="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+// <link rel="stylesheet" href="http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+// <!--加载检索信息窗口-->
+// <script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
+// <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
+
+var DRAW_LIB_URL = 'http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js';
+var DRAW_LIB_STYLE_URL = 'http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css';
+var SEARCH_LIB_URL = 'http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js';
+var SEARCH_LIB_STYLE_URL = 'http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css';
+
+/* harmony default export */ __webpack_exports__["a"] = (function () {
+    var loadDrawLibPromise = window.loadDrawLibPromise;
+    if (!!loadDrawLibPromise) {
+        return loadDrawLibPromise;
+    }
+    return window.loadDrawLibPromise = appendDrawingLibScriptTag();
+});
+
+function appendDrawingLibScriptTag() {
+
+    return appendScriptTag(DRAW_LIB_URL).then(function () {
+        appendStylesheetTag(DRAW_LIB_STYLE_URL);
+
+        return appendScriptTag(SEARCH_LIB_URL).then(function () {
+            return appendStylesheetTag(SEARCH_LIB_STYLE_URL);
+        });
+    });
+}
+
+function appendScriptTag(url) {
+    return new Promise(function (resolve, reject) {
+
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = url;
+        script.onerror = function () {
+            document.body.removeChild(script);
+
+            setTimeout(function () {
+                appendScriptTag(url);
+            }, 30000);
+        };
+        script.onload = resolve;
+        document.body.appendChild(script);
+    });
+}
+
+function appendStylesheetTag(url) {
+    return new Promise(function (resolve, reject) {
+
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = url;
+        link.onerror = function () {
+            document.body.removeChild(link);
+
+            setTimeout(function () {
+                appendStylesheetTag(url);
+            }, 30000);
+        };
+        link.onload = resolve;
+        document.body.appendChild(link);
+    });
+}
+
+/***/ }),
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -18551,95 +18708,64 @@ function createPolygonBorderOverlay(options) {
 
 
 /* harmony default export */ __webpack_exports__["a"] = (function () {
-    var ak = null,
-        MAP_URL = void 0;
-    var MAP_DRAW_URL = "http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager.js";
-    var MAP_DRAW_STYLE_URL = "http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager.css";
-    var MAP_SEARCHINFO_URL = 'http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow.js';
-    var MAP_SEARCHINFO_STYLE_URL = 'http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow.css';
-    //http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow.css
 
-    var MAP_AREARESTRICTION_URL = "http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction.js";
+    var ak = null;
 
-    var MAP_GEO_UTILS_URL = "http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils.js";
-    this.setKey = function (val) {
-        ak = val;
-        MAP_URL = //`http://api.map.baidu.com/api?v=2.0&ak=${ak}`; 
-        '//api.map.baidu.com/api?v=2.0&ak=' + ak + '&callback=baidumapinit&s=' + (location.protocol === 'https:' ? 1 : 0);
-        //`http://api.map.baidu.com/api?v=2.0&ak=${ak}&callback=baidumapinit`;
-    };
+    // let MAP_DRAW_URL = 'http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager.js';
+    // let MAP_DRAW_STYLE_URL = 'http://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager.css';
+    // let MAP_SEARCHINFO_URL = 'http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow.js';
+    // let MAP_SEARCHINFO_STYLE_URL = 'http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow.css';
+    var MAP_AREARESTRICTION_URL = 'http://api.map.baidu.com/library/AreaRestriction/1.2/src/AreaRestriction.js';
+    var MAP_GEO_UTILS_URL = 'http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils.js';
 
-    this.loadScripts = function (withDrawLib, boundLimitEnabled, withGeoUtils) {
+    this.mapScriptInit = function (mapOptions) {
 
-        appendScriptTag(MAP_URL);
+        ak = mapOptions.ak;
 
-        setTimeout(function () {
-            if (!!withDrawLib) {
-                appendAditionalScriptTag(MAP_DRAW_URL);
-                appendAditionalScriptTag(MAP_SEARCHINFO_URL);
+        var MAP_URL = 'http://api.map.baidu.com/api?v=2.0&ak=' + ak + '&callback=baidumapinit';
 
-                appendStylesheetTag(MAP_DRAW_STYLE_URL);
-                appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
-            }
+        //MAP_URL = mapOptions
+        // appendScriptTag(MAP_URL).then(() => {
+        //     if (!!mapOptions.withDrawLib) {
+        //         appendAditionalScriptTag(MAP_DRAW_URL);
+        //         appendAditionalStylesheetTag(MAP_DRAW_STYLE_URL);
 
-            if (!!boundLimitEnabled) {
-                appendAditionalScriptTag(MAP_AREARESTRICTION_URL);
-            }
-            if (!!withGeoUtils) {
+        //         appendAditionalScriptTag(MAP_SEARCHINFO_URL);
+        //         appendAditionalStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
+        //     }
+        //     if (!!mapOptions.withBoundLimited) {
+        //         appendAditionalScriptTag(MAP_AREARESTRICTION_URL);
+        //     }
+        //     if (!!mapOptions.withGeoUtils) {
+        //         appendAditionalScriptTag(MAP_GEO_UTILS_URL);
+        //     }
+        // });
+
+        appendScriptTag(MAP_URL).then(function () {
+            appendAditionalScriptTag(MAP_AREARESTRICTION_URL);
+            if (!!mapOptions.withGeoUtils) {
                 appendAditionalScriptTag(MAP_GEO_UTILS_URL);
             }
-        }, 1000);
+        });
     };
 
-    // this.loadAdditionalScripts = function (scriptOptions) {
-    //     if (!!scriptOptions.withDrawLib) {
-    //         appendScriptTag(MAP_DRAW_URL);
-    //         appendScriptTag(MAP_SEARCHINFO_URL);
-
-    //         appendStylesheetTag(MAP_DRAW_STYLE_URL);
-    //         appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
-    //     }
-
-    //     if (!!scriptOptions.boundLimitEnabled) {
-    //         appendScriptTag(MAP_AREARESTRICTION_URL);
-    //     }
-    // };
-
     this.$get = function ($rootScope) {
-        'ngInject';
-
+        var displayMap = function displayMap() {
+            return Array.prototype.slice.call(document.querySelectorAll('baidu-map')).forEach(function (node) {
+                node.querySelector('.baidu-map-offline') && node.removeChild(node.querySelector('.baidu-map-offline'));
+                node.querySelector('.baidu-map-instance').style.display = 'block';
+            });
+        };
         return {
             load: function load() {
-
-                __WEBPACK_IMPORTED_MODULE_0__helper_validate__["b" /* nullCheck */](ak, 'ak should be set before use. Read: https://leftstick.github.io/BaiduMapForAngularJS/#!/quickstart');
-
-                var displayMap = function displayMap() {
-                    // if (!!withDrawLib) {
-                    //     appendScriptTag(MAP_DRAW_URL);
-                    //     appendScriptTag(MAP_SEARCHINFO_URL);
-
-                    //     appendStylesheetTag(MAP_DRAW_STYLE_URL);
-                    //     appendStylesheetTag(MAP_SEARCHINFO_STYLE_URL);
-                    // }
-
-                    // if (!!boundLimitEnabled) {
-                    //     appendScriptTag(MAP_AREARESTRICTION_URL);
-                    // }
-
-                    return Array.prototype.slice.call(document.querySelectorAll('baidu-map')).forEach(function (node) {
-                        node.querySelector('.baidu-map-offline') && node.removeChild(node.querySelector('.baidu-map-offline'));
-                        node.querySelector('.baidu-map-instance').style.display = 'block';
-                    });
-                };
-
+                Object(__WEBPACK_IMPORTED_MODULE_0__helper_validate__["b" /* nullCheck */])(ak, 'ak shold be set before use.');
                 var loadBaiduMapPromise = $rootScope.loadBaiduMapPromise;
                 if (loadBaiduMapPromise) {
                     return loadBaiduMapPromise.then(displayMap);
                 }
-
-                //eslint-disable-next-line
                 return $rootScope.loadBaiduMapPromise = new __WEBPACK_IMPORTED_MODULE_1_promise_polyfill___default.a(function (resolve, reject) {
                     window.baidumapinit = resolve;
+
                     //appendScriptTag(MAP_URL);
                 }).then(displayMap);
             }
@@ -18648,73 +18774,56 @@ function createPolygonBorderOverlay(options) {
 });
 
 function appendScriptTag(url) {
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = url;
-    script.onload = function () {
-        console.log("baidumap loaded!");
-    };
-    script.onerror = function () {
+    return new __WEBPACK_IMPORTED_MODULE_1_promise_polyfill___default.a(function (resolve, reject) {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = url;
+        script.onload = resolve;
 
-        Array.prototype.slice.call(document.querySelectorAll('baidu-map .baidu-map-offline')).forEach(function (node) {
-            node.style.display = 'block';
-        });
-        document.body.removeChild(script);
+        script.onerror = function () {
+            document.body.removeChild(script);
+            setTimeout(function () {
+                appendScriptTag(url);
+            }, 3000);
+        };
 
-        setTimeout(function () {
-            appendScriptTag(url);
-        }, 30000);
-    };
-    document.body.appendChild(script);
+        document.body.appendChild(script);
+    });
 }
 
 function appendAditionalScriptTag(url) {
-    var script = document.createElement("script");
+    var script = document.createElement('script');
     script.type = 'text/javascript';
     script.src = url;
+
     script.onerror = function () {
         document.body.removeChild(script);
-
         setTimeout(function () {
             appendAditionalScriptTag(url);
-        }, 30000);
+        }, 200);
     };
+
     document.body.appendChild(script);
 }
 
-function appendStylesheetTag(url) {
+function appendAditionalStylesheetTag(url) {
     var link = document.createElement('link');
-    link.rel = "stylesheet";
+    link.rel = 'stylesheet';
     link.href = url;
-    link.onerror = function () {
 
-        // Array.prototype
-        //     .slice
-        //     .call(document.querySelectorAll('baidu-map .baidu-map-offline'))
-        //     .forEach(function (node) {
-        //         node.style.display = 'block';
-        //     });
+    link.onerror = function () {
         document.body.removeChild(link);
 
         setTimeout(function () {
-            appendStylesheetTag(url);
-        }, 30000);
+            appendAditionalStylesheetTag(url);
+        }, 200);
+
+        document.body.appendChild(link);
     };
-    document.body.appendChild(link);
 }
 
-// function displayMap() {
-//     return Array.prototype
-//         .slice
-//         .call(document.querySelectorAll('baidu-map'))
-//         .forEach(function (node) {
-//             node.querySelector('.baidu-map-offline') && node.removeChild(node.querySelector('.baidu-map-offline'));
-//             node.querySelector('.baidu-map-instance').style.display = 'block';
-//         });
-// }
-
 /***/ }),
-/* 18 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

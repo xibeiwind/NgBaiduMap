@@ -1,0 +1,10 @@
+<baidu-map map-options="$ctrl.opts" loaded="$ctrl.mapLoaded(ctrl)" click="$ctrl.mapClick(e)">
+    <!-- <overlay type="heatmap" options="$ctrl.heatmapOpts" dataset="$ctrl.dataSet"></overlay> -->
+    <marker ng-repeat="marker in $ctrl.markers" point="marker.point" options="marker.options" initialized="$ctrl.markerInitialized(ctrl)"
+        click="$ctrl.markerClick(e)"></marker>
+    <polygon ng-repeat="item in $ctrl.polygonList" options="item.options" initialized="$ctrl.polygonInitialized(ctrl)" click="$ctrl.polygonClick(e)"
+        rightclick="$ctrl.polygonRightClick(e)"></polygon>
+
+    <!-- <drawtool options="$ctrl.dwartoolOptions" polygoncomplete="$ctrl.polygonComplete(polygon)" initialized="$ctrl.drawtoolInitialized(ctrl)"></drawtool> -->
+
+</baidu-map>

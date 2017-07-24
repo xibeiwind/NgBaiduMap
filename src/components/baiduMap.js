@@ -4,17 +4,16 @@ import { create, refresh } from '../helper/map';
 import _ from 'lodash';
 import Promise from 'promise-polyfill';
 
-
 export default {
     bindings: {
-        offlineTxt: '<',
+        offlineText: '<',
         mapOptions: '<',
         loaded: '&',
         click: '&',
-        rightclick: "&",
-        zoomstart: "&",
-        zoomend: "&",
-        resize: "&"
+        rightclick: '&',
+        zoomstart: '&',
+        zoomend: '&',
+        resize: '&',
     },
     transclude: true,
     template: `
@@ -25,89 +24,83 @@ export default {
         <div ng-transclude style="display: none"></div>
     `,
     controller: class {
-        /* @ngInject */
+
         constructor($scope, $element, $attrs, mapScriptService) {
             this.$scope = $scope;
             this.$element = $element;
             this.$attrs = $attrs;
-            this.style = style;
             this.mapScriptService = mapScriptService;
 
-            this.overlayCtrls = [];
-
-            //this.overlaies = [];
+            this.polygonCtrls = [];
+            this.markerCtrls = [];
         }
 
         $onInit() {
-            this.mapReady = this.mapScriptService.load(this.mapOptions.withDrawLib, this.mapOptions.boundLimitEnabled)
+            this.mapReady = this.mapScriptService.load()
                 .then(() => {
                     return create(this.$element.children()[0], this.mapOptions);
                 })
                 .then(map => {
                     map.enableAutoResize();
 
-                    this.loaded({
-                        map
-                    });
+                    this.map = map;
+                    var ctrl = this;
+
+                    this.loaded({ ctrl });
+
                     this.$scope.$apply();
-                    //eslint-disable-next-line
-                    return this.map = map;
                 })
                 .then(() => {
-                    if (!!this.map) {
-
-                        if (!!this.$attrs.click) {
-
+                    if (this.map) {
+                        if (this.$attrs.click) {
                             const clickListener = this.clickListener = (e) => {
-                                this.click({
-                                    e
-                                });
+                                this.click({ e });
                             };
-                            this.map.addEventListener('click', clickListener);
+
+                            this.map.addEventListener('click', this.clickListener);
                         }
-                        if (!!this.$attrs.rightclick) {
+
+                        if (this.$attrs.rightclick) {
                             const rightclickListener = this.rightclickListener = (e) => {
                                 this.rightclick({ e });
-                            }
-                            this.map.addEventListener("rightclick", rightclickListener);
+                            };
+                            this.map.addEventListener('rightclick', rightclickListener);
                         }
 
-                        if (!!this.$attrs.zoomstart) {
-                            const zoomstartListener = this.zoomstartListener = (type, target) => {
-                                this.zoomstart(type, target);
+                        if (this.$attrs.resize) {
+                            const resizeListener = this.resizeListener = (e) => {
+                                //this.map.redraw();
+                                angular.forEach(this.polygonCtrls, function (ctrl) {
+                                    ctrl.polygon.draw();
+                                });
+                                this.resize({ e });
                             };
-                            this.map.addEventListener("zoomstart", this.zoomstartListener);
-                        }
-                        if (!!this.$attrs.zoomend) {
-                            const zoomendListener = this.zoomendListener = (type, target) => {
-                                this.zoomend(type, target);
-                            };
-                            this.map.addEventListener("zoomend", this.zoomendListener);
-                        }
-                        if (!!this.$attrs.resize) {
-                            const resizeListener = this.resizeListener = (type, target, size) => {
-                                tis.resize({ type, target, size });
-                            };
-
-                            this.map.addEventListener("resize", this.resizeListener);
+                            this.map.addEventListener('resize', resizeListener);
                         }
                     }
                 });
         }
+        $onChange(changes) {
+            if (!!this.map == false) {
 
-        $onChanges(changes) {
-            if (!this.map) {
                 return;
             }
             refresh(this.map, changes.mapOptions.currentValue);
         }
 
-        $onDestroy() {
-            if (!!this.map) {
-
+        $onDestory() {
+            if (this.map) {
                 this.map.removeEventListener('click', this.clickListener);
-                this.map.removeEventListener("rightclick", this.rightclickListener);
+                this.map.removeEventListener('rightclick', this.rightclickListener);
             }
+        }
+
+        refreshMap() {
+            refresh(this.map, this.mapOptions);
+        }
+
+        getMap() {
+            return this.map;
         }
 
         addOverlay(overlay) {
@@ -120,44 +113,45 @@ export default {
             //_.remove(this.overlaies, function(item) { return item === overlay; });
             return handleMapOperation(this.map, 'removeOverlay', overlay);
         }
+        addPolygonCtrl(ctrl) {
 
-        addControl(control) {
-            return handleMapOperation(this.map, 'addControl', control);
+            this.polygonCtrls.push(ctrl);
+            return this.addOverlay(ctrl.polygon);
+
         }
 
-        removeControl(control) {
-            return handleMapOperation(this.map, 'removeControl', control);
-        }
-
-        getMap() {
-            return this.map;
-        }
-
-        addOverlayCtrl(overlayCtrl) {
-            this.overlayCtrls.push(overlayCtrl);
-            this.addOverlay(overlayCtrl.overlay);
-        }
-
-        removeOverlayCtrl(overlayCtrl) {
-            this.removeOverlay(overlayCtrl.overlay);
-            var index = this.overlayCtrls.findIndex(function (val, index, arr) {
-                return val === overlayCtrl;
-            });
+        removePolygonCtrl(ctrl) {
+            this.removeOverlay(ctrl.polygon);
+            var index = this.polygonCtrls.findIndex((val, index, arr) => { return val === ctrl; });
             if (index >= 0) {
-                this.overlayCtrls.splice(index, 1);
+                this.polygonCtrls.splice(index, 1);
             }
-            //this.overlayCtrls.remove
         }
 
-        setBund(p1, p2) {
-            var b = new BMap.Bounds(p1, p2);
-            BMapLib.AreaRestriction.setBounds(this.map, b);
-
+        addMarkerCtrl(ctrl) {
+            this.markerCtrls.push(ctrl);
+            return this.addOverlay(ctrl.marker);
         }
+
+        removeMarkerCtrl(ctrl) {
+            this.removeOverlay(ctrl.marker);
+            var index = this.markerCtrls.findIndex((val, index, arr) => { return val === ctrl; });
+            if (index >= 0) {
+                this.markerCtrls.splice(index, 1);
+            }
+        }
+
+
+        setBound(p1, p2) {
+            var bound = new BMap.Bounds(transformPoint(p1), transformPoint(p2));
+            BMapLib.AreaRestriction.setBounds(this.map, bound);
+        }
+
         clearBound() {
             BMapLib.AreaRestriction.clearBounds();
         }
-    }
+
+    },
 };
 
 function handleMapOperation(map, method, ...args) {
@@ -166,4 +160,3 @@ function handleMapOperation(map, method, ...args) {
         resolve();
     });
 }
-
