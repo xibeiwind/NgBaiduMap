@@ -88,5 +88,12 @@ export default {
                 this.endEditing({ options });
             }
         }
+
+        setStrokeColor(color){
+            this.polygon.setStrokeColor(color);
+        }
+        setFillColor(color){
+            this.polygon.setFillColor(color);
+        }
     }
 }

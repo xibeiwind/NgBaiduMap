@@ -9,7 +9,7 @@ const DEFAULT_ZOOM = 10;
 
 export function create(element, mapOptions) {
     element.onload = function () {
-        console.log("element loaded!");
+        //console.log("element loaded!");
     }
     const map = new BMap.Map(element, mapOptions);
 

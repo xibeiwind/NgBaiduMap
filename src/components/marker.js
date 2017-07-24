@@ -27,7 +27,7 @@ export default
                         const opts = transformOptions(this.options);
                         const marker = this.marker = new BMap.Marker(point, opts);
                         //this.marker = marker;
-                        console.log(point);
+                        //console.log(point);
 
                         this.mapCtrl.addMarkerCtrl(this);
 

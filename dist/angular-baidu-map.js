@@ -17813,7 +17813,7 @@ var DEFAULT_ZOOM = 10;
 
 function create(element, mapOptions) {
     element.onload = function () {
-        console.log("element loaded!");
+        //console.log("element loaded!");
     };
     var map = new BMap.Map(element, mapOptions);
 
@@ -18363,7 +18363,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     var opts = transformOptions(_this.options);
                     var marker = _this.marker = new BMap.Marker(point, opts);
                     //this.marker = marker;
-                    console.log(point);
+                    //console.log(point);
 
                     _this.mapCtrl.addMarkerCtrl(_this);
 
@@ -18527,6 +18527,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     this.endEditing({ options: options });
                 }
             }
+        }, {
+            key: "setStrokeColor",
+            value: function setStrokeColor(color) {
+                this.polygon.setStrokeColor(color);
+            }
+        }, {
+            key: "setFillColor",
+            value: function setFillColor(color) {
+                this.polygon.setFillColor(color);
+            }
         }]);
 
         return controller;
@@ -18592,15 +18602,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 this.mapCtrl.mapReady.then(function () {
                     Object(__WEBPACK_IMPORTED_MODULE_0__provider_mapDrawScript__["a" /* default */])().then(function () {
 
-                        var styleOptions = {
-                            strokeColor: 'red', //边线颜色。
-                            fillColor: 'red', //填充颜色。当参数为空时，圆形将没有填充效果。
-                            strokeWeight: 3, //边线的宽度，以像素为单位。
-                            strokeOpacity: 0.8, //边线透明度，取值范围0 - 1。
-                            fillOpacity: 0.3, //填充的透明度，取值范围0 - 1。
-                            strokeStyle: 'dashed' //边线的样式，solid或dashed。
-                        };
-
                         var drawingManager = _this.drawingManager = new BMapLib.DrawingManager(_this.mapCtrl.getMap(), {
                             isOpen: false, //是否开启绘制模式
                             enableDrawingTool: true, //是否显示工具栏
@@ -18608,10 +18609,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                                 anchor: window.BMAP_ANCHOR_TOP_RIGHT, //位置
                                 offset: new BMap.Size(5, 5) //偏离值
                             },
-                            //circleOptions: styleOptions, //圆的样式
-                            //polylineOptions: styleOptions, //线的样式
-                            polygonOptions: styleOptions //多边形的样式
-                            //rectangleOptions: styleOptions //矩形的样式
+                            circleOptions: options.styleOptions, //圆的样式
+                            polylineOptions: options.styleOptions, //线的样式
+                            polygonOptions: options.styleOptions, //多边形的样式
+                            rectangleOptions: options.styleOptions //矩形的样式
                         });
 
                         // drawingManager.addEventListener('overlaycomplete', () => {
