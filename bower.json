@@ -2,8 +2,7 @@
   "name": "ng-baidu-map",
   "description": "A baidu-map directive for AngularJS",
   "main": [
-    "dist/angular-baidu-map.js",
-    "dist/angular-baidu-map.min.js"
+    "dist/angular-baidu-map.js"
   ],
   "moduleType": [
     "amd",
