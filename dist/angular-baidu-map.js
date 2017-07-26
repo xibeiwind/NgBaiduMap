@@ -18559,6 +18559,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function setFillColor(color) {
                 this.polygon.setFillColor(color);
             }
+        }, {
+            key: "focusPolygon",
+            value: function focusPolygon() {
+                var pointArray = this.polygon.getPath();
+                this.map.setViewport(pointArray);
+            }
         }]);
 
         return controller;

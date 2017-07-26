@@ -96,5 +96,10 @@ export default {
         setFillColor(color) {
             this.polygon.setFillColor(color);
         }
+
+        focusPolygon() {
+            var pointArray = this.polygon.getPath();
+            this.map.setViewport(pointArray);
+        }
     }
 }
