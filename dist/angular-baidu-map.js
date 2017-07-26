@@ -18563,7 +18563,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             key: "focusPolygon",
             value: function focusPolygon() {
                 var pointArray = this.polygon.getPath();
-                this.mapCtrl.setViewport(pointArray);
+                this.mapCtrl.getMap().setViewport(pointArray);
             }
         }]);
 

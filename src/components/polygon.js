@@ -99,7 +99,7 @@ export default {
 
         focusPolygon() {
             var pointArray = this.polygon.getPath();
-            this.mapCtrl.setViewport(pointArray);
+            this.mapCtrl.getMap().setViewport(pointArray);
         }
     }
 }
