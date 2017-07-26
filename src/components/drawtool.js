@@ -33,10 +33,10 @@ export default {
                                     anchor: window.BMAP_ANCHOR_TOP_RIGHT, //位置
                                     offset: new BMap.Size(5, 5) //偏离值
                                 },
-                                circleOptions: options.styleOptions, //圆的样式
-                                polylineOptions: options.styleOptions, //线的样式
-                                polygonOptions: options.styleOptions, //多边形的样式
-                                rectangleOptions: options.styleOptions //矩形的样式
+                                circleOptions: this.options.styleOptions, //圆的样式
+                                polylineOptions: this.options.styleOptions, //线的样式
+                                polygonOptions: this.options.styleOptions, //多边形的样式
+                                rectangleOptions: this.options.styleOptions //矩形的样式
                             });
 
                             // drawingManager.addEventListener('overlaycomplete', () => {
