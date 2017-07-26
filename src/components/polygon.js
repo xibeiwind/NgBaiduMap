@@ -43,15 +43,12 @@ export default {
                         this.polygon.addEventListener('click', clickListener);
                     }
 
-
                     if (!!this.$attrs.rightclick) {
                         const rightclickListener = this.rightclickListener = (e) => {
                             this.rightclick({ e });
                         };
                         this.polygon.addEventListener('rightclick', rightclickListener);
                     }
-
-
                 })
         }
 
@@ -68,13 +65,15 @@ export default {
             this.mapCtrl.removePolygonCtrl(this);
         }
 
-        getPolygon(){
+        getPolygon() {
             return this.polygon;
         }
 
         startEditing() {
+            this.polygon.enableEditing();
             if (!!this.$attrs.beginEditing) {
-                this.beginEditing({ e });
+                var ctrl = this;
+                this.beginEditing({ ctrl });
             }
         }
 
@@ -82,17 +81,19 @@ export default {
             var points = this.polygon.getPath();
             this.options.points = _.map(points, function (p) { return { lng: p.lng, lat: p.lat } });
 
+            $this.polygon.disableEditing();
 
             if (!!this.$attrs.endEditing) {
                 var options = this.options;
-                this.endEditing({ options });
+                var ctrl = this;
+                this.endEditing({ ctrl, options });
             }
         }
 
-        setStrokeColor(color){
+        setStrokeColor(color) {
             this.polygon.setStrokeColor(color);
         }
-        setFillColor(color){
+        setFillColor(color) {
             this.polygon.setFillColor(color);
         }
     }

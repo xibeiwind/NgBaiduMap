@@ -18527,8 +18527,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: "startEditing",
             value: function startEditing() {
+                this.polygon.enableEditing();
                 if (!!this.$attrs.beginEditing) {
-                    this.beginEditing({ e: e });
+                    var ctrl = this;
+                    this.beginEditing({ ctrl: ctrl });
                 }
             }
         }, {
@@ -18539,9 +18541,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     return { lng: p.lng, lat: p.lat };
                 });
 
+                $this.polygon.disableEditing();
+
                 if (!!this.$attrs.endEditing) {
                     var options = this.options;
-                    this.endEditing({ options: options });
+                    var ctrl = this;
+                    this.endEditing({ ctrl: ctrl, options: options });
                 }
             }
         }, {
