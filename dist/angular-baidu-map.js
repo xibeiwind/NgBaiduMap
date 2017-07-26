@@ -18516,7 +18516,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: "$onDestory",
             value: function $onDestory() {
-                this.map.removeEventListener("click", this.clickListener);
+                this.polygon.removeEventListener("click", this.clickListener);
                 this.mapCtrl.removePolygonCtrl(this);
             }
         }, {
@@ -18563,7 +18563,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             key: "focusPolygon",
             value: function focusPolygon() {
                 var pointArray = this.polygon.getPath();
-                this.map.setViewport(pointArray);
+                this.mapCtrl.setViewport(pointArray);
             }
         }]);
 

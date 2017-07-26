@@ -61,7 +61,7 @@ export default {
 
 
         $onDestory() {
-            this.map.removeEventListener("click", this.clickListener);
+            this.polygon.removeEventListener("click", this.clickListener);
             this.mapCtrl.removePolygonCtrl(this);
         }
 
@@ -99,7 +99,7 @@ export default {
 
         focusPolygon() {
             var pointArray = this.polygon.getPath();
-            this.map.setViewport(pointArray);
+            this.mapCtrl.setViewport(pointArray);
         }
     }
 }
