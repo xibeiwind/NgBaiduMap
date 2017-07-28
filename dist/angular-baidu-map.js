@@ -18409,7 +18409,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function $onDestory() {
                 this.marker.removeEventListener("click", this.clickListener);
                 this.marker.removeEventListener("rightclick", this.rightclickListener);
-                this.mapCtrl.removeParker(this);
+                this.mapCtrl.removeMarkerCtrl(this);
             }
         }, {
             key: 'setPoint',

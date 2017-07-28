@@ -55,7 +55,7 @@ export default
             $onDestory() {
                 this.marker.removeEventListener("click", this.clickListener);
                 this.marker.removeEventListener("rightclick", this.rightclickListener);
-                this.mapCtrl.removeParker(this);
+                this.mapCtrl.removeMarkerCtrl(this);
             }
 
             setPoint(point) {
