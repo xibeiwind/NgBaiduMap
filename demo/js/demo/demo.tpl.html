@@ -1,10 +1,28 @@
-<baidu-map map-options="$ctrl.opts" loaded="$ctrl.mapLoaded(ctrl)" click="$ctrl.mapClick(e)">
-    <!-- <overlay type="heatmap" options="$ctrl.heatmapOpts" dataset="$ctrl.dataSet"></overlay> -->
-    <marker ng-repeat="marker in $ctrl.markers" point="marker.point" options="marker.options" initialized="$ctrl.markerInitialized(ctrl)"
-        click="$ctrl.markerClick(e,marker,map,ctrl)"></marker>
-    <polygon ng-repeat="item in $ctrl.polygonList" options="item.options" initialized="$ctrl.polygonInitialized(ctrl)" click="$ctrl.polygonClick(e)"
-        rightclick="$ctrl.polygonRightClick(e)"></polygon>
+<div class="toolbar">
+    <button ng-click="$ctrl.addRandomMarker()">ADD</button>
+    <button ng-click="$ctrl.removeMarker()">Remove</button>
 
-     <drawtool options="$ctrl.dwartoolOptions" polygoncomplete="$ctrl.polygonComplete(polygon)" initialized="$ctrl.drawtoolInitialized(ctrl)"></drawtool> 
+    <button ng-click="$ctrl.showDrawtool()">Show Tool</button>
+    <button ng-click="$ctrl.hideDrawtool()">Hide Tool</button>
 
-</baidu-map>
+    <input type="checkbox" ng-model="$ctrl.calculEnabled" ng-change="$ctrl.calculateEnableChanged()">
+
+    <div>
+        <button ng-click="$ctrl.removeCircle()">RemoveCircle</button>
+    </div>
+</div>
+
+<div class="map-select-point">
+    <baidu-map map-options="$ctrl.opts" loaded="$ctrl.mapLoaded(ctrl)" click="$ctrl.mapClick(e)">
+        <!-- <overlay type="heatmap" options="$ctrl.heatmapOpts" dataset="$ctrl.dataSet"></overlay> -->
+
+        <!-- <marker ng-repeat="marker in $ctrl.markers" point="marker.point" options="marker.options" initialized="$ctrl.markerInitialized(ctrl)"
+            click="$ctrl.markerClick(e,marker,map,ctrl)"></marker>
+        <polygon ng-repeat="item in $ctrl.polygonList" options="item.options" initialized="$ctrl.polygonInitialized(ctrl)" click="$ctrl.polygonClick(e)"
+            rightclick="$ctrl.polygonRightClick(e)"></polygon> -->
+
+        <!-- <drawtool options="$ctrl.dwartoolOptions" polygoncomplete="$ctrl.polygonComplete(polygon)" circlecomplete="$ctrl.circlecomplete(circle)"
+            initialized="$ctrl.drawtoolInitialized(ctrl)"></drawtool> -->
+
+    </baidu-map>
+</div>

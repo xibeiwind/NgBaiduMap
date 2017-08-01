@@ -21,3 +21,7 @@ export const offlineLabel = {
     'margin-right': '-50%',
     transform: 'translate(-50%, -50%)'
 };
+
+export const hideDrawToolbar = {
+    visibility: "hidden"
+};

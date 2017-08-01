@@ -157,6 +157,7 @@ export default {
             if (index >= 0) {
                 this.markerCtrls.splice(index, 1);
             }
+            console.log("remove Marker");
         }
 
 

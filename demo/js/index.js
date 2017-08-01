@@ -3,6 +3,7 @@ import Configurators from './config/main';
 import { ngBaiduMap } from '../../src';
 
 import Demo from "./demo/demo.component";
+import Toolbar from "./toolbar/toolbar.component";
 class demoApp {
     constructor() {
         this.appName = "demoApp";
@@ -15,6 +16,7 @@ class demoApp {
     createApp() {
         this.app = angular.module(this.appName, this.depends);
         this.app.component("demo", Demo);
+        this.app.component("toolbar", Toolbar);
     }
 
     configApp() {

@@ -64,6 +64,18 @@ export default
                 this.marker.setPosition(transformPoint(point));
 
             }
+
+            show(){
+                this.marker.show();
+            }
+
+            hide(){
+                this.marker.hide();
+            }
+
+            getPoint(){
+                return this.point;
+            }
         }
     }
 

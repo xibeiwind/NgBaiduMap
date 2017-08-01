@@ -16,7 +16,8 @@ const component = {
 };
 
 class ComponentNameController {
-    constructor() {
+    constructor($scope) {
+        this.$scope = $scope;
         this.opts = {
             enableMapClick: false,
             centerAndZoom: {
@@ -28,7 +29,11 @@ class ComponentNameController {
 
         console.log(JSON.stringify(this.opts));
         this.dwartoolOptions = {
-
+            markerBtnVisible: false,
+            circleBtnVisible: true,
+            polylineBtnVisible: true,
+            polygonBtnVisible: false,
+            rectangleBtnVisible: false
         };
 
         this.markerCtrls = [];
@@ -75,12 +80,42 @@ class ComponentNameController {
 
 
     mapLoaded(ctrl) {
-        ctrl.map.enableScrollWheelZoom();
+        ctrl.map.enableAutoResize();
         console.log('MapLoaded');
+        this.mapCtrl = ctrl;
     }
 
     mapClick(e) {
         console.log(`mapClick(${JSON.stringify(e.point)})`);
+
+        var radius = 100;
+
+        // if (!!this.circle) {
+        //     this.circle.setRadius(radius);
+        //     this.circle.setCenter(e.point);
+        //     // this.mapCtrl.map.removeOverlay(this.circle);
+        //     // this.circle = null;
+        // }
+        // else {
+        //     this.circle = new BMap.Circle(e.point, radius, {
+        //         enableClicking: false,
+        //         enableEditing: true
+        //     });
+        //     console.log("new circle");
+
+        //     this.mapCtrl.map.addOverlay(this.circle);
+        // }
+
+        var circle = new BMap.Circle(e.point, radius
+            //,
+            //{ enableClicking: false, enableEditing: true }
+        );
+        this.mapCtrl.map.addOverlay(this.circle);
+    }
+
+    removeCircle() {
+        this.mapCtrl.map.removeOverlay(this.circle);
+        this.circle = null;
     }
 
 
@@ -129,6 +164,54 @@ class ComponentNameController {
         console.log("drawtoolInitialized");
         this.drawtoolCtrl = ctrl;
         ctrl.close();
+    }
+
+    addRandomMarker() {
+        var lng = NEW_SHANGHAI_INTERNATIONAL_TOWER.longitude + Math.random() * 0.1;
+        var lat = NEW_SHANGHAI_INTERNATIONAL_TOWER.latitude + Math.random() * 0.1;
+
+        this.markers.push({
+            point: { "lng": lng, "lat": lat },
+            options: {
+                offset: {
+                    width: 0,
+                    height: -15
+                },
+                icon: {
+                    url: markericonUrl,
+                    size: {
+                        width: 49,
+                        height: 60
+                    }
+                },
+                title: "TEST"
+            }
+        });
+    }
+
+    removeMarker() {
+        this.markers.splice(0, 1);
+        console.log(this.markers.length);
+        console.log(this.markerCtrls.length);
+    }
+
+    showDrawtool() {
+        this.drawtoolCtrl.show();
+    }
+
+    hideDrawtool() {
+        this.drawtoolCtrl.hide();
+    }
+
+    calculateEnableChanged() {
+        this.drawtoolCtrl.setCalculateEnabled(this.calculEnabled);
+    }
+    circlecomplete(circle) {
+        console.log("circlecomplete");
+        //console.log(arguments.callee.name);
+
+        circle.setRadius(500);
+        // add context button
     }
 }
 

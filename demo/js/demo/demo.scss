@@ -6,10 +6,17 @@
     bottom: 0;
 }
 
-.BMapLib_box.BMapLib_marker,
-.BMapLib_box.BMapLib_circle,
-.BMapLib_box.BMapLib_polyline,
-.BMapLib_box.BMapLib_rectangle
-{
-    display: none;
+// .BMapLib_box.BMapLib_marker,
+// .BMapLib_box.BMapLib_circle,
+// .BMapLib_box.BMapLib_polyline,
+// .BMapLib_box.BMapLib_rectangle
+// {
+//     display: none;
+// }
+
+
+.demo-toolbar{
+    height: 100px;
+    position: absolute;
+    z-index: 10;
 }

@@ -17750,6 +17750,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 if (index >= 0) {
                     this.markerCtrls.splice(index, 1);
                 }
+                console.log("remove Marker");
             }
         }, {
             key: 'setBound',
@@ -17787,6 +17788,7 @@ function handleMapOperation(map, method) {
 /* unused harmony export map */
 /* unused harmony export offline */
 /* unused harmony export offlineLabel */
+/* unused harmony export hideDrawToolbar */
 var map = {
     width: '100%',
     height: '100%',
@@ -17809,6 +17811,10 @@ var offlineLabel = {
     left: '50%',
     'margin-right': '-50%',
     transform: 'translate(-50%, -50%)'
+};
+
+var hideDrawToolbar = {
+    visibility: "hidden"
 };
 
 /***/ }),
@@ -18418,6 +18424,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 this.point = point;
                 this.marker.setPosition(Object(__WEBPACK_IMPORTED_MODULE_1__helper_transformer__["b" /* transformPoint */])(point));
             }
+        }, {
+            key: 'show',
+            value: function show() {
+                this.marker.show();
+            }
+        }, {
+            key: 'hide',
+            value: function hide() {
+                this.marker.hide();
+            }
+        }, {
+            key: 'getPoint',
+            value: function getPoint() {
+                return this.point;
+            }
         }]);
 
         return controller;
@@ -18607,7 +18628,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     bindings: {
         options: '<',
+        markercomplete: "&",
         polygoncomplete: "&",
+        circlecomplete: "&",
+        polylinecomplete: "&",
+        rectanglecomplete: "&",
         initialized: "&"
     },
     require: {
@@ -18643,6 +18668,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             rectangleOptions: _this.options.styleOptions //矩形的样式
                         });
 
+                        var setButtonVisibility = function setButtonVisibility(btnCSS, visible) {
+                            var element = angular.element(document.getElementsByClassName(btnCSS));
+
+                            element.css("display", visible ? "block" : "none");
+                        };
+
+                        setButtonVisibility("BMapLib_marker", _this.options.markerBtnVisible);
+                        setButtonVisibility("BMapLib_circle", _this.options.circleBtnVisible);
+                        setButtonVisibility("BMapLib_polyline", _this.options.polylineBtnVisible);
+                        setButtonVisibility("BMapLib_polygon", _this.options.polygonBtnVisible);
+                        setButtonVisibility("BMapLib_rectangle", _this.options.rectangleBtnVisible);
+
                         // drawingManager.addEventListener('overlaycomplete', () => {
                         //     console.log('draw complete');
                         // });
@@ -18652,11 +18689,39 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                             _this.initialized({ ctrl: ctrl });
                         }
 
+                        if (!!_this.$attrs.markercomplete) {
+                            var markercompleteListener = _this.markercompleteListener = function (marker) {
+                                _this.markercomplete({ marker: marker });
+                            };
+                            _this.drawingManager.addEventListener('markercomplete', markercompleteListener);
+                        }
+
                         if (!!_this.$attrs.polygoncomplete) {
                             var polygoncompleteListener = _this.polygoncompleteListener = function (polygon) {
                                 _this.polygoncomplete({ polygon: polygon });
                             };
                             _this.drawingManager.addEventListener('polygoncomplete', polygoncompleteListener);
+                        }
+
+                        if (!!_this.$attrs.circlecomplete) {
+                            var circlecompleteListener = _this.circlecompleteListener = function (circle) {
+                                _this.circlecomplete({ circle: circle });
+                            };
+                            _this.drawingManager.addEventListener("circlecomplete", circlecompleteListener);
+                        }
+
+                        if (!!_this.$attrs.polylinecomplete) {
+                            var polylinecompleteListener = _this.polylinecompleteListener = function (polyline) {
+                                _this.polylinecomplete({ polyline: polyline });
+                            };
+                            _this.drawingManager.addEventListener('polylinecomplete', polylinecompleteListener);
+                        }
+
+                        if (!!_this.$attrs.rectanglecomplete) {
+                            var rectanglecompleteListener = _this.rectanglecompleteListener = function (rectangle) {
+                                _this.rectanglecomplete({ rectangle: rectangle });
+                            };
+                            _this.drawingManager.addEventListener('rectanglecomplete', rectanglecompleteListener);
                         }
                     });
                 });
@@ -18675,6 +18740,30 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             key: 'close',
             value: function close() {
                 this.drawingManager.close();
+            }
+        }, {
+            key: 'show',
+            value: function show() {
+                //BMapLib_Drawing
+                var element = angular.element(document.getElementsByClassName("BMapLib_Drawing"));
+                //element.removeClass("hideDrawToolbar");
+                element.css("display", "block");
+            }
+        }, {
+            key: 'hide',
+            value: function hide() {
+                var element = angular.element(document.getElementsByClassName("BMapLib_Drawing"));
+                //element.addClass("hideDrawToolbar");
+                element.css("display", "none");
+            }
+        }, {
+            key: 'setCalculateEnabled',
+            value: function setCalculateEnabled(enabled) {
+                if (enabled) {
+                    this.drawingManager.enableCalculate();
+                } else {
+                    this.drawingManager.disableCalculate();
+                }
             }
         }]);
 
