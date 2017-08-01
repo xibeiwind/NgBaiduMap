@@ -18579,11 +18579,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             key: "setStrokeColor",
             value: function setStrokeColor(color) {
                 this.polygon.setStrokeColor(color);
+                this.options.polygonOptions.strokeColor = color;
             }
         }, {
             key: "setFillColor",
             value: function setFillColor(color) {
                 this.polygon.setFillColor(color);
+                this.options.polygonOptions.fillColor = color;
             }
         }, {
             key: "focusPolygon",

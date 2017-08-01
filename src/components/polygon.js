@@ -92,9 +92,12 @@ export default {
 
         setStrokeColor(color) {
             this.polygon.setStrokeColor(color);
+            this.options.polygonOptions.strokeColor = color;
+
         }
         setFillColor(color) {
             this.polygon.setFillColor(color);
+            this.options.polygonOptions.fillColor = color;
         }
 
         focusPolygon() {
