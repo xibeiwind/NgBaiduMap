@@ -18439,6 +18439,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function getPoint() {
                 return this.point;
             }
+        }, {
+            key: 'isVisible',
+            value: function isVisible() {
+                return this.marker.isVisible();
+            }
         }]);
 
         return controller;

@@ -65,16 +65,20 @@ export default
 
             }
 
-            show(){
+            show() {
                 this.marker.show();
             }
 
-            hide(){
+            hide() {
                 this.marker.hide();
             }
 
-            getPoint(){
+            getPoint() {
                 return this.point;
+            }
+
+            isVisible() {
+                return this.marker.isVisible();
             }
         }
     }
