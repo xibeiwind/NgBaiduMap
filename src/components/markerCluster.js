@@ -121,22 +121,22 @@ export default
             }
 
             show() {
-                // angular.forEach(this.markers, function (marker) {
-                //     marker.show();
-                // });
-                this.markerClusterer.show();
+                angular.forEach(this.markers, function (marker) {
+                    marker.show();
+                });
+                //this.markerClusterer.show();
+
             }
 
             hide() {
-                //angular.forEach(this.markers, function (marker) {
-                //     marker.hide();
-                // });
+                angular.forEach(this.markers, function (marker) {
+                    marker.hide();
+                });
 
-                this.markerClusterer.hide();
+                //this.markerClusterer.hide();
             }
-            
-            getMarkers()
-            {
+
+            getMarkers() {
                 return this.markers;
             }
 

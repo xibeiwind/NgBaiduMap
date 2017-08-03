@@ -19040,19 +19040,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }, {
             key: 'show',
             value: function show() {
-                // angular.forEach(this.markers, function (marker) {
-                //     marker.show();
-                // });
-                this.markerClusterer.show();
+                angular.forEach(this.markers, function (marker) {
+                    marker.show();
+                });
+                //this.markerClusterer.show();
             }
         }, {
             key: 'hide',
             value: function hide() {
-                //angular.forEach(this.markers, function (marker) {
-                //     marker.hide();
-                // });
+                angular.forEach(this.markers, function (marker) {
+                    marker.hide();
+                });
 
-                this.markerClusterer.hide();
+                //this.markerClusterer.hide();
             }
         }, {
             key: 'getMarkers',
