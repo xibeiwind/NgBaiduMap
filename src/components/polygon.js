@@ -38,6 +38,7 @@ export default {
 
                     if (!!this.$attrs.click) {
                         const clickListener = this.clickListener = (e) => {
+                            e.domEvent.stopPropagation();
                             this.click({ e });
                         };
                         this.polygon.addEventListener('click', clickListener);
@@ -45,6 +46,7 @@ export default {
 
                     if (!!this.$attrs.rightclick) {
                         const rightclickListener = this.rightclickListener = (e) => {
+                            e.domEvent.stopPropagation();
                             this.rightclick({ e });
                         };
                         this.polygon.addEventListener('rightclick', rightclickListener);

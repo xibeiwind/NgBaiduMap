@@ -33,6 +33,8 @@ export default {
 
             this.polygonCtrls = [];
             this.markerCtrls = [];
+
+            this.markerClusterCtrls = [];
         }
 
         $onInit() {
@@ -55,6 +57,7 @@ export default {
                     if (this.map) {
                         if (this.$attrs.click) {
                             const clickListener = this.clickListener = (e) => {
+                                e.domEvent.stopPropagation();
                                 this.click({ e });
                             };
 
@@ -63,6 +66,7 @@ export default {
 
                         if (this.$attrs.rightclick) {
                             const rightclickListener = this.rightclickListener = (e) => {
+                                e.domEvent.stopPropagation();
                                 this.rightclick({ e });
                             };
                             this.map.addEventListener('rightclick', rightclickListener);
@@ -158,6 +162,21 @@ export default {
                 this.markerCtrls.splice(index, 1);
             }
             console.log("remove Marker");
+        }
+
+        addMarkerClusterCtrl(ctrl) {
+            this.markerClusterCtrls.push(ctrl);
+            //return this.addOverlay();
+        }
+
+        removeMarkerClusterCtrl(ctrl) {
+
+            this.removeOverlay(ctrl.markerClusterer);
+            var index = this.markerClusterCtrls.findIndex((val, index, arr) => { return val === ctrl; });
+            if (index >= 0) {
+                this.markerClusterCtrls.splice(index, 1);
+            }
+            console.log("remove MarkerCluster");
         }
 
 

@@ -1,6 +1,7 @@
 import template from './demo.tpl.html';
 import markericonUrl from 'img/markericon.png';
 
+import markerClusterIconUrl from 'img/juhe.png';
 
 import './demo.scss';
 
@@ -42,23 +43,27 @@ class ComponentNameController {
 
         this.markers = [];
 
-        this.markers.push({
-            point: { "lng": 121.500208, "lat": 31.233821 },
-            options: {
-                offset: {
-                    width: 0,
-                    height: -15
-                },
-                icon: {
-                    url: markericonUrl,
-                    size: {
-                        width: 49,
-                        height: 60
-                    }
-                },
-                title: "TEST"
-            }
-        });
+        for (var i = 0; i < 2000; i++) {
+            this.markers.push({
+                point: { "lng": 118.500208 + Math.random() * 2, "lat": 31.233821 + Math.random() * 2 },
+                options: {
+                    offset: {
+                        width: 0,
+                        height: -15
+                    },
+                    icon: {
+                        url: markericonUrl,
+                        size: {
+                            width: 49,
+                            height: 60
+                        }
+                    },
+                    title: "TEST"
+                }
+            });
+        }
+
+
 
         this.polygonList = [{
             options: {
@@ -76,13 +81,35 @@ class ComponentNameController {
         }];
 
 
+        this.markerClusterOptions = {
+            girdSize: 1000,
+            maxZoom: 14,
+            minClusterSize: 8
+        };
+
+
+
     }
 
 
     mapLoaded(ctrl) {
         ctrl.map.enableAutoResize();
+
+        ctrl.map.enableScrollWheelZoom();
+        ctrl.map.enableContinuousZoom();
+
         console.log('MapLoaded');
         this.mapCtrl = ctrl;
+
+        this.markerClusterStyles = [
+            {
+                url: markerClusterIconUrl,
+                size: new BMap.Size(84, 84),
+                opt_anchor: [16, 0],
+                textColor: 'white',
+                opt_textSize: 8
+            }
+        ]
     }
 
     mapClick(e) {
@@ -213,6 +240,21 @@ class ComponentNameController {
         circle.setRadius(500);
         // add context button
     }
+
+    markerClusterInitialized(ctrl) {
+        this.markerClusterCtrl = ctrl;
+
+        console.log("markerClusterInitialized");
+    }
+
+    markerClusterClick(e, marker, map, data) {
+        console.log(JSON.stringify(e.point));
+    }
+
+    markerClusterRightClick(e, marker, map, data) {
+        console.log(JSON.stringify(e.point));
+    }
+
 }
 
 component.controller = ComponentNameController;

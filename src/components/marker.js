@@ -39,12 +39,14 @@ export default
                         }
                         if (!!this.$attrs.click) {
                             const clickListener = this.clickListener = (e) => {
+                                e.domEvent.stopPropagation();
                                 this.click({ e, marker, map: this.mapCtrl.getMap(), ctrl: this });
                             };
                             this.marker.addEventListener('click', clickListener);
                         }
                         if (!!this.$attrs.rightclick) {
                             const rightclickListener = this.rightclickListener = (e) => {
+                                e.domEvent.stopPropagation();
                                 this.rightclick({ e, marker, map: this.mapCtrl.getMap(), ctrl: this });
                             };
                             this.marker.addEventListener('rightclick', rightclickListener);
