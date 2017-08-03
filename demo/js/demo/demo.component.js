@@ -43,25 +43,7 @@ class ComponentNameController {
 
         this.markers = [];
 
-        for (var i = 0; i < 2000; i++) {
-            this.markers.push({
-                point: { "lng": 118.500208 + Math.random() * 2, "lat": 31.233821 + Math.random() * 2 },
-                options: {
-                    offset: {
-                        width: 0,
-                        height: -15
-                    },
-                    icon: {
-                        url: markericonUrl,
-                        size: {
-                            width: 49,
-                            height: 60
-                        }
-                    },
-                    title: "TEST"
-                }
-            });
-        }
+
 
 
 
@@ -89,6 +71,31 @@ class ComponentNameController {
 
 
 
+    }
+
+    addDemoMarkers() {
+        for (var i = 0; i < 2000; i++) {
+            this.markers.push({
+                point: { "lng": 118.500208 + Math.random() * 2, "lat": 31.233821 + Math.random() * 2 },
+                options: {
+                    offset: {
+                        width: 0,
+                        height: -15
+                    },
+                    icon: {
+                        url: markericonUrl,
+                        size: {
+                            width: 49,
+                            height: 60
+                        }
+                    },
+                    title: "TEST"
+                }
+            });
+        }
+
+        this.markerClusterCtrl.addMarkers(this.markers);
+        console.log("add markers");
     }
 
 

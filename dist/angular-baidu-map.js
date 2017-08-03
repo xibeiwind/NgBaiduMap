@@ -18924,7 +18924,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     bindings: {
         options: "<",
         styles: "<",
-        items: "<",
+        //items: "<",
         initialized: "&",
         click: "&",
         rightclick: "&"
@@ -18938,6 +18938,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
             this.$scope = $scope;
             this.$attrs = $attrs;
+            this.items = this.items || [];
         }
 
         _createClass(controller, [{
@@ -19000,6 +19001,41 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 });
 
                 this.mapCtrl.removeMarkerClusterCtrl(this);
+            }
+        }, {
+            key: 'addMarkers',
+            value: function addMarkers(markerItems) {
+                var _this2 = this;
+
+                this.items = this.items.concat(markerItems);
+                var markers = __WEBPACK_IMPORTED_MODULE_3_lodash___default.a.map(markerItems, function (item) {
+
+                    var point = Object(__WEBPACK_IMPORTED_MODULE_2__helper_transformer__["b" /* transformPoint */])(item.point, '<marker> point');
+                    var opts = transformOptions(item.options);
+                    var marker = new BMap.Marker(point, opts);
+
+                    if (!!_this2.$attrs.click) {
+                        var clickListener = _this2.clickListener = function (e) {
+                            e.domEvent.stopPropagation();
+                            _this2.click({ e: e, marker: marker, map: _this2.mapCtrl.getMap(), data: item });
+                        };
+                        marker.addEventListener('click', clickListener);
+                    }
+
+                    if (!!_this2.$attrs.rightclick) {
+                        var rightclickListener = _this2.rightclickListener = function (e) {
+                            e.domEvent.stopPropagation();
+                            _this2.rightclick({ e: e, map: _this2.mapCtrl.getMap(), data: item });
+                        };
+                        marker.addEventListener('rightclick', rightclickListener);
+                    }
+
+                    return marker;
+                });
+
+                this.markers = this.markers.concat(markers);
+
+                this.markerClusterer.addMarkers(markers);
             }
         }, {
             key: 'show',

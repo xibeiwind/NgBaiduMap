@@ -10,6 +10,10 @@
     <div>
         <button ng-click="$ctrl.removeCircle()">RemoveCircle</button>
     </div>
+
+    <div>
+        <button ng-click="$ctrl.addDemoMarkers()">Add Markers</button>
+    </div>
 </div>
 
 <div class="map-select-point">
@@ -23,14 +27,10 @@
 
         <!-- <drawtool options="$ctrl.dwartoolOptions" polygoncomplete="$ctrl.polygonComplete(polygon)" circlecomplete="$ctrl.circlecomplete(circle)"
             initialized="$ctrl.drawtoolInitialized(ctrl)"></drawtool> -->
-            <marker-cluster options="$ctrl.markerClusterOptions" 
-            styles="$ctrl.markerClusterStyles" 
-            items="$ctrl.markers" 
-            initialized="$ctrl.markerClusterInitialized(ctrl)" 
+        <marker-cluster options="$ctrl.markerClusterOptions" styles="$ctrl.markerClusterStyles" initialized="$ctrl.markerClusterInitialized(ctrl)">
+            <!-- initialized="$ctrl.markerClusterInitialized(ctrl)" 
             click="$ctrl.markerClusterClick(e,marker,map,data)"
-            rightclick="$ctrl.markerClusterRightClick(e,marker,map, data)"
-            >
-
-            </marker-cluster>
+            rightclick="$ctrl.markerClusterRightClick(e,marker,map, data)"  items="$ctrl.markers" -->
+        </marker-cluster>
     </baidu-map>
 </div>
