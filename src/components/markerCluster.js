@@ -134,6 +134,11 @@ export default
 
                 this.markerClusterer.hide();
             }
+            
+            getMarkers()
+            {
+                return this.markers;
+            }
 
         }
     }

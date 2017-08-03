@@ -19054,6 +19054,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 this.markerClusterer.hide();
             }
+        }, {
+            key: 'getMarkers',
+            value: function getMarkers() {
+                return this.markers;
+            }
         }]);
 
         return controller;
