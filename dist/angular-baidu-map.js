@@ -18949,36 +18949,71 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 this.mapCtrl.mapReady.then(function () {
                     Object(__WEBPACK_IMPORTED_MODULE_0__provider_markerClusterScript__["a" /* default */])().then(function () {
 
-                        var markers = _this.markers = __WEBPACK_IMPORTED_MODULE_3_lodash___default.a.map(_this.items, function (item) {
+                        // var markers = this.markers = _.map(this.items, (item) => {
 
-                            var point = Object(__WEBPACK_IMPORTED_MODULE_2__helper_transformer__["b" /* transformPoint */])(item.point, '<marker> point');
-                            var opts = transformOptions(item.options);
-                            var marker = new BMap.Marker(point, opts);
+                        //     const point = transformPoint(item.point, '<marker> point');
+                        //     const opts = transformOptions(item.options);
+                        //     const marker = new BMap.Marker(point, opts);
 
-                            if (!!_this.$attrs.click) {
-                                var clickListener = _this.clickListener = function (e) {
-                                    e.domEvent.stopPropagation();
-                                    _this.click({ e: e, marker: marker, map: _this.mapCtrl.getMap(), data: item });
-                                };
-                                marker.addEventListener('click', clickListener);
-                            }
 
-                            if (!!_this.$attrs.rightclick) {
-                                var rightclickListener = _this.rightclickListener = function (e) {
-                                    e.domEvent.stopPropagation();
-                                    _this.rightclick({ e: e, map: _this.mapCtrl.getMap(), data: item });
-                                };
-                                marker.addEventListener('rightclick', rightclickListener);
-                            }
+                        //     if (!!this.$attrs.click) {
+                        //         const clickListener = this.clickListener = (e) => {
+                        //             e.domEvent.stopPropagation();
+                        //             this.click({ e, marker, map: this.mapCtrl.getMap(), data: item });
+                        //         };
+                        //         marker.addEventListener('click', clickListener);
+                        //     }
 
-                            return marker;
+                        //     if (!!this.$attrs.rightclick) {
+                        //         const rightclickListener = this.rightclickListener = (e) => {
+                        //             e.domEvent.stopPropagation();
+                        //             this.rightclick({ e, map: this.mapCtrl.getMap(), data: item });
+                        //         };
+                        //         marker.addEventListener('rightclick', rightclickListener);
+                        //     }
+
+                        //     return marker;
+                        // });
+
+                        var markers = [];
+
+                        angular.forEach(_this.items, function (item) {
+                            try {
+                                var point = Object(__WEBPACK_IMPORTED_MODULE_2__helper_transformer__["b" /* transformPoint */])(item.point, '<marker> point');
+                                var opts = transformOptions(item.options);
+                                var marker = new BMap.Marker(point, opts);
+
+                                if (!!_this.$attrs.click) {
+                                    var clickListener = _this.clickListener = function (e) {
+                                        e.domEvent.stopPropagation();
+                                        _this.click({ e: e, marker: marker, map: _this.mapCtrl.getMap(), data: item });
+                                    };
+                                    marker.addEventListener('click', clickListener);
+                                }
+
+                                if (!!_this.$attrs.rightclick) {
+                                    var rightclickListener = _this.rightclickListener = function (e) {
+                                        e.domEvent.stopPropagation();
+                                        _this.rightclick({ e: e, map: _this.mapCtrl.getMap(), data: item });
+                                    };
+                                    marker.addEventListener('rightclick', rightclickListener);
+                                }
+                                markers.push(marker);
+                            } catch (error) {}
                         });
+
+                        _this.markers = markers;
 
                         var markerClusterer = _this.markerClusterer = new BMapLib.MarkerClusterer(_this.mapCtrl.getMap(), {
                             markers: markers,
-                            girdSize: _this.options.girdSize, maxZoom: _this.options.maxZoom, minClusterSize: _this.options.minClusterSize
+                            girdSize: _this.options.girdSize,
+                            maxZoom: _this.options.maxZoom,
+                            minClusterSize: _this.options.minClusterSize
                         });
-                        _this.markerClusterer.setStyles(_this.styles);
+
+                        if (!!_this.styles) {
+                            _this.markerClusterer.setStyles(_this.styles);
+                        }
 
                         _this.mapCtrl.addMarkerClusterCtrl(_this);
 
@@ -18991,6 +19026,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         }
                     });
                 });
+            }
+        }, {
+            key: '$onChange',
+            value: function $onChange(changes) {
+                if (!!this.markerClusterer == false) {
+                    return;
+                }
+
+                this.markerClusterer.setStyles(changes.styles.currentValue);
             }
         }, {
             key: '$onDestory',

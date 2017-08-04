@@ -27,7 +27,7 @@
 
         <!-- <drawtool options="$ctrl.dwartoolOptions" polygoncomplete="$ctrl.polygonComplete(polygon)" circlecomplete="$ctrl.circlecomplete(circle)"
             initialized="$ctrl.drawtoolInitialized(ctrl)"></drawtool> -->
-        <marker-cluster options="$ctrl.markerClusterOptions" styles="$ctrl.markerClusterStyles" initialized="$ctrl.markerClusterInitialized(ctrl)">
+        <marker-cluster options="$ctrl.markerClusterOptions" initialized="$ctrl.markerClusterInitialized(ctrl)" click="$ctrl.markerClusterClick(e,marker,map,data)">
             <!-- initialized="$ctrl.markerClusterInitialized(ctrl)" 
             click="$ctrl.markerClusterClick(e,marker,map,data)"
             rightclick="$ctrl.markerClusterRightClick(e,marker,map, data)"  items="$ctrl.markers" -->

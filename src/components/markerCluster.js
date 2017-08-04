@@ -33,37 +33,75 @@ export default
                             .then(() => {
 
 
-                                var markers = this.markers = _.map(this.items, (item) => {
+                                // var markers = this.markers = _.map(this.items, (item) => {
 
-                                    const point = transformPoint(item.point, '<marker> point');
-                                    const opts = transformOptions(item.options);
-                                    const marker = new BMap.Marker(point, opts);
+                                //     const point = transformPoint(item.point, '<marker> point');
+                                //     const opts = transformOptions(item.options);
+                                //     const marker = new BMap.Marker(point, opts);
 
 
-                                    if (!!this.$attrs.click) {
-                                        const clickListener = this.clickListener = (e) => {
-                                            e.domEvent.stopPropagation();
-                                            this.click({ e, marker, map: this.mapCtrl.getMap(), data: item });
-                                        };
-                                        marker.addEventListener('click', clickListener);
+                                //     if (!!this.$attrs.click) {
+                                //         const clickListener = this.clickListener = (e) => {
+                                //             e.domEvent.stopPropagation();
+                                //             this.click({ e, marker, map: this.mapCtrl.getMap(), data: item });
+                                //         };
+                                //         marker.addEventListener('click', clickListener);
+                                //     }
+
+                                //     if (!!this.$attrs.rightclick) {
+                                //         const rightclickListener = this.rightclickListener = (e) => {
+                                //             e.domEvent.stopPropagation();
+                                //             this.rightclick({ e, map: this.mapCtrl.getMap(), data: item });
+                                //         };
+                                //         marker.addEventListener('rightclick', rightclickListener);
+                                //     }
+
+                                //     return marker;
+                                // });
+
+                                var markers = [];
+
+                                angular.forEach(this.items, (item) => {
+                                    try {
+                                        const point = transformPoint(item.point, '<marker> point');
+                                        const opts = transformOptions(item.options);
+                                        const marker = new BMap.Marker(point, opts);
+
+
+                                        if (!!this.$attrs.click) {
+                                            const clickListener = this.clickListener = (e) => {
+                                                e.domEvent.stopPropagation();
+                                                this.click({ e, marker, map: this.mapCtrl.getMap(), data: item });
+                                            };
+                                            marker.addEventListener('click', clickListener);
+                                        }
+
+                                        if (!!this.$attrs.rightclick) {
+                                            const rightclickListener = this.rightclickListener = (e) => {
+                                                e.domEvent.stopPropagation();
+                                                this.rightclick({ e, map: this.mapCtrl.getMap(), data: item });
+                                            };
+                                            marker.addEventListener('rightclick', rightclickListener);
+                                        }
+                                        markers.push(marker);
+                                    } catch (error) {
+
                                     }
-
-                                    if (!!this.$attrs.rightclick) {
-                                        const rightclickListener = this.rightclickListener = (e) => {
-                                            e.domEvent.stopPropagation();
-                                            this.rightclick({ e, map: this.mapCtrl.getMap(), data: item });
-                                        };
-                                        marker.addEventListener('rightclick', rightclickListener);
-                                    }
-
-                                    return marker;
                                 });
 
-                                var markerClusterer = this.markerClusterer = new BMapLib.MarkerClusterer(this.mapCtrl.getMap(), {
-                                    markers: markers,
-                                    girdSize: this.options.girdSize, maxZoom: this.options.maxZoom, minClusterSize: this.options.minClusterSize
-                                });
-                                this.markerClusterer.setStyles(this.styles);
+                                this.markers = markers;
+
+                                var markerClusterer = this.markerClusterer =
+                                    new BMapLib.MarkerClusterer(this.mapCtrl.getMap(), {
+                                        markers: markers,
+                                        girdSize: this.options.girdSize,
+                                        maxZoom: this.options.maxZoom,
+                                        minClusterSize: this.options.minClusterSize
+                                    });
+
+                                if (!!this.styles) {
+                                    this.markerClusterer.setStyles(this.styles);
+                                }
 
                                 this.mapCtrl.addMarkerClusterCtrl(this);
 
@@ -76,6 +114,15 @@ export default
                                 }
                             });
                     });
+            }
+
+            $onChange(changes) {
+                if (!!this.markerClusterer == false) {
+                    return;
+                }
+
+                this.markerClusterer.setStyles(changes.styles.currentValue);
+
             }
 
             $onDestory() {
