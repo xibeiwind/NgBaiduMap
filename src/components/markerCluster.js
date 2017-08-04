@@ -136,30 +136,62 @@ export default
 
             addMarkers(markerItems) {
                 this.items = this.items.concat(markerItems);
-                var markers = _.map(markerItems, (item) => {
+                // var markers = _.map(markerItems, (item) => {
 
-                    const point = transformPoint(item.point, '<marker> point');
-                    const opts = transformOptions(item.options);
-                    const marker = new BMap.Marker(point, opts);
+                //     const point = transformPoint(item.point, '<marker> point');
+                //     const opts = transformOptions(item.options);
+                //     const marker = new BMap.Marker(point, opts);
 
 
-                    if (!!this.$attrs.click) {
-                        const clickListener = this.clickListener = (e) => {
-                            e.domEvent.stopPropagation();
-                            this.click({ e, marker, map: this.mapCtrl.getMap(), data: item });
-                        };
-                        marker.addEventListener('click', clickListener);
+                //     if (!!this.$attrs.click) {
+                //         const clickListener = this.clickListener = (e) => {
+                //             e.domEvent.stopPropagation();
+                //             this.click({ e, marker, map: this.mapCtrl.getMap(), data: item });
+                //         };
+                //         marker.addEventListener('click', clickListener);
+                //     }
+
+                //     if (!!this.$attrs.rightclick) {
+                //         const rightclickListener = this.rightclickListener = (e) => {
+                //             e.domEvent.stopPropagation();
+                //             this.rightclick({ e, map: this.mapCtrl.getMap(), data: item });
+                //         };
+                //         marker.addEventListener('rightclick', rightclickListener);
+                //     }
+
+                //     return marker;
+                // });
+
+                var markers = [];
+                angular.forEach(markerItems, (item) => {
+                    try {
+
+                        const point = transformPoint(item.point, '<marker> point');
+                        const opts = transformOptions(item.options);
+                        const marker = new BMap.Marker(point, opts);
+
+
+                        if (!!this.$attrs.click) {
+                            const clickListener = this.clickListener = (e) => {
+                                e.domEvent.stopPropagation();
+                                this.click({ e, marker, map: this.mapCtrl.getMap(), data: item });
+                            };
+                            marker.addEventListener('click', clickListener);
+                        }
+
+                        if (!!this.$attrs.rightclick) {
+                            const rightclickListener = this.rightclickListener = (e) => {
+                                e.domEvent.stopPropagation();
+                                this.rightclick({ e, map: this.mapCtrl.getMap(), data: item });
+                            };
+                            marker.addEventListener('rightclick', rightclickListener);
+                        }
+
+                        markers.push(marker);
+
+                    } catch (error) {
+
                     }
-
-                    if (!!this.$attrs.rightclick) {
-                        const rightclickListener = this.rightclickListener = (e) => {
-                            e.domEvent.stopPropagation();
-                            this.rightclick({ e, map: this.mapCtrl.getMap(), data: item });
-                        };
-                        marker.addEventListener('rightclick', rightclickListener);
-                    }
-
-                    return marker;
                 });
 
                 this.markers = this.markers.concat(markers);

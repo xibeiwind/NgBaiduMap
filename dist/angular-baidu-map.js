@@ -19052,29 +19052,58 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var _this2 = this;
 
                 this.items = this.items.concat(markerItems);
-                var markers = __WEBPACK_IMPORTED_MODULE_3_lodash___default.a.map(markerItems, function (item) {
+                // var markers = _.map(markerItems, (item) => {
 
-                    var point = Object(__WEBPACK_IMPORTED_MODULE_2__helper_transformer__["b" /* transformPoint */])(item.point, '<marker> point');
-                    var opts = transformOptions(item.options);
-                    var marker = new BMap.Marker(point, opts);
+                //     const point = transformPoint(item.point, '<marker> point');
+                //     const opts = transformOptions(item.options);
+                //     const marker = new BMap.Marker(point, opts);
 
-                    if (!!_this2.$attrs.click) {
-                        var clickListener = _this2.clickListener = function (e) {
-                            e.domEvent.stopPropagation();
-                            _this2.click({ e: e, marker: marker, map: _this2.mapCtrl.getMap(), data: item });
-                        };
-                        marker.addEventListener('click', clickListener);
-                    }
 
-                    if (!!_this2.$attrs.rightclick) {
-                        var rightclickListener = _this2.rightclickListener = function (e) {
-                            e.domEvent.stopPropagation();
-                            _this2.rightclick({ e: e, map: _this2.mapCtrl.getMap(), data: item });
-                        };
-                        marker.addEventListener('rightclick', rightclickListener);
-                    }
+                //     if (!!this.$attrs.click) {
+                //         const clickListener = this.clickListener = (e) => {
+                //             e.domEvent.stopPropagation();
+                //             this.click({ e, marker, map: this.mapCtrl.getMap(), data: item });
+                //         };
+                //         marker.addEventListener('click', clickListener);
+                //     }
 
-                    return marker;
+                //     if (!!this.$attrs.rightclick) {
+                //         const rightclickListener = this.rightclickListener = (e) => {
+                //             e.domEvent.stopPropagation();
+                //             this.rightclick({ e, map: this.mapCtrl.getMap(), data: item });
+                //         };
+                //         marker.addEventListener('rightclick', rightclickListener);
+                //     }
+
+                //     return marker;
+                // });
+
+                var markers = [];
+                angular.forEach(markerItems, function (item) {
+                    try {
+
+                        var point = Object(__WEBPACK_IMPORTED_MODULE_2__helper_transformer__["b" /* transformPoint */])(item.point, '<marker> point');
+                        var opts = transformOptions(item.options);
+                        var marker = new BMap.Marker(point, opts);
+
+                        if (!!_this2.$attrs.click) {
+                            var clickListener = _this2.clickListener = function (e) {
+                                e.domEvent.stopPropagation();
+                                _this2.click({ e: e, marker: marker, map: _this2.mapCtrl.getMap(), data: item });
+                            };
+                            marker.addEventListener('click', clickListener);
+                        }
+
+                        if (!!_this2.$attrs.rightclick) {
+                            var rightclickListener = _this2.rightclickListener = function (e) {
+                                e.domEvent.stopPropagation();
+                                _this2.rightclick({ e: e, map: _this2.mapCtrl.getMap(), data: item });
+                            };
+                            marker.addEventListener('rightclick', rightclickListener);
+                        }
+
+                        markers.push(marker);
+                    } catch (error) {}
                 });
 
                 this.markers = this.markers.concat(markers);
