@@ -89,7 +89,7 @@ class ComponentNameController {
                             height: 60
                         }
                     },
-                    title: "TEST"
+                    title: `test marker ${i}`
                 }
             });
         }
@@ -256,6 +256,7 @@ class ComponentNameController {
 
     markerClusterClick(e, marker, map, data) {
         console.log(JSON.stringify(e.point));
+        console.log(data.options.title);
     }
 
     markerClusterRightClick(e, marker, map, data) {

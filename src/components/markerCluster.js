@@ -170,11 +170,13 @@ export default
                         const opts = transformOptions(item.options);
                         const marker = new BMap.Marker(point, opts);
 
+                        marker.itemData = item;
+
 
                         if (!!this.$attrs.click) {
                             const clickListener = this.clickListener = (e) => {
                                 e.domEvent.stopPropagation();
-                                this.click({ e, marker, map: this.mapCtrl.getMap(), data: item });
+                                this.click({ e, marker, map: this.mapCtrl.getMap(), data: marker.itemData });
                             };
                             marker.addEventListener('click', clickListener);
                         }

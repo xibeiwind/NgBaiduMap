@@ -19086,10 +19086,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                         var opts = transformOptions(item.options);
                         var marker = new BMap.Marker(point, opts);
 
+                        marker.itemData = item;
+
                         if (!!_this2.$attrs.click) {
                             var clickListener = _this2.clickListener = function (e) {
                                 e.domEvent.stopPropagation();
-                                _this2.click({ e: e, marker: marker, map: _this2.mapCtrl.getMap(), data: item });
+                                _this2.click({ e: e, marker: marker, map: _this2.mapCtrl.getMap(), data: marker.itemData });
                             };
                             marker.addEventListener('click', clickListener);
                         }
