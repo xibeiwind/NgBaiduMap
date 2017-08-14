@@ -38,7 +38,7 @@ export default {
 
                     if (!!this.$attrs.click) {
                         const clickListener = this.clickListener = (e) => {
-                            e.domEvent.stopPropagation();
+                            //e.domEvent.stopPropagation();
                             this.click({ e });
                         };
                         this.polygon.addEventListener('click', clickListener);

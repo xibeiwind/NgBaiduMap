@@ -18567,7 +18567,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                     if (!!_this.$attrs.click) {
                         var clickListener = _this.clickListener = function (e) {
-                            e.domEvent.stopPropagation();
+                            //e.domEvent.stopPropagation();
                             _this.click({ e: e });
                         };
                         _this.polygon.addEventListener('click', clickListener);
