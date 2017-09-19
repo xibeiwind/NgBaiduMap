@@ -28,9 +28,9 @@ function appendScriptTag(url) {
         script.onerror = function () {
             document.body.removeChild(script);
 
-            setTimeout(() => {
-                appendScriptTag(url);
-            }, 30000);
+            setTimeout(() =>
+                appendScriptTag(url)
+                , 30000);
         };
         script.onload = resolve;
         document.body.appendChild(script);

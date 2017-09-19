@@ -44,6 +44,13 @@ class ComponentNameController {
         this.markers = [];
 
 
+        this.scaleCtrlOptions = {
+            anchor: BMAP_ANCHOR_BOTTOM_RIGHT
+        };
+        this.navCtrlOptions = {
+            anchor: BMAP_ANCHOR_BOTTOM_RIGHT
+
+        };
 
 
 
@@ -257,6 +264,28 @@ class ComponentNameController {
     markerClusterClick(e, marker, map, data) {
         console.log(JSON.stringify(e.point));
         console.log(data.options.title);
+
+        // var opts = {
+        //     width: 200,     // 信息窗口宽度
+        //     height: 100,     // 信息窗口高度
+        //     title: data.options.title, // 信息窗口标题
+        //     enableMessage: true,//设置允许信息窗发送短息
+        //     message: "亲耐滴，晚上一起吃个饭吧？戳下面的链接看下地址喔~"
+        // }
+        // var infoWindow = new BMap.InfoWindow("地址：北京市东城区王府井大街88号乐天银泰百货八层", opts);  // 创建信息窗口对象 
+
+        // marker.openInfoWindow(infoWindow);
+
+        var geoc = new BMap.Geocoder();
+
+        geoc.getLocation(e.point, function (rs) {
+            var addComp = rs.addressComponents;
+            //alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+            console.log(JSON.stringify(addComp));
+
+            //$scope.addComp = angular.extend({}, addComp);
+        });
+
     }
 
     markerClusterRightClick(e, marker, map, data) {

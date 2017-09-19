@@ -6,6 +6,9 @@ import polygon from "./components/polygon";
 import drawtool from "./components/drawtool";
 import markerCluster from "./components/markerCluster";
 import mapScriptProvider from './provider/mapScript';
+
+import scaleControl from "./components/scaleControl";
+import navigationControl from "./components/navigationControl";
 import { globalConstants } from './helper/preset';
 
 globalConstants();
@@ -18,6 +21,8 @@ angular.module(moduleName, [])
     .component("marker", marker)
     .component("polygon", polygon)
     .component("drawtool", drawtool)
+    .component("scaleControl", scaleControl)
+    .component("navigationControl", navigationControl)
     .component("markerCluster", markerCluster);
 
 export const ngBaiduMap = moduleName;

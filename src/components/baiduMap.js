@@ -35,6 +35,7 @@ export default {
             this.markerCtrls = [];
 
             this.markerClusterCtrls = [];
+            this.mapCtrls = [];
         }
 
         $onInit() {
@@ -187,6 +188,30 @@ export default {
 
         clearBound() {
             BMapLib.AreaRestriction.clearBounds();
+        }
+
+        addControl(ctrl){
+
+            this.mapCtrls.push(ctrl);
+
+            this.map.addControl(ctrl.ctrl);
+        }
+
+        removeControl(ctrl){
+            var index = this.mapCtrls.findIndex((val, index, arr)=>{return val === ctrl;});
+            if (index>=0) {
+                this.mapCtrls.splice(index,1);
+            }
+
+            this.map.removeControl(ctrl.ctrl);
+        }
+
+        clearControls(){
+
+            this.mapCtrls.forEach((item)=>{
+                this.map.removeControl(item.ctrl);
+            });
+            tis.mapCtrls.clear();
         }
 
     },
