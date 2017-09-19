@@ -17550,7 +17550,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_drawtool__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_markerCluster__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__provider_mapScript__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__helper_preset__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_scaleControl__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_navigationControl__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__helper_preset__ = __webpack_require__(24);
 
 
 
@@ -17561,11 +17563,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-__WEBPACK_IMPORTED_MODULE_7__helper_preset__["a" /* globalConstants */]();
+
+
+
+__WEBPACK_IMPORTED_MODULE_9__helper_preset__["a" /* globalConstants */]();
 
 var moduleName = "baiduMap";
 
-__WEBPACK_IMPORTED_MODULE_0_angular___default.a.module(moduleName, []).provider('mapScriptService', __WEBPACK_IMPORTED_MODULE_6__provider_mapScript__["a" /* default */]).component('baiduMap', __WEBPACK_IMPORTED_MODULE_1__components_baiduMap__["a" /* default */]).component("marker", __WEBPACK_IMPORTED_MODULE_2__components_marker__["a" /* default */]).component("polygon", __WEBPACK_IMPORTED_MODULE_3__components_polygon__["a" /* default */]).component("drawtool", __WEBPACK_IMPORTED_MODULE_4__components_drawtool__["a" /* default */]).component("markerCluster", __WEBPACK_IMPORTED_MODULE_5__components_markerCluster__["a" /* default */]);
+__WEBPACK_IMPORTED_MODULE_0_angular___default.a.module(moduleName, []).provider('mapScriptService', __WEBPACK_IMPORTED_MODULE_6__provider_mapScript__["a" /* default */]).component('baiduMap', __WEBPACK_IMPORTED_MODULE_1__components_baiduMap__["a" /* default */]).component("marker", __WEBPACK_IMPORTED_MODULE_2__components_marker__["a" /* default */]).component("polygon", __WEBPACK_IMPORTED_MODULE_3__components_polygon__["a" /* default */]).component("drawtool", __WEBPACK_IMPORTED_MODULE_4__components_drawtool__["a" /* default */]).component("scaleControl", __WEBPACK_IMPORTED_MODULE_7__components_scaleControl__["a" /* default */]).component("navigationControl", __WEBPACK_IMPORTED_MODULE_8__components_navigationControl__["a" /* default */]).component("markerCluster", __WEBPACK_IMPORTED_MODULE_5__components_markerCluster__["a" /* default */]);
 
 var ngBaiduMap = moduleName;
 
@@ -19336,6 +19341,97 @@ function appendAditionalStylesheetTag(url) {
 
 /***/ }),
 /* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    bindings: {
+        options: "<"
+    },
+    require: {
+        mapCtrl: "^baiduMap"
+
+    },
+    controller: function () {
+        function controller($scope) {
+            _classCallCheck(this, controller);
+
+            console.log("scaleControl");
+            this.$scope = $scope;
+        }
+
+        _createClass(controller, [{
+            key: "$onInit",
+            value: function $onInit() {
+                var _this = this;
+
+                this.mapCtrl.mapReady.then(function () {
+                    var ctrl = _this.ctrl = new BMap.ScaleControl(_this.options);
+
+                    _this.mapCtrl.addControl(_this);
+                });
+            }
+        }, {
+            key: "$onDestory",
+            value: function $onDestory() {
+                this.mapCtrl.removeControl(this);
+            }
+        }]);
+
+        return controller;
+    }()
+});
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/* harmony default export */ __webpack_exports__["a"] = ({
+    bindings: {
+        options: "<"
+    },
+    require: {
+        mapCtrl: "^baiduMap"
+
+    },
+    controller: function () {
+        function controller($scope) {
+            _classCallCheck(this, controller);
+        }
+
+        _createClass(controller, [{
+            key: "$onInit",
+            value: function $onInit() {
+                var _this = this;
+
+                this.mapCtrl.mapReady.then(function () {
+                    var ctrl = _this.ctrl = new BMap.NavigationControl(_this.options);
+
+                    _this.mapCtrl.addControl(_this);
+                });
+            }
+        }, {
+            key: "$onDestory",
+            value: function $onDestory() {
+                this.mapCtrl.removeControl(this);
+            }
+        }]);
+
+        return controller;
+    }()
+});
+
+/***/ }),
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
